@@ -12,24 +12,28 @@ const platformNavItem: NavItem[] = [
         title: 'Dashboard',
         href: '/dashboard',
         icon: LayoutGrid,
+        absolute: true,
     },
     {
         title: 'Tasks',
         href: '#',
         icon: ListTodo,
+        absolute: false,
     },
 ];
 
 const manageNavItem: NavItem[] = [
     {
         title: 'Companies',
-        href: '#',
+        href: '/dashboard/companies',
         icon: Building2Icon,
+        absolute: false,
     },
     {
         title: 'Billing',
         href: '#',
         icon: BanknoteIcon,
+        absolute: false,
     },
 ];
 
@@ -38,11 +42,13 @@ const toolsNavItem: NavItem[] = [
         title: 'Surveys',
         href: '#',
         icon: FileSlidersIcon,
+        absolute: false,
     },
     {
         title: 'Health Check',
         href: '#',
         icon: SquareActivity,
+        absolute: false,
     },
 ];
 </script>
