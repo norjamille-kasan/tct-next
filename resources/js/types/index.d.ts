@@ -25,6 +25,11 @@ export type AppPageProps<T extends Record<string, unknown> = Record<string, unkn
     auth: Auth;
     ziggy: Config & { location: string };
     sidebarOpen: boolean;
+    toast: {
+        type: string;
+        title: string;
+        message: string;
+    } | null;
 };
 
 export interface User {
@@ -39,18 +44,19 @@ export interface User {
 
 export type BreadcrumbItemType = BreadcrumbItem;
 
-export interface Pagination<T> {
+export interface PaginationLink {
+    url: string | null;
+    label: string;
+    active: boolean;
+}
+export interface Paginated<T> {
     current_page: number;
     data: T[];
     first_page_url: string;
     from: number | null;
     last_page: number;
     last_page_url: string;
-    links: Array<{
-        url: string | null;
-        label: string;
-        active: boolean;
-    }>;
+    links: PaginationLink[];
     next_page_url: string | null;
     path: string;
     per_page: number;

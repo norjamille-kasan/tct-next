@@ -16,7 +16,7 @@ const platformNavItem: NavItem[] = [
     },
     {
         title: 'Tasks',
-        href: '#',
+        href: '/dashboard/tasks',
         icon: ListTodo,
         absolute: false,
     },

@@ -13,13 +13,14 @@ class CompanyController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         return Inertia::render('companies/Index',[
             'companies'=> fn() => QueryBuilder::for(Company::class)
                 ->allowedFilters(['name', 'ref_key'])
-                ->paginate()
-                ->appends(request()->query())
+                ->paginate(4)
+                ->appends($request->query()),
+            'filter'=> $request->input('filter')
         ]);
     }
 
@@ -47,7 +48,7 @@ class CompanyController extends Controller
 
         Company::create($data);
 
-        return to_route('companies.index');
+        return to_route('companies.index')->toast('success','Company created successfully');
     }
 
     /**
@@ -80,14 +81,15 @@ class CompanyController extends Controller
 
         $company->update($data);
 
-        return to_route('companies.index');
+        return to_route('companies.index')->toast('success','Company updated successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Company $company)
     {
-        //
+        $company->delete();
+        return back()->toast('success','Company deleted successfully');
     }
 }

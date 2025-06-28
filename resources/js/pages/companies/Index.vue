@@ -1,65 +1,68 @@
 <template>
     <Head title="Companies" />
     <AppLayout :breadcrumbs="breadcrumbs">
-        <div class="space-y-5 p-5">
-            <div class="flex items-center justify-between">
-                <div>
-                    <Input type="search" class="sm:w-80" />
-                </div>
-                <div>
-                    <Link :href="route('companies.create')" :class="buttonVariants({ variant: 'outline' })">
-                        <PlusIcon />
-                        Create Company
-                    </Link>
-                </div>
-            </div>
-            <div class="rounded-lg border">
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead>Name</TableHead>
-                            <TableHead class="text-right"> </TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        <TableRow v-for="company in data.data" :key="company.id">
-                            <TableCell class="font-medium">
-                                <div class="inline-flex items-center">
-                                    <Building2Icon class="mr-2 size-4" />
-                                    {{ company.name }}
-                                </div>
-                            </TableCell>
-                            <TableCell class="text-right">
-                                <div class="-my-1 flex justify-end space-x-1">
-                                    <Link
-                                        :href="route('companies.edit', company.id)"
-                                        prefetch
-                                        :class="buttonVariants({ variant: 'outline', size: 'icon' })"
-                                    >
-                                        <EditIcon />
-                                    </Link>
-                                    <Button variant="outline" size="icon">
-                                        <TrashIcon class="text-destructive" />
-                                    </Button>
-                                </div>
-                            </TableCell>
-                        </TableRow>
-                    </TableBody>
-                </Table>
-            </div>
+        <div class="flex items-center justify-between gap-2">
+            <form @submit.prevent="search">
+                <Input v-model="query.filter.name" placeholder="Search" type="search" class="sm:w-80" />
+            </form>
+            <Link :href="route('companies.create')" :class="buttonVariants()">
+                <PlusIcon />
+                Create Company
+            </Link>
         </div>
+        <Table>
+            <TableHeader>
+                <TableRow>
+                    <TableHead>Name</TableHead>
+                    <TableHead>Last Modified</TableHead>
+                    <TableHead class="text-right"> </TableHead>
+                </TableRow>
+            </TableHeader>
+            <TableBody>
+                <TableRow v-for="company in data.data" :key="company.id">
+                    <TableCell class="font-medium">
+                        {{ company.name }}
+                    </TableCell>
+                    <TableCell>
+                        {{ formatDate(new Date(company.updated_at), ' YYYY MMM DD h:mm a') }}
+                    </TableCell>
+                    <TableCell class="text-right">
+                        <div class="-my-1 flex justify-end space-x-1">
+                            <Link :href="route('companies.edit', company.id)" prefetch :class="buttonVariants({ variant: 'outline', size: 'icon' })">
+                                <EditIcon />
+                            </Link>
+                            <Button @click="deleteCompany(company.id)" variant="outline" size="icon">
+                                <TrashIcon class="text-destructive" />
+                            </Button>
+                        </div>
+                    </TableCell>
+                </TableRow>
+            </TableBody>
+        </Table>
+        <Pagination :links="data.links" />
+        <ConfirmDialog
+            v-model="deleteCompanyConfirmation.isRevealed.value"
+            title="Delete Company"
+            description="Are you sure you want to delete this company?"
+            @cancel="deleteCompanyConfirmation.cancel"
+            @confirm="deleteCompanyConfirmation.confirm"
+        />
     </AppLayout>
 </template>
 
 <script setup lang="ts">
+import ConfirmDialog from '@/components/ConfirmDialog.vue';
+import Pagination from '@/components/Pagination.vue';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/AppLayout.vue';
-import { Pagination, type BreadcrumbItem } from '@/types';
+import { type BreadcrumbItem, Paginated } from '@/types';
 import { Company } from '@/types/models';
-import { Head, Link } from '@inertiajs/vue3';
-import { Building2Icon, EditIcon, PlusIcon, TrashIcon } from 'lucide-vue-next';
+import { Head, Link, router } from '@inertiajs/vue3';
+import { formatDate, useConfirmDialog } from '@vueuse/core';
+import { EditIcon, PlusIcon, TrashIcon } from 'lucide-vue-next';
+import { reactive } from 'vue';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -72,7 +75,37 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-const { companies: data } = defineProps<{
-    companies: Pagination<Company>;
+const { companies: data, filter } = defineProps<{
+    companies: Paginated<Company>;
+    filter: {
+        name?: string;
+        ref_key?: string;
+    } | null;
 }>();
+
+const query = reactive({
+    filter: {
+        name: filter?.name || '',
+        ref_key: filter?.ref_key || '',
+    },
+});
+
+const search = () => {
+    router.reload({
+        data: {
+            filter: query.filter,
+        },
+        only: ['companies', 'filter'],
+        replace: true,
+    });
+};
+
+const deleteCompanyConfirmation = useConfirmDialog();
+
+const deleteCompany = async (id: number) => {
+    const { isCanceled } = await deleteCompanyConfirmation.reveal();
+    if (!isCanceled) {
+        router.delete(route('companies.destroy', { company: id }));
+    }
+};
 </script>

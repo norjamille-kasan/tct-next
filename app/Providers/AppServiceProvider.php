@@ -25,6 +25,7 @@ class AppServiceProvider extends ServiceProvider
         $this->configureModel();
         $this->configureUrlSchema();
         $this->configureSuperAdmin();
+        $this->configureToaster();
     }
 
     public function configureModel()
@@ -44,11 +45,37 @@ class AppServiceProvider extends ServiceProvider
     }
     public function configureTelescope()
     {
-        // if ($this->app->environment('local') && class_exists(\Laravel\Telescope\TelescopeServiceProvider::class)) {
-        //     $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
-        //     $this->app->register(TelescopeServiceProvider::class);
-        // }
+        if ($this->app->environment('local') && class_exists(\Laravel\Telescope\TelescopeServiceProvider::class)) {
+            $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
+            $this->app->register(TelescopeServiceProvider::class);
+        }
     }
 
+    public function configureToaster()
+    {
+        \Illuminate\Http\RedirectResponse::macro('toast', function (string $type, string $message, ?string $title = null) {
+            $fallbackTitle = match ($type) {
+                'success' => 'Success',
+                'error' => 'Failed',
+                'info' => 'Info',
+                'warning' => 'Warning',
+            };
+            return $this->with('toast', [
+                'type' => $type,
+                'title' => $title ?? $fallbackTitle,
+                'message' => $message,
+            ]);
+        });
+    }
 
+    public function configureApiResponse()
+    {
+        \Illuminate\Http\JsonResponse::macro('api', function ($data,$message = null, $status = 200) {
+            return response()->json([
+                'status' => $status,
+                'message' => $message,
+                'data' => $data,
+            ], $status);
+        });
+    }
 }

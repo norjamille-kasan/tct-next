@@ -13,6 +13,7 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
     })->name('dashboard');
 
     Route::resource('companies',\App\Http\Controllers\CompanyController::class);
+    Route::resource('tasks',\App\Http\Controllers\TaskController::class);
 });
 
 
