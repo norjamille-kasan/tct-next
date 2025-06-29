@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Gate;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\ServiceProvider;
 use URL;
 
@@ -26,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
         $this->configureUrlSchema();
         $this->configureSuperAdmin();
         $this->configureToaster();
+        $this->configureApiResponse();
     }
 
     public function configureModel()
@@ -70,7 +73,8 @@ class AppServiceProvider extends ServiceProvider
 
     public function configureApiResponse()
     {
-        \Illuminate\Http\JsonResponse::macro('api', function ($data,$message = null, $status = 200) {
+        JsonResource::withoutWrapping();
+        JsonResponse::macro('format', function ($data,$message = null, $status = 200) {
             return response()->json([
                 'status' => $status,
                 'message' => $message,

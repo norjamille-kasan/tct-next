@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ComputationCategory;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -19,13 +20,11 @@ class TaskController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request)
+    public function create()
     {
         return Inertia::render('tasks/Create',[
             'companies'=> fn() => Company::all(),
-            'segments'=> fn() => $request->has('company_id')
-                ? fn() => Company::find($request->company_id)->segments
-                : [],
+            'computation_categories'=> ComputationCategory::cases(),
         ]);
     }
 
@@ -34,7 +33,14 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'title'=>['required','max:255'],
+            'description'=>['nullable','max:1000'],
+            'company_id'=>['required','exists:companies,id'],
+            'segment_id'=>['required','exists:segments,id'],
+            'ref_key'=>['nullable','max:255','unique:tasks'],
+            'computation_category'=>['required','max:255','in:'.implode(',', array_map(fn($case) => $case->value, ComputationCategory::cases()))],
+        ]);
     }
 
     /**

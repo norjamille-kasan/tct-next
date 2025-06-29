@@ -1,5 +1,5 @@
 <template>
-    <div class="flex w-full items-center justify-center gap-2">
+    <div class="flex w-full items-center justify-end gap-2">
         <template v-for="link in links" :key="link.label">
             <component
                 :is="link.url ? Link : 'span'"

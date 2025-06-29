@@ -19,7 +19,7 @@ class SegmentController extends Controller
             ->allowedFilters(['name', 'ref_key','company_id'])
             ->get();
 
-        return SegmentResource::collection($segments);
+        return response()->json()->format(SegmentResource::collection($segments));
     }
 
     /**

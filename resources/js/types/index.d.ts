@@ -17,11 +17,14 @@ export interface NavItem {
     isActive?: boolean;
     absolute?: boolean;
     permissions?: string[];
+    prefetch?: boolean;
 }
 
 export type AppPageProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {
-    name: string;
-    quote: { message: string; author: string };
+    app: {
+        name: string;
+        environment: string;
+    };
     auth: Auth;
     ziggy: Config & { location: string };
     sidebarOpen: boolean;
@@ -63,4 +66,10 @@ export interface Paginated<T> {
     prev_page_url: string | null;
     to: number | null;
     total: number;
+}
+
+export interface ApiResponse<T> {
+    data: T;
+    message?: string;
+    status: number;
 }
