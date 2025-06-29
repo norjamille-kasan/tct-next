@@ -4,10 +4,10 @@
             <form>
                 <Input placeholder="Search" type="search" class="sm:w-80" />
             </form>
-            <Link :href="route('tasks.create')" :class="buttonVariants()">
+            <ModalLink :href="route('tasks.create')" :class="buttonVariants()">
                 <PlusIcon />
                 Create Task
-            </Link>
+            </ModalLink>
         </div>
     </AppLayout>
 </template>
@@ -16,7 +16,6 @@
 import { buttonVariants } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import AppLayout from '@/layouts/AppLayout.vue';
-import { Link } from '@inertiajs/vue3';
 import { PlusIcon } from 'lucide-vue-next';
 
 const breadcrumbs = [

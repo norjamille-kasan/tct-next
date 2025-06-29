@@ -10,19 +10,16 @@
                     </CardHeader>
                     <CardContent>
                         <div class="grid gap-6 md:grid-cols-2">
-                            <div class="flex flex-col gap-2">
-                                <Label for="name">Company Name</Label>
-                                <Input v-model="form.name" type="name" id="name" name="name" />
-                                <InputError :message="form.errors.name" />
-                            </div>
-                            <div class="flex flex-col gap-2">
-                                <Label for="ref_key">Reference Key</Label>
-                                <Input v-model="form.ref_key" type="name" id="ref_key" name="ref_key" />
-                                <p class="text-xs text-muted-foreground">
-                                    Leave blank to generate a random key (it is use for internal/development reference)
-                                </p>
-                                <InputError :message="form.errors.ref_key" />
-                            </div>
+                            <FormControl label="Company" :error="form.errors.name">
+                                <Input v-model="form.name" type="text" name="name" />
+                            </FormControl>
+                            <FormControl
+                                label="Reference Key"
+                                :error="form.errors.ref_key"
+                                help="Leave blank to generate a random key (it is used for internal/development reference)"
+                            >
+                                <Input v-model="form.ref_key" type="text" name="ref_key" />
+                            </FormControl>
                         </div>
                     </CardContent>
                     <CardFooter class="gap-2">
@@ -38,11 +35,10 @@
 </template>
 
 <script setup lang="ts">
-import InputError from '@/components/InputError.vue';
+import FormControl from '@/components/FormControl.vue';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, useForm } from '@inertiajs/vue3';
