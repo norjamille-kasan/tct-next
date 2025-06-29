@@ -18,7 +18,7 @@ class CompanyController extends Controller
         return Inertia::render('companies/Index',[
             'companies'=> fn() => QueryBuilder::for(Company::class)
                 ->allowedFilters(['name', 'ref_key'])
-                ->paginate(4)
+                ->paginate(15)
                 ->appends($request->query()),
             'filter'=> $request->input('filter')
         ]);
@@ -46,7 +46,13 @@ class CompanyController extends Controller
             $data['ref_key'] = "COMPANY-".Str::ulid();
         }
 
-        Company::create($data);
+        $company = Company::create($data);
+
+        activity()
+            ->performedOn($company)
+            ->causedBy(auth()->user())
+            ->withProperties($company->toArray())
+            ->log("[:causer.email]/:causer.name created a company with id [:subject.id] and ref_key [:subject.ref_key]");
 
         return to_route('companies.index')->toast('success','Company created successfully');
     }
@@ -81,6 +87,12 @@ class CompanyController extends Controller
 
         $company->update($data);
 
+        activity()
+            ->performedOn($company)
+            ->causedBy(auth()->user())
+            ->withProperties($company->toArray())
+            ->log('[:causer.email]/:causer.name updated a company with id [:subject.id] and ref_key [:subject.ref_key]');
+
         return to_route('companies.index')->toast('success','Company updated successfully');
     }
 
@@ -89,7 +101,15 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
+
+        activity()
+            ->performedOn($company)
+            ->causedBy(auth()->user())
+            ->withProperties($company->toArray())
+            ->log('[:causer.email]/:causer.name deleted a company with name [:subject.name] and ref_key [:subject.ref_key]');
+
         $company->delete();
+
         return back()->toast('success','Company deleted successfully');
     }
 }
