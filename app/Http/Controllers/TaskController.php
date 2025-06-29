@@ -19,10 +19,13 @@ class TaskController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
         return Inertia::render('tasks/Create',[
             'companies'=> fn() => Company::all(),
+            'segments'=> fn() => $request->has('company_id')
+                ? fn() => Company::find($request->company_id)->segments
+                : [],
         ]);
     }
 
