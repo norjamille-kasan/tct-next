@@ -14,8 +14,7 @@ return new class extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-
-            $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->userstamps();
             $table->foreignId('company_id')->constrained('companies')->cascadeOnDelete();
             $table->foreignId('segment_id')->constrained('segments')->cascadeOnDelete();
             $table->string('ref_key')->unique()->nullable();

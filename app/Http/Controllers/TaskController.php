@@ -4,17 +4,29 @@ namespace App\Http\Controllers;
 
 use App\Enums\ComputationCategory;
 use App\Models\Company;
+use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class TaskController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Inertia::render('tasks/Index');
+        return Inertia::render('tasks/Index', [
+            'tasks' => fn () => QueryBuilder::for(Task::class)
+                ->with(['company', 'segment'])
+                ->allowedFilters(['title', 'ref_key', 'company_id', 'segment_id', 'computation_category'])
+                ->allowedSorts(['created_at', 'title', 'ref_key'])
+                ->orderBy('created_at', 'desc')
+                ->paginate(15)
+                ->withQueryString(),
+            'filter' => $request->input('filter'),
+        ]);
     }
 
     /**
@@ -22,9 +34,9 @@ class TaskController extends Controller
      */
     public function create()
     {
-        return Inertia::render('tasks/Create',[
-            'companies'=> fn() => Company::all(),
-            'computation_categories'=> ComputationCategory::cases(),
+        return Inertia::render('tasks/Create', [
+            'companies' => fn () => Company::all(),
+            'computation_categories' => ComputationCategory::cases(),
         ]);
     }
 
@@ -34,13 +46,27 @@ class TaskController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'title'=>['required','max:255'],
-            'description'=>['nullable','max:1000'],
-            'company_id'=>['required','exists:companies,id'],
-            'segment_id'=>['required','exists:segments,id'],
-            'ref_key'=>['nullable','max:255','unique:tasks'],
-            'computation_category'=>['required','max:255','in:'.implode(',', array_map(fn($case) => $case->value, ComputationCategory::cases()))],
+            'title' => ['required', 'max:255'],
+            'description' => ['nullable', 'max:1000'],
+            'company_id' => ['required', 'exists:companies,id'],
+            'segment_id' => ['required', 'exists:segments,id'],
+            'ref_key' => ['nullable', 'max:255', 'unique:tasks'],
+            'computation_category' => ['required', 'max:255', 'in:'.implode(',', array_map(fn ($case) => $case->value, ComputationCategory::cases()))],
         ]);
+
+        if (is_null($data['ref_key'])) {
+            $data['ref_key'] = 'TASK-'.Str::ulid();
+        }
+
+        Task::create($data);
+
+        activity()
+            ->performedOn(Task::latest()->first())
+            ->causedBy(auth()->user())
+            ->withProperties($data)
+            ->log('[:causer.email]/:causer.name created a task with ref_key [:subject.ref_key]');
+
+        return to_route('tasks.index')->toast('success', 'Task created successfully');
     }
 
     /**

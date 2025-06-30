@@ -15,12 +15,12 @@ class CompanyController extends Controller
      */
     public function index(Request $request)
     {
-        return Inertia::render('companies/Index',[
-            'companies'=> fn() => QueryBuilder::for(Company::class)
+        return Inertia::render('companies/Index', [
+            'companies' => fn () => QueryBuilder::for(Company::class)
                 ->allowedFilters(['name', 'ref_key'])
                 ->paginate(15)
                 ->appends($request->query()),
-            'filter'=> $request->input('filter')
+            'filter' => $request->input('filter'),
         ]);
     }
 
@@ -38,12 +38,12 @@ class CompanyController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name'=>['required','max:255'],
-            'ref_key'=>['nullable','max:255','unique:companies'],
+            'name' => ['required', 'max:255'],
+            'ref_key' => ['nullable', 'max:255', 'unique:companies'],
         ]);
 
-        if(is_null($data['ref_key'])){
-            $data['ref_key'] = "COMPANY-".Str::ulid();
+        if (is_null($data['ref_key'])) {
+            $data['ref_key'] = 'COMPANY-'.Str::ulid();
         }
 
         $company = Company::create($data);
@@ -52,9 +52,9 @@ class CompanyController extends Controller
             ->performedOn($company)
             ->causedBy(auth()->user())
             ->withProperties($company->toArray())
-            ->log("[:causer.email]/:causer.name created a company with id [:subject.id] and ref_key [:subject.ref_key]");
+            ->log('[:causer.email]/:causer.name created a company with id [:subject.id] and ref_key [:subject.ref_key]');
 
-        return to_route('companies.index')->toast('success','Company created successfully');
+        return to_route('companies.index')->toast('success', 'Company created successfully');
     }
 
     /**
@@ -70,8 +70,8 @@ class CompanyController extends Controller
      */
     public function edit(Company $company)
     {
-        return Inertia::render('companies/Edit',[
-            'company'=>$company
+        return Inertia::render('companies/Edit', [
+            'company' => $company,
         ]);
     }
 
@@ -81,9 +81,8 @@ class CompanyController extends Controller
     public function update(Request $request, Company $company)
     {
         $data = $request->validate([
-            'name'=>['required','max:255'],
+            'name' => ['required', 'max:255'],
         ]);
-
 
         $company->update($data);
 
@@ -93,7 +92,7 @@ class CompanyController extends Controller
             ->withProperties($company->toArray())
             ->log('[:causer.email]/:causer.name updated a company with id [:subject.id] and ref_key [:subject.ref_key]');
 
-        return to_route('companies.index')->toast('success','Company updated successfully');
+        return to_route('companies.index')->toast('success', 'Company updated successfully');
     }
 
     /**
@@ -110,6 +109,6 @@ class CompanyController extends Controller
 
         $company->delete();
 
-        return back()->toast('success','Company deleted successfully');
+        return back()->toast('success', 'Company deleted successfully');
     }
 }

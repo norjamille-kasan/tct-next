@@ -11,9 +11,9 @@ class FilterMultipleFields implements Filter
     {
         $fields = explode(',', $property);
 
-        $query->where(function($query) use ($fields, $value) {
+        $query->where(function ($query) use ($fields, $value) {
             foreach ($fields as $field) {
-                $query->orWhere($field, 'LIKE', "%".$value."%");
+                $query->orWhere($field, 'LIKE', '%'.$value.'%');
             }
         });
 

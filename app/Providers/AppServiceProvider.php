@@ -36,16 +36,19 @@ class AppServiceProvider extends ServiceProvider
         Model::unguard();
         Model::shouldBeStrict();
     }
+
     public function configureUrlSchema()
     {
         URL::forceHttps(app()->isProduction());
     }
+
     public function configureSuperAdmin()
     {
         Gate::before(function ($user, $ability) {
             return $user->hasRole('super_admin') ? true : null;
         });
     }
+
     public function configureTelescope()
     {
         if ($this->app->environment('local') && class_exists(\Laravel\Telescope\TelescopeServiceProvider::class)) {
@@ -63,6 +66,7 @@ class AppServiceProvider extends ServiceProvider
                 'info' => 'Info',
                 'warning' => 'Warning',
             };
+
             return $this->with('toast', [
                 'type' => $type,
                 'title' => $title ?? $fallbackTitle,
@@ -74,7 +78,7 @@ class AppServiceProvider extends ServiceProvider
     public function configureApiResponse()
     {
         JsonResource::withoutWrapping();
-        JsonResponse::macro('format', function ($data,$message = null, $status = 200) {
+        JsonResponse::macro('format', function ($data, $message = null, $status = 200) {
             return response()->json([
                 'status' => $status,
                 'message' => $message,

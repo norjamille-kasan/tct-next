@@ -2,7 +2,7 @@
     <Head title="Edit Company" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
-        <div class="w-full items-center">
+        <div class="mx-auto max-w-7xl">
             <form @submit.prevent="submit">
                 <Card>
                     <CardHeader>

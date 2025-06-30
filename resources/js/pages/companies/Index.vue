@@ -3,7 +3,7 @@
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex items-center justify-between gap-2">
             <form @submit.prevent="search">
-                <Input v-model="query.filter.name" placeholder="Search" type="search" class="sm:w-80" />
+                <Input placeholder="Search" type="search" class="sm:w-80" />
             </form>
             <Link :href="route('companies.create')" :class="buttonVariants()">
                 <PlusIcon />
@@ -37,6 +37,7 @@
                         </div>
                     </TableCell>
                 </TableRow>
+                <TableEmpty :colspan="3" v-if="companies.data.length === 0"> No companies found. </TableEmpty>
             </TableBody>
         </Table>
         <Pagination :links="data.links" />
@@ -55,7 +56,7 @@ import ConfirmDialog from '@/components/ConfirmDialog.vue';
 import Pagination from '@/components/Pagination.vue';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Table, TableBody, TableCell, TableEmpty, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem, Paginated } from '@/types';
 import { Company } from '@/types/models';
@@ -91,6 +92,7 @@ const query = reactive({
 });
 
 const search = () => {
+    query.filter.ref_key = query.filter.name;
     router.reload({
         data: {
             filter: query.filter,

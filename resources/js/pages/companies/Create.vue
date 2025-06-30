@@ -2,11 +2,12 @@
     <Head title="Create Company" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
-        <div class="w-full items-center">
+        <div class="mx-auto max-w-7xl">
             <form @submit.prevent="submit">
                 <Card>
                     <CardHeader>
                         <CardTitle>Create Company</CardTitle>
+                        <CardDescription> Create a new company to manage your tasks </CardDescription>
                     </CardHeader>
                     <CardContent>
                         <div class="grid gap-6 md:grid-cols-2">
@@ -37,7 +38,7 @@
 <script setup lang="ts">
 import FormControl from '@/components/FormControl.vue';
 import { Button, buttonVariants } from '@/components/ui/button';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';

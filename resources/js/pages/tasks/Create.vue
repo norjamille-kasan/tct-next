@@ -1,80 +1,98 @@
 <template>
-    <InertiaModal v-slot="{ setOpen, isOpen }">
-        <Dialog :open="isOpen" @update:open="setOpen($event)">
-            <DialogContent class="sm:max-w-3xl">
-                <DialogHeader>
-                    <DialogTitle>Create Task</DialogTitle>
-                    <DialogDescription> Use this form to create a new task. Ensure you fill in all required fields. </DialogDescription>
-                </DialogHeader>
-                <form id="createTaskForm">
-                    <div class="grid gap-6">
-                        <FormControl label="Company" :error="form.errors.company_id">
-                            <Select v-model:model-value="form.company_id">
-                                <SelectTrigger class="w-full">
-                                    <SelectValue placeholder="Select Company" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem v-for="company in companies" :value="company.id">
-                                        {{ company.name }}
-                                    </SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </FormControl>
-                        <FormControl label="Segment" :error="form.errors.segment_id">
-                            <Select v-model:model-value="form.segment_id">
-                                <SelectTrigger class="w-full">
-                                    <SelectValue placeholder="Select Segment" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectLabel v-if="segments.length === 0"> No segments available </SelectLabel>
-                                    <SelectItem v-for="segment in segments" :value="segment.id">
-                                        {{ segment.name }}
-                                    </SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </FormControl>
-                        <FormControl label="Title" :error="form.errors.title">
-                            <Input type="text" name="form.errors.title" />
-                        </FormControl>
-                        <FormControl label="Description" :error="form.errors.description">
-                            <Textarea :rows="4" type="text" name="form.errors.description" />
-                        </FormControl>
-                        <FormControl label="Computation Category" :error="form.errors.computation_category">
-                            <Select v-model:model-value="form.computation_category">
-                                <SelectTrigger class="w-full">
-                                    <SelectValue placeholder="Select Computation Category" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem v-for="computation_category in computation_categories" :value="computation_category">
-                                        {{ computation_category }}
-                                    </SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </FormControl>
-                    </div>
-                </form>
-                <DialogFooter>
-                    <Button type="button" variant="outline" @click="setOpen(false)"> Cancel </Button>
-                    <Button type="submit" form="createTaskForm" :loading="form.processing" :disabled="form.processing"> Create Task </Button>
-                </DialogFooter>
-            </DialogContent>
-        </Dialog>
-    </InertiaModal>
+    <Head title="Create Task" />
+    <AppLayout :breadcrumbs="breadcrumbs">
+        <div class="mx-auto max-w-7xl">
+            <form id="createTaskForm" @submit.prevent="submit">
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Create Task</CardTitle>
+                        <CardDescription>Fill in the details to create a new task.</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <div class="grid gap-6 sm:grid-cols-2">
+                            <FormControl label="Company" :error="form.errors.company_id">
+                                <Select v-model:model-value="form.company_id">
+                                    <SelectTrigger class="w-full">
+                                        <SelectValue placeholder="Select Company" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem v-for="company in companies" :value="company.id">
+                                            {{ company.name }}
+                                        </SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </FormControl>
+                            <FormControl label="Segment" :error="form.errors.segment_id">
+                                <Select v-model:model-value="form.segment_id">
+                                    <SelectTrigger class="w-full">
+                                        <SelectValue placeholder="Select Segment" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectLabel v-if="segments.length === 0"> No segments available </SelectLabel>
+                                        <SelectItem v-for="segment in segments" :value="segment.id">
+                                            {{ segment.name }}
+                                        </SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </FormControl>
+                            <FormControl class="col-span-full" label="Title" :error="form.errors.title">
+                                <Input v-model="form.title" type="text" name="form.errors.title" />
+                            </FormControl>
+                            <FormControl class="col-span-full" label="Description" :error="form.errors.description">
+                                <Textarea :rows="6" type="text" v-model="form.description" name="form.errors.description" />
+                            </FormControl>
+                            <FormControl class="col-span-full" label="Computation Category" :error="form.errors.computation_category">
+                                <Select v-model:model-value="form.computation_category">
+                                    <SelectTrigger class="w-full">
+                                        <SelectValue placeholder="Select Computation Category" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem v-for="computation_category in computation_categories" :value="computation_category">
+                                            {{ computation_category }}
+                                        </SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </FormControl>
+                        </div>
+                    </CardContent>
+                    <CardFooter class="gap-2">
+                        <Link :href="route('tasks.index')" :class="buttonVariants({ variant: 'outline' })" :disabled="form.processing"> Return </Link>
+                        <Button :loading="form.processing" type="submit" form="createTaskForm"> Save Task </Button>
+                    </CardFooter>
+                </Card>
+            </form>
+        </div>
+    </AppLayout>
 </template>
 
 <script setup lang="ts">
 import FormControl from '@/components/FormControl.vue';
-import InertiaModal from '@/components/InertiaModal.vue';
-import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Button, buttonVariants } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
+import AppLayout from '@/layouts/AppLayout.vue';
 import { ApiResponse } from '@/types';
 import { Company, Segment } from '@/types/models';
-import { useForm } from '@inertiajs/vue3';
+import { Head, Link, useForm } from '@inertiajs/vue3';
 import { ofetch } from 'ofetch';
 import { ref, watch } from 'vue';
+
+const breadcrumbs = [
+    {
+        title: 'Dashboard',
+        href: '/dashboard',
+    },
+    {
+        title: 'Tasks',
+        href: '/dashboard/tasks',
+    },
+    {
+        title: 'Create',
+        href: '/dashboard/tasks/create',
+    },
+];
 
 interface Props {
     companies: Company[];
@@ -115,4 +133,8 @@ watch(
         }
     },
 );
+
+const submit = () => {
+    form.post(route('tasks.store'));
+};
 </script>

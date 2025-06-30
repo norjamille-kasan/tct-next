@@ -16,7 +16,7 @@ class SegmentController extends Controller
     public function index(Request $request)
     {
         $segments = QueryBuilder::for(Segment::class)
-            ->allowedFilters(['name', 'ref_key','company_id'])
+            ->allowedFilters(['name', 'ref_key', 'company_id'])
             ->get();
 
         return response()->json()->format(SegmentResource::collection($segments));

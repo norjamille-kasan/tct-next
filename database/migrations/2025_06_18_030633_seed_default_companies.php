@@ -3,8 +3,6 @@
 use App\Models\Company;
 use App\Models\CompanySetting;
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -13,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-      $company = Company::create([
+        $company = Company::create([
             'ref_key' => 'TRUEVO',
             'name' => 'Truevo',
             'created_by' => 1,
+            'updated_by' => 1,
         ]);
         CompanySetting::create([
             'company_id' => $company->id,
@@ -36,13 +35,14 @@ return new class extends Migration
             'values' => [
                 'basic_document_due_diligence_header' => 'Basic Company Due Diligence',
                 'monthly_minimum_fee_header' => 'OaaS Monthly Minimum Fee',
-                'total_fees_paid'=>'Total Fees Paid in Advance by Payreto for Downloading KYB Documents from Company Registries'
+                'total_fees_paid' => 'Total Fees Paid in Advance by Payreto for Downloading KYB Documents from Company Registries',
             ],
         ]);
         $company = Company::create([
             'ref_key' => 'T-P',
             'name' => 'T-P',
             'created_by' => 1,
+            'updated_by' => 1,
         ]);
         CompanySetting::create([
             'company_id' => $company->id,
@@ -63,13 +63,14 @@ return new class extends Migration
             'values' => [
                 'basic_document_due_diligence_header' => 'Basic Company Due Diligence',
                 'monthly_minimum_fee_header' => 'OaaS Monthly Minimum Fee',
-                'total_fees_paid'=>'Total Fees Paid in Advance by Payreto for Downloading KYB Documents from Company Registries'
+                'total_fees_paid' => 'Total Fees Paid in Advance by Payreto for Downloading KYB Documents from Company Registries',
             ],
         ]);
         $company = Company::create([
             'ref_key' => 'FIDO_MS',
             'name' => 'FIDO MS',
             'created_by' => 1,
+            'updated_by' => 1,
         ]);
         CompanySetting::create([
             'company_id' => $company->id,
@@ -90,13 +91,14 @@ return new class extends Migration
             'values' => [
                 'basic_document_due_diligence_header' => 'Basic Company Due Diligence',
                 'monthly_minimum_fee_header' => 'OaaS Monthly Minimum Fee',
-                'total_fees_paid'=>'Total Fees Paid in Advance by Payreto for Downloading KYB Documents from Company Registries'
+                'total_fees_paid' => 'Total Fees Paid in Advance by Payreto for Downloading KYB Documents from Company Registries',
             ],
         ]);
         $company = Company::create([
             'ref_key' => 'FIDO_MONEY',
             'name' => 'FIDO Money',
             'created_by' => 1,
+            'updated_by' => 1,
         ]);
         CompanySetting::create([
             'company_id' => $company->id,
@@ -117,7 +119,7 @@ return new class extends Migration
             'values' => [
                 'basic_document_due_diligence_header' => 'Basic Company Due Diligence',
                 'monthly_minimum_fee_header' => 'OaaS Monthly Minimum Fee',
-                'total_fees_paid'=>'Total Fees Paid in Advance by Payreto for Downloading KYB Documents from Company Registries'
+                'total_fees_paid' => 'Total Fees Paid in Advance by Payreto for Downloading KYB Documents from Company Registries',
             ],
         ]);
     }
