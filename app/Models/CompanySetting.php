@@ -12,4 +12,9 @@ class CompanySetting extends Model
             'values' => 'array',
         ];
     }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
 }

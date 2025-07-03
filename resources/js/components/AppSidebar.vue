@@ -20,6 +20,7 @@ const platformNavItem: NavItem[] = [
         icon: ListTodo,
         absolute: false,
         prefetch: true,
+        permissions: ['view:tasks'],
     },
 ];
 
@@ -29,6 +30,7 @@ const manageNavItem: NavItem[] = [
         href: '/dashboard/companies',
         icon: Building2Icon,
         absolute: false,
+        permissions: ['view:companies'],
     },
     {
         title: 'Billing',

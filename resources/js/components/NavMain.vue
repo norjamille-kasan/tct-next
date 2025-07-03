@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
+import { usePermissions } from '@/composables/usePermissions';
 import { type NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/vue3';
 
@@ -9,6 +10,7 @@ defineProps<{
 }>();
 
 const page = usePage();
+const { userCanAll } = usePermissions();
 </script>
 
 <template>
@@ -17,6 +19,7 @@ const page = usePage();
         <SidebarMenu>
             <SidebarMenuItem v-for="item in items" :key="item.title">
                 <SidebarMenuButton
+                    v-if="!item.permissions || userCanAll(item.permissions)"
                     as-child
                     :is-active="item.absolute ? item.href === page.url : page.url.startsWith(item.href)"
                     :tooltip="item.title"
