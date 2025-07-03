@@ -55,7 +55,7 @@ const toolsNavItem: NavItem[] = [
 </script>
 
 <template>
-    <Sidebar collapsible="icon">
+    <Sidebar collapsible="icon" variant="inset">
         <SidebarHeader>
             <SidebarMenu>
                 <SidebarMenuItem>

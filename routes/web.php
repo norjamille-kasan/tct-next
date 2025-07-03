@@ -12,6 +12,7 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
 
     Route::resource('companies', \App\Http\Controllers\CompanyController::class);
     Route::resource('tasks', \App\Http\Controllers\TaskController::class);
+    Route::resource('companies.segments', \App\Http\Controllers\CompanySegmentController::class)->only(['store','edit','update','destroy']);
 });
 
 require __DIR__.'/settings.php';

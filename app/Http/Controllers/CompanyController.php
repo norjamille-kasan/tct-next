@@ -54,7 +54,7 @@ class CompanyController extends Controller
             ->withProperties($company->toArray())
             ->log('[:causer.email]/:causer.name created a company with id [:subject.id] and ref_key [:subject.ref_key]');
 
-        return to_route('companies.index')->toast('success', 'Company created successfully');
+        return to_route('companies.edit', ['company'=>$company])->toast('success', 'Company created successfully');
     }
 
     /**
@@ -72,6 +72,7 @@ class CompanyController extends Controller
     {
         return Inertia::render('companies/Edit', [
             'company' => $company,
+            'segments' => fn () => $company->segments()->get(),
         ]);
     }
 
@@ -92,7 +93,7 @@ class CompanyController extends Controller
             ->withProperties($company->toArray())
             ->log('[:causer.email]/:causer.name updated a company with id [:subject.id] and ref_key [:subject.ref_key]');
 
-        return to_route('companies.index')->toast('success', 'Company updated successfully');
+        return back()->toast('success', 'Company updated successfully');
     }
 
     /**

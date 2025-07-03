@@ -50,6 +50,7 @@ provide('form-field-context', {
                     <slot name="label" :label="props.label">
                         {{ props.label }}
                     </slot>
+                    <span v-if="props.required" class="text-red-500">*</span>
                 </Label>
                 <slot name="actions" />
             </div>

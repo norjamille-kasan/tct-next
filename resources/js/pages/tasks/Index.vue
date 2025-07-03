@@ -2,14 +2,14 @@
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex items-center justify-between gap-2">
             <form @submit.prevent="search">
-                <Input placeholder="Search" v-model="query.filter.title" type="search" class="sm:w-80" />
+                <Input placeholder="Search" v-model="query.searchable" type="search" class="sm:w-96" />
             </form>
             <Link :href="route('tasks.create')" :class="buttonVariants()">
                 <PlusIcon />
                 Create Task
             </Link>
         </div>
-        <Table>
+        <Table class="border">
             <TableHeader>
                 <TableRow>
                     <TableHead> Title </TableHead>
@@ -37,25 +37,35 @@
                     <TableCell>
                         {{ task.ref_key }}
                     </TableCell>
-                    <TableCell class="text-right"> </TableCell>
+                    <TableCell class="text-right">
+                        <div class="-my-1 flex justify-end space-x-1">
+                            <Link href="#" :class="buttonVariants({ variant: 'outline', size: 'icon' })">
+                                <EditIcon />
+                            </Link>
+                            <Button variant="outline" size="icon">
+                                <TrashIcon class="text-destructive" />
+                            </Button>
+                        </div>
+                    </TableCell>
                 </TableRow>
-                <TableEmpty :colspan="5" v-if="tasks.data.length === 0"> No tasks found. </TableEmpty>
+                <TableEmpty :colspan="6" v-if="tasks.data.length === 0"> No tasks found. </TableEmpty>
             </TableBody>
         </Table>
+        <Pagination :links="tasks.links" />
     </AppLayout>
 </template>
 
 <script setup lang="ts">
-import { buttonVariants } from '@/components/ui/button';
+import Pagination from '@/components/Pagination.vue';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableEmpty, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Paginated } from '@/types';
 import { Company, Segment, Task } from '@/types/models';
 import { Link, router } from '@inertiajs/vue3';
-import { PlusIcon } from 'lucide-vue-next';
-import { reactive } from 'vue';
-
+import { EditIcon, PlusIcon, TrashIcon } from 'lucide-vue-next';
+import { ref } from 'vue';
 const breadcrumbs = [
     {
         title: 'Dashboard',
@@ -75,36 +85,20 @@ interface Props {
         }
     >;
     filter?: {
-        title?: string;
-        ref_key?: string;
-        company_id?: number | null;
-        segment_id?: number | null;
-        computation_category?: string;
+        searchable: string;
     } | null;
 }
 
 const { tasks, filter } = defineProps<Props>();
 
-const query = reactive({
-    filter: {
-        title: filter?.title || filter?.ref_key || '',
-        ref_key: filter?.ref_key || '',
-        company_id: filter?.company_id || null,
-        segment_id: filter?.segment_id || null,
-        computation_category: filter?.computation_category || '',
-    },
+const query = ref({
+    searchable: filter?.searchable || '',
 });
 
 const search = () => {
-    if (query.filter.title.startsWith('ref/')) {
-        query.filter.ref_key = query.filter.title.replace('ref/', '');
-        query.filter.title = '';
-    } else {
-        query.filter.ref_key = '';
-    }
     router.reload({
         data: {
-            filter: query.filter,
+            filter: query.value,
         },
         only: ['tasks', 'filter'],
         replace: true,

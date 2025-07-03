@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
 
-            $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->userstamps();
             $table->foreignId('company_id')->constrained('companies')->cascadeOnDelete();
             $table->string('ref_key')->unique()->nullable();
             $table->string('name');

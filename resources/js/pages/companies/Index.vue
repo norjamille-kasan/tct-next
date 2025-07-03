@@ -10,7 +10,7 @@
                 Create Company
             </Link>
         </div>
-        <Table>
+        <Table class="border">
             <TableHeader>
                 <TableRow>
                     <TableHead>Name</TableHead>
@@ -28,7 +28,7 @@
                     </TableCell>
                     <TableCell class="text-right">
                         <div class="-my-1 flex justify-end space-x-1">
-                            <Link :href="route('companies.edit', company.id)" prefetch :class="buttonVariants({ variant: 'outline', size: 'icon' })">
+                            <Link :href="route('companies.edit', company.id)" :class="buttonVariants({ variant: 'outline', size: 'icon' })">
                                 <EditIcon />
                             </Link>
                             <Button @click="deleteCompany(company.id)" variant="outline" size="icon">
