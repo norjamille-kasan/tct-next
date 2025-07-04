@@ -4,17 +4,18 @@ import { usePage } from '@inertiajs/vue3';
 export const usePermissions = () => {
     const { auth } = usePage<AppPageProps>().props;
 
-    const isSuperAdmin = () => auth?.user.roles?.includes('super_admin');
+    const isSuperAdmin = () => auth?.user.roles?.some((role) => role.name === 'super_admin');
 
-    const userCan = (permission: string): boolean => !!auth?.permissions && (isSuperAdmin() || auth.permissions.includes(permission));
+    const userCan = (permission: string): boolean =>
+        !!auth?.user.permissions && (isSuperAdmin() || auth.user.permissions.some((p) => p.name === permission));
 
-    const userIs = (role: string): boolean => !!auth?.user.roles && auth.user.roles.includes(role);
+    const userIs = (role: string): boolean => !!auth?.user.roles && auth.user.roles.some((r) => r.name === role);
 
     const userCanAny = (permissions: string[]): boolean =>
-        !!auth?.permissions && (isSuperAdmin() || permissions.some((p) => auth.permissions.includes(p)));
+        !!auth?.user.permissions && (isSuperAdmin() || permissions.some((permission) => auth.user.permissions.some((p) => p.name === permission)));
 
     const userCanAll = (permissions: string[]): boolean =>
-        !!auth?.permissions && (isSuperAdmin() || permissions.every((p) => auth.permissions.includes(p)));
+        !!auth?.user.permissions && (isSuperAdmin() || permissions.every((permission) => auth.user.permissions.some((p) => p.name === permission)));
 
     return { userCan, userIs, userCanAny, userCanAll };
 };

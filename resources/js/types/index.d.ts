@@ -1,9 +1,9 @@
 import type { LucideIcon } from 'lucide-vue-next';
 import type { Config } from 'ziggy-js';
+import { Permission, Role } from './models';
 
 export interface Auth {
     user: User;
-    permissions: string[];
 }
 
 export interface BreadcrumbItem {
@@ -44,7 +44,8 @@ export interface User {
     email_verified_at: string | null;
     created_at: string;
     updated_at: string;
-    roles: string[];
+    roles: Role[];
+    permissions: Permission[];
 }
 
 export type BreadcrumbItemType = BreadcrumbItem;
