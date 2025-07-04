@@ -1,11 +1,13 @@
 <script setup lang="ts">
+import InfoItem from '@/components/InfoItem.vue';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
-import { Task } from '@/types/models';
+import { Company, Segment, Task } from '@/types/models';
 import { Head } from '@inertiajs/vue3';
 
 interface Props {
-    task: Task;
+    task: Task & { company: Company; segment: Segment };
 }
 
 const props = defineProps<Props>();
@@ -33,7 +35,31 @@ const breadcrumbs: BreadcrumbItem[] = [
 <template>
     <Head title="Questions" />
     <AppLayout :breadcrumbs="breadcrumbs">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis, sed sunt! Officiis qui itaque iste officia hic. Libero ullam, ratione sint amet
-        adipisci natus officiis modi voluptates quis, veniam expedita.
+        <div class="grid gap-4 md:grid-cols-[8fr_4fr]">
+            <div>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia saepe officiis nulla, culpa dignissimos ipsam illum eum accusamus esse
+                nemo dolorum suscipit vero iure? Qui adipisci laborum eos at enim!
+            </div>
+            <div>
+                <Card>
+                    <CardHeader class="border-b">
+                        <CardTitle>
+                            {{ props.task.title }}
+                        </CardTitle>
+                        <CardDescription>
+                            {{ props.task.ref_key }}
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent class="space-y-4">
+                        <InfoItem title="Company">
+                            {{ props.task.company.name }}
+                        </InfoItem>
+                        <InfoItem title="Segment">
+                            {{ props.task.segment.name }}
+                        </InfoItem>
+                    </CardContent>
+                </Card>
+            </div>
+        </div>
     </AppLayout>
 </template>

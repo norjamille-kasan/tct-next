@@ -10,6 +10,7 @@ use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
+use Spatie\Activitylog\Models\Activity;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -67,12 +68,6 @@ class TaskController extends Controller
 
         Task::create($data);
 
-        activity()
-            ->performedOn(Task::latest()->first())
-            ->causedBy(auth()->user())
-            ->withProperties($data)
-            ->log('[:causer.email]/:causer.name created a task with ref_key [:subject.ref_key]');
-
         return to_route('tasks.index')->toast('success', 'Task created successfully');
     }
 
@@ -90,8 +85,10 @@ class TaskController extends Controller
     public function edit(Task $task)
     {
         return Inertia::render('tasks/Edit', [
-            'task' => $task,
-            'companies' => fn() => Company::all(),
+            'task' => $task->load(['company']),
+            'task_changes'=> fn()=> Activity::with('causer')->whereHas('subject', function($query) use ($task) {
+                $query->where('id', $task->id);
+            })->whereIn('event',['updated', 'created', 'deleted'])->latest()->get(),
             'computation_categories' => ComputationCategory::cases(),
         ]);
     }
@@ -111,12 +108,6 @@ class TaskController extends Controller
         ]);
 
         $task->update($data);
-
-        activity()
-            ->performedOn($task)
-            ->causedBy(auth()->user())
-            ->withProperties($data)
-            ->log('[:causer.email]/:causer.name updated a task with ref_key [:subject.ref_key]');
 
         return back()->toast('success', 'Task updated successfully');
     }

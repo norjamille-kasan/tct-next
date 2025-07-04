@@ -11,16 +11,7 @@
                     <CardContent>
                         <div class="grid gap-6 sm:grid-cols-2">
                             <FormControl label="Company" :error="form.errors.company_id">
-                                <Select v-model:model-value="form.company_id">
-                                    <SelectTrigger class="w-full">
-                                        <SelectValue placeholder="Select Company" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem v-for="company in companies" :value="company.id">
-                                            {{ company.name }}
-                                        </SelectItem>
-                                    </SelectContent>
-                                </Select>
+                                <Input :default-value="task.company.name" type="text" readonly />
                             </FormControl>
                             <FormControl label="Segment" :error="form.errors.segment_id">
                                 <Select v-model:model-value="form.segment_id">
@@ -77,11 +68,10 @@ import { ApiResponse } from '@/types';
 import { Company, Segment, Task } from '@/types/models';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { ofetch } from 'ofetch';
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, ref } from 'vue';
 
 interface Props {
-    companies: Company[];
-    task: Task;
+    task: Task & { company: Company };
     computation_categories: string[];
 }
 
@@ -125,19 +115,6 @@ const form = useForm<FormData>({
 });
 
 const segments = ref<Segment[]>([]);
-
-watch(
-    () => form.company_id,
-    async (newValue) => {
-        try {
-            form.segment_id = null; // Reset segment_id when company changes
-            const res = await ofetch<ApiResponse<Segment[]>>(`/api/segments?filter[company_id]=${newValue}`);
-            segments.value = res.data;
-        } catch (error) {
-            console.error('Error fetching segments:', error);
-        }
-    },
-);
 
 const submit = () => {
     form.put(route('tasks.update', { task }));

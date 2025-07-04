@@ -1,21 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Models\Task;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 
-class TaskQuestionController extends Controller
+class ActivityController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Task $task)
+    public function index()
     {
-        return Inertia::render('tasks/questions/Index', [
-            'task' => fn() => $task->load(['company', 'segment']),
-        ]);
+        //
     }
 
     /**
