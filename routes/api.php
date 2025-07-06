@@ -9,5 +9,5 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::resource('segments', SegmentController::class)->only(['index','show']);
+    Route::resource('segments', SegmentController::class)->only(['index', 'show']);
 });

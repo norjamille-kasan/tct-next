@@ -5,7 +5,6 @@ namespace App\Http\Middleware;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Middleware;
-use Spatie\Permission\Models\Permission;
 use Tighten\Ziggy\Ziggy;
 
 class HandleInertiaRequests extends Middleware
@@ -46,7 +45,7 @@ class HandleInertiaRequests extends Middleware
                 'environment' => config('app.env'),
             ],
             'auth' => [
-                'user' => $request->user()?->load(['roles'=> fn($q) => $q->select('id', 'name'), 'permissions'=> fn($q) => $q->select('id', 'name')]),
+                'user' => $request->user()?->load(['roles' => fn ($q) => $q->select('id', 'name'), 'permissions' => fn ($q) => $q->select('id', 'name')]),
             ],
             'ziggy' => [
                 ...(new Ziggy)->toArray(),
@@ -55,7 +54,7 @@ class HandleInertiaRequests extends Middleware
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
 
             // extend
-            'toast' => Inertia::always(fn()=>  session('toast')),
+            'toast' => Inertia::always(fn () => session('toast')),
         ];
     }
 }

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Enums\ComputationCategory;
 use App\Filters\SearchableColumn;
 use App\Models\Company;
-use App\Models\Segment;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -22,16 +21,16 @@ class TaskController extends Controller
     public function index(Request $request)
     {
         return Inertia::render('tasks/Index', [
-            'tasks' => fn() => QueryBuilder::for(Task::class)
+            'tasks' => fn () => QueryBuilder::for(Task::class)
                 ->with(['company', 'segment'])
                 ->allowedFilters(['company_id', 'segment_id', 'computation_category',
-                    AllowedFilter::custom('searchable', new SearchableColumn,'title,ref_key')
+                    AllowedFilter::custom('searchable', new SearchableColumn, 'title,ref_key'),
                 ])
                 ->allowedSorts(['created_at', 'title'])
                 ->orderBy('created_at', 'desc')
                 ->paginate(15)
                 ->withQueryString(),
-            'companies' => fn() => Company::all(),
+            'companies' => fn () => Company::all(),
             'computation_categories' => ComputationCategory::cases(),
             'filter' => $request->input('filter'),
         ]);
@@ -43,7 +42,7 @@ class TaskController extends Controller
     public function create()
     {
         return Inertia::render('tasks/Create', [
-            'companies' => fn() => Company::all(),
+            'companies' => fn () => Company::all(),
             'computation_categories' => ComputationCategory::cases(),
         ]);
     }
@@ -59,11 +58,11 @@ class TaskController extends Controller
             'company_id' => ['required', 'exists:companies,id'],
             'segment_id' => ['required', 'exists:segments,id'],
             'ref_key' => ['nullable', 'max:255', 'unique:tasks'],
-            'computation_category' => ['required', 'max:255', 'in:' . implode(',', array_map(fn($case) => $case->value, ComputationCategory::cases()))],
+            'computation_category' => ['required', 'max:255', 'in:'.implode(',', array_map(fn ($case) => $case->value, ComputationCategory::cases()))],
         ]);
 
         if (is_null($data['ref_key'])) {
-            $data['ref_key'] = 'TASK-' . Str::ulid();
+            $data['ref_key'] = 'TASK-'.Str::ulid();
         }
 
         Task::create($data);
@@ -86,9 +85,9 @@ class TaskController extends Controller
     {
         return Inertia::render('tasks/Edit', [
             'task' => $task->load(['company']),
-            'task_changes'=> fn()=> Activity::with('causer')->whereHas('subject', function($query) use ($task) {
+            'task_changes' => fn () => Activity::with('causer')->whereHas('subject', function ($query) use ($task) {
                 $query->where('id', $task->id);
-            })->whereIn('event',['updated', 'created', 'deleted'])->latest()->get(),
+            })->whereIn('event', ['updated', 'created', 'deleted'])->latest()->get(),
             'computation_categories' => ComputationCategory::cases(),
         ]);
     }
@@ -103,8 +102,8 @@ class TaskController extends Controller
             'description' => ['nullable', 'max:1000'],
             'company_id' => ['required', 'exists:companies,id'],
             'segment_id' => ['required', 'exists:segments,id'],
-            'ref_key' => ['nullable', 'max:255', 'unique:tasks,ref_key,' . $task->id],
-            'computation_category' => ['required', 'max:255', 'in:' . implode(',', array_map(fn($case) => $case->value, ComputationCategory::cases()))],
+            'ref_key' => ['nullable', 'max:255', 'unique:tasks,ref_key,'.$task->id],
+            'computation_category' => ['required', 'max:255', 'in:'.implode(',', array_map(fn ($case) => $case->value, ComputationCategory::cases()))],
         ]);
 
         $task->update($data);
@@ -118,6 +117,7 @@ class TaskController extends Controller
     public function destroy(Task $task)
     {
         $task->delete();
+
         return back()->toast('success', 'Task deleted successfully');
     }
 }

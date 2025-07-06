@@ -30,7 +30,7 @@ return new class extends Migration
                 'per_company_in_review_question_id' => null,
                 'per_company_in_review_task_id' => null,
                 'document_validation_review_id' => null,
-                'total_fees_paid_amount'=>0,
+                'total_fees_paid_amount' => 0,
             ],
         ]);
         CompanySetting::create([
@@ -39,7 +39,7 @@ return new class extends Migration
             'values' => [
                 'basic_document_due_diligence_header' => 'Initial Complete Document Set Review',
                 'monthly_minimum_fee_header' => 'OaaS Monthly Minimum Fee',
-                'total_fees_paid'=>'Total Fees Paid in Advance by Payreto for Downloading KYB Documents from Company Registries'
+                'total_fees_paid' => 'Total Fees Paid in Advance by Payreto for Downloading KYB Documents from Company Registries',
             ],
         ]);
 

@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import InfoItem from '@/components/InfoItem.vue';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Company, Segment, Task } from '@/types/models';
 import { Head } from '@inertiajs/vue3';
+import { PlusIcon } from 'lucide-vue-next';
 
 interface Props {
     task: Task & { company: Company; segment: Segment };
+    field_types: string[];
 }
 
 const props = defineProps<Props>();
@@ -37,8 +40,10 @@ const breadcrumbs: BreadcrumbItem[] = [
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="grid gap-4 md:grid-cols-[8fr_4fr]">
             <div>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia saepe officiis nulla, culpa dignissimos ipsam illum eum accusamus esse
-                nemo dolorum suscipit vero iure? Qui adipisci laborum eos at enim!
+                <Button variant="outline">
+                    <PlusIcon />
+                    New Question
+                </Button>
             </div>
             <div>
                 <Card>

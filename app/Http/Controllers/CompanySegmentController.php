@@ -28,7 +28,7 @@ class CompanySegmentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request,Company $company)
+    public function store(Request $request, Company $company)
     {
         $data = $request->validate([
             'name' => ['required', 'max:255'],
@@ -51,18 +51,18 @@ class CompanySegmentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Company $company,Segment $segment)
+    public function edit(Company $company, Segment $segment)
     {
-        return Inertia::render('companies/partials/SegmentEditForm',[
+        return Inertia::render('companies/partials/SegmentEditForm', [
             'segment' => $segment,
-            'company' => $company
+            'company' => $company,
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request,Company $company, Segment $segment)
+    public function update(Request $request, Company $company, Segment $segment)
     {
         $data = $request->validate([
             'name' => ['required', 'max:255'],
@@ -77,9 +77,10 @@ class CompanySegmentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Company $company,Segment $segment)
+    public function destroy(Company $company, Segment $segment)
     {
         $segment->delete();
+
         return back()->toast('success', 'Segment deleted successfully');
     }
 }

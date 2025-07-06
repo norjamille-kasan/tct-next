@@ -8,8 +8,8 @@ use Mattiverse\Userstamps\Traits\Userstamps;
 
 class Segment extends Model
 {
-
     use Userstamps;
+
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);

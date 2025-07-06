@@ -54,7 +54,7 @@ class CompanyController extends Controller
             ->withProperties($company->toArray())
             ->log('[:causer.email]/:causer.name created a company with id [:subject.id] and ref_key [:subject.ref_key]');
 
-        return to_route('companies.edit', ['company'=>$company])->toast('success', 'Company created successfully');
+        return to_route('companies.edit', ['company' => $company])->toast('success', 'Company created successfully');
     }
 
     /**
@@ -87,7 +87,6 @@ class CompanyController extends Controller
 
         $company->update($data);
 
-
         return back()->toast('success', 'Company updated successfully');
     }
 
@@ -96,7 +95,6 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
-
 
         $company->delete();
 

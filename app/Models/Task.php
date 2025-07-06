@@ -5,17 +5,17 @@ namespace App\Models;
 use App\Enums\ComputationCategory;
 use Illuminate\Database\Eloquent\Model;
 use Mattiverse\Userstamps\Traits\Userstamps;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Task extends Model
 {
-    use Userstamps, LogsActivity;
+    use LogsActivity, Userstamps;
 
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logOnly([ 'segment_id', 'title', 'description','computation_category', 'ref_key'])
+            ->logOnly(['segment_id', 'title', 'description', 'computation_category', 'ref_key'])
             ->logOnlyDirty();
     }
 

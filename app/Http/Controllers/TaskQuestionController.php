@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\FieldType;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -14,7 +15,8 @@ class TaskQuestionController extends Controller
     public function index(Task $task)
     {
         return Inertia::render('tasks/questions/Index', [
-            'task' => fn() => $task->load(['company', 'segment']),
+            'task' => fn () => $task->load(['company', 'segment']),
+            'field_types'=> fn() => FieldType::cases()
         ]);
     }
 
