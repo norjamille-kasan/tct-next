@@ -13,11 +13,20 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // The reason we only do this in testing environment is because we don't
+        // want the seeder to run in production, and we don't want to write to
+        // the database file in local environment.
+        if(app()->environment('testing') && config('database.default')==='sqlite') {
+            $this->callTestingSeeder();
+        }
+    }
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+    private function callTestingSeeder()
+    {
+        $this->call([
+            CompanySeeder::class,
+            RoleAndPermissionSeeder::class,
+            SuperAdminSeeder::class,
         ]);
     }
 }
