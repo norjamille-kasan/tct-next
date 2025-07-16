@@ -1,1 +1,3 @@
 export const APP_NAME = 'TCT APP';
+
+export const WITH_OPTION_INPUT_TYPES = ['DROPDOWN_SELECT', 'SINGLE_SELECT', 'MULTI_SELECT'];

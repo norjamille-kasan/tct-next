@@ -18,7 +18,7 @@ return new class extends Migration
         Permission::create(['name' => 'manage:billing_reports', 'group' => 'system']);
         Permission::create(['name' => 'manage:role_and_permission', 'group' => 'system']);
 
-        $groups = ['company', 'user', 'task', 'task_submission', 'segment', 'survey', 'survey_submission', 'rating', 'rating_submission'];
+        $groups = ['company', 'user', 'task', 'task_submission', 'survey', 'survey_submission', 'rating', 'rating_submission'];
 
         foreach ($groups as $group) {
             Permission::create(['name' => "view:{$group}", 'group' => $group]);

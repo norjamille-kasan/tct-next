@@ -10,10 +10,10 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
         return Inertia::render('Dashboard');
     })->name('dashboard');
 
-    Route::resource('companies', \App\Http\Controllers\CompanyController::class);
-    Route::resource('tasks', \App\Http\Controllers\TaskController::class);
+    Route::resource('companies', \App\Http\Controllers\CompanyController::class)->except(['show']);
+    Route::resource('tasks', \App\Http\Controllers\TaskController::class)->except(['show']);
     Route::resource('tasks.questions', \App\Http\Controllers\TaskQuestionController::class);
-    Route::resource('companies.segments', \App\Http\Controllers\CompanySegmentController::class)->only(['store', 'edit', 'update', 'destroy']);
+    Route::resource('companies.segments', \App\Http\Controllers\CompanySegmentController::class)->except(['show','index']);
 });
 
 require __DIR__.'/settings.php';

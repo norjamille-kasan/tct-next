@@ -15,12 +15,13 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->userstamps();
-            $table->foreignId('task_id')->constrained('tasks')->cascadeOnDelete();
-            $table->text('text');
+            $table->foreignId('task_id')->constrained('tasks')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->text('message');
             $table->string('field_type');
-            $table->integer('position');
+            $table->integer('position')->default(0);
             $table->json('options')->nullable();
-            $table->text('valid_inputs')->nullable();
+            $table->text('valid_input')->nullable();
+            $table->boolean('required')->default(true);
         });
     }
 

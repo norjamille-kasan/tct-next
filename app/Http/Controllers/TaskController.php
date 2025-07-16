@@ -7,6 +7,7 @@ use App\Filters\SearchableColumn;
 use App\Models\Company;
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Spatie\Activitylog\Models\Activity;
@@ -15,6 +16,16 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class TaskController extends Controller
 {
+
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('view:task', only: ['index']),
+            new Middleware('create:task', only: ['create', 'store']),
+            new Middleware('update:task', only: ['edit', 'update']),
+            new Middleware('delete:task', only: ['destroy']),
+        ];
+    }
     /**
      * Display a listing of the resource.
      */

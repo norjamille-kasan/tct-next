@@ -31,7 +31,7 @@
                 Create Task
             </Link>
         </div>
-        <Table class="border">
+        <Table>
             <TableHeader>
                 <TableRow>
                     <TableHead> Title </TableHead>

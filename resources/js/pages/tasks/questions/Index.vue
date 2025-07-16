@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import InfoItem from '@/components/InfoItem.vue';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Company, Segment, Task } from '@/types/models';
 import { Head } from '@inertiajs/vue3';
-import { PlusIcon } from 'lucide-vue-next';
+import QuestionCreateForm from '../partials/QuestionCreateForm.vue';
 
 interface Props {
     task: Task & { company: Company; segment: Segment };
@@ -40,10 +39,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="grid gap-4 md:grid-cols-[8fr_4fr]">
             <div>
-                <Button variant="outline">
-                    <PlusIcon />
-                    New Question
-                </Button>
+                <QuestionCreateForm :field-types="props.field_types" :task-id="props.task.id" />
             </div>
             <div>
                 <Card>

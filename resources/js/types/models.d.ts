@@ -53,3 +53,18 @@ export interface Task {
     description: string | null;
     computation_category: string | null;
 }
+
+export interface Question {
+    id: number;
+    created_at: string;
+    updated_at: string;
+    created_by: number;
+    updated_by: number;
+    task_id: number;
+    message: string;
+    field_type: string;
+    position: number;
+    options: string;
+    valid_input: string;
+    required: boolean;
+}
