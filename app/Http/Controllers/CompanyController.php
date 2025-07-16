@@ -4,17 +4,29 @@ namespace App\Http\Controllers;
 
 use App\Models\Company;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\Middleware;
 use Inertia\Inertia;
 use Spatie\QueryBuilder\QueryBuilder;
 use Str;
 
 class CompanyController extends Controller
 {
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('view:company', only: ['index']),
+            new Middleware('create:company', only: ['create', 'store']),
+            new Middleware('update:company', only: ['edit', 'update']),
+            new Middleware('delete:company', only: ['destroy']),
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
+
         return Inertia::render('companies/Index', [
             'companies' => fn () => QueryBuilder::for(Company::class)
                 ->allowedFilters(['name', 'ref_key'])
@@ -95,9 +107,7 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
-
         $company->delete();
-
         return back()->toast('success', 'Company deleted successfully');
     }
 }

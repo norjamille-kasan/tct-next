@@ -10,7 +10,7 @@
                 Create Company
             </Link>
         </div>
-        <Table class="border">
+        <Table>
             <TableHeader>
                 <TableRow>
                     <TableHead>Name</TableHead>

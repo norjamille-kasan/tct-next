@@ -41,7 +41,7 @@
                         <div class="flex items-center justify-between gap-2">
                             <SegmentCreateForm :company />
                         </div>
-                        <Table class="border">
+                        <Table>
                             <TableHeader>
                                 <TableRow>
                                     <TableHead>Name</TableHead>
