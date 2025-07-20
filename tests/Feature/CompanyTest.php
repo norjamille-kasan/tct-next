@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Company;
 use App\Models\User;
 use Inertia\Testing\AssertableInertia;
 
@@ -30,6 +31,8 @@ test('authorized users can visit the company page', function () {
     $response = $this->get('/dashboard/companies');
     $response->assertStatus(200);
 });
+
+
 
 test('unauthorized users cannot visit the company create page', function () {
     $user = User::factory()->create();
