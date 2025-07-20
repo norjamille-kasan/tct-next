@@ -35,4 +35,9 @@ class Task extends Model
     {
         return $this->belongsTo(Segment::class);
     }
+
+    public function questions()
+    {
+        return $this->hasMany(Question::class);
+    }
 }

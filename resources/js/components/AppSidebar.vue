@@ -57,7 +57,7 @@ const toolsNavItem: NavItem[] = [
 </script>
 
 <template>
-    <Sidebar collapsible="icon" variant="inset">
+    <Sidebar collapsible="icon">
         <SidebarHeader>
             <SidebarMenu>
                 <SidebarMenuItem>
@@ -77,7 +77,6 @@ const toolsNavItem: NavItem[] = [
         </SidebarContent>
 
         <SidebarFooter>
-            <!-- <NavFooter :items="footerNavItems" /> -->
             <NavUser />
         </SidebarFooter>
     </Sidebar>

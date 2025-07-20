@@ -1,12 +1,12 @@
 import '../css/app.css';
 
+import { autoAnimatePlugin } from '@formkit/auto-animate/vue';
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import type { DefineComponent } from 'vue';
 import { createApp } from 'vue';
 import { ZiggyVue } from 'ziggy-js';
 import { initializeTheme } from './composables/useAppearance';
-
 // @ts-ignore // TODO: Add types
 import { ModalLink, renderApp } from '@inertiaui/modal-vue';
 
@@ -20,6 +20,7 @@ createInertiaApp({
             .component('ModalLink', ModalLink)
             .use(plugin)
             .use(ZiggyVue)
+            .use(autoAnimatePlugin)
             .mount(el);
     },
     progress: {

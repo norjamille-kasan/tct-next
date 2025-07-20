@@ -28,6 +28,7 @@ class TaskQuestionController extends Controller
         return Inertia::render('tasks/questions/Index', [
             'task' => fn() => $task->load(['company', 'segment']),
             'field_types' => fn() => FieldType::cases(),
+            'questions' => fn() => $task->questions()->get(),
         ]);
     }
 
@@ -44,7 +45,7 @@ class TaskQuestionController extends Controller
      */
     public function store(Task $task, QuestionStoreRequest $request,CreateTaskQuestion $action)
     {
-        $action->handle($request->validated());
+        $question = $action->handle($request->validated(), $task);
 
         return back()->toast('success', 'Question created successfully');
     }

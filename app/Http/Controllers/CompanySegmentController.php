@@ -13,7 +13,7 @@ class CompanySegmentController extends Controller
     public static function middleware(): array
     {
         return [
-            new Middleware('update:company', only: ['store','edit', 'update', 'destroy']),
+            'update:company'
         ];
     }
     /**

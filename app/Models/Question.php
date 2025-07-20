@@ -5,9 +5,11 @@ namespace App\Models;
 use App\Enums\FieldType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Mattiverse\Userstamps\Traits\Userstamps;
 
 class Question extends Model
 {
+    use Userstamps;
     const POSITION_GAP = 60000;
 
     const POSITION_MIN = 0.00002;
@@ -43,5 +45,10 @@ class Question extends Model
             'options' => 'array',
             'field_type' => FieldType::class,
         ];
+    }
+
+    public function task()
+    {
+        return $this->belongsTo(Task::class);
     }
 }

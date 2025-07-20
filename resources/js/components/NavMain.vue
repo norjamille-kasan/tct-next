@@ -23,6 +23,7 @@ const { userCanAll } = usePermissions();
                     as-child
                     :is-active="item.absolute ? item.href === page.url : page.url.startsWith(item.href)"
                     :tooltip="item.title"
+                    class="data-[active=true]:bg-primary data-[active=true]:text-primary-foreground"
                 >
                     <Link :href="item.href" :prefetch="item.prefetch">
                         <component :is="item.icon" />

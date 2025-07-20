@@ -3,7 +3,7 @@
 namespace App\Actions\Task;
 
 use App\Enums\FieldType;
-use App\Models\Question;
+use App\Models\Task;
 use Illuminate\Validation\ValidationException;
 
 class CreateTaskQuestion
@@ -13,12 +13,10 @@ class CreateTaskQuestion
         FieldType::MULTI_SELECT->value,
         FieldType::SINGLE_SELECT->value
     ];
-    public function handle(array $data)
+    public function handle(array $data,Task $task)
     {
         $data = $this->formatData($data);
-        Question::create($data);
-
-        return true;
+        return $task->questions()->create($data);
     }
 
     private function formatData(array $data): array

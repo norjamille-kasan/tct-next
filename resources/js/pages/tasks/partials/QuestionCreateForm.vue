@@ -34,13 +34,21 @@ const form = useForm<Form>({
     position: 0,
 });
 
-const submit = () => {};
+const submit = () => {
+    form.post(route('tasks.questions.store', { task: props.taskId }), {
+        only: ['questions'],
+        onSuccess: () => {
+            form.reset();
+            isOpen.value = false;
+        },
+    });
+};
 </script>
 
 <template>
     <Dialog v-model:open="isOpen">
         <DialogTrigger as-child>
-            <Button variant="outline">
+            <Button>
                 <PlusIcon />
                 Add Question
             </Button>
@@ -66,7 +74,12 @@ const submit = () => {};
                         </SelectContent>
                     </Select>
                 </FormControl>
-                <FormControl v-if="WITH_OPTION_INPUT_TYPES.includes(form.field_type)" class="col-span-full" label="Options">
+                <FormControl
+                    v-if="WITH_OPTION_INPUT_TYPES.includes(form.field_type)"
+                    class="col-span-full"
+                    label="Options"
+                    help="Separate options with a comma"
+                >
                     <TagsInput v-model="form.options" class="bg-muted/40">
                         <TagsInputItem v-for="item in form.options" :key="item" :value="item">
                             <TagsInputItemText />
@@ -76,7 +89,7 @@ const submit = () => {};
                     </TagsInput>
                 </FormControl>
                 <FormControl label="Valid Input" class="col-span-full" :errors="form.errors.valid_input">
-                    <Input v-if="!WITH_OPTION_INPUT_TYPES.includes(form.field_type)" v-model="form.valid_input" type="message" required />
+                    <Input v-if="!WITH_OPTION_INPUT_TYPES.includes(form.field_type)" v-model="form.valid_input" type="message" />
                     <Select v-else v-model="form.valid_input">
                         <SelectTrigger class="w-full">
                             <SelectValue placeholder="Select" />
