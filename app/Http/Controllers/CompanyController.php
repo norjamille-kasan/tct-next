@@ -4,29 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\Company;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controllers\Middleware;
 use Inertia\Inertia;
 use Spatie\QueryBuilder\QueryBuilder;
-use Str;
+use Illuminate\Support\Str;
 
 class CompanyController extends Controller
 {
-    public static function middleware(): array
-    {
-        return [
-            new Middleware('view:company', only: ['index']),
-            new Middleware('create:company', only: ['create', 'store']),
-            new Middleware('update:company', only: ['edit', 'update']),
-            new Middleware('delete:company', only: ['destroy']),
-        ];
-    }
-
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-
         return Inertia::render('companies/Index', [
             'companies' => fn () => QueryBuilder::for(Company::class)
                 ->allowedFilters(['name', 'ref_key'])
@@ -59,12 +47,6 @@ class CompanyController extends Controller
         }
 
         $company = Company::create($data);
-
-        activity()
-            ->performedOn($company)
-            ->causedBy(auth()->user())
-            ->withProperties($company->toArray())
-            ->log('[:causer.email]/:causer.name created a company with id [:subject.id] and ref_key [:subject.ref_key]');
 
         return to_route('companies.edit', ['company' => $company])->toast('success', 'Company created successfully');
     }

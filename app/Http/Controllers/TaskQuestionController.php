@@ -28,7 +28,7 @@ class TaskQuestionController extends Controller
         return Inertia::render('tasks/questions/Index', [
             'task' => fn() => $task->load(['company', 'segment']),
             'field_types' => fn() => FieldType::cases(),
-            'questions' => fn() => $task->questions()->get(),
+            'questions' => fn() => $task->questions()->orderBy('position')->get(),
         ]);
     }
 
