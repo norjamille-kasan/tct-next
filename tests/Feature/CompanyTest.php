@@ -2,7 +2,6 @@
 
 use App\Models\Company;
 use App\Models\User;
-use Inertia\Testing\AssertableInertia;
 
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 

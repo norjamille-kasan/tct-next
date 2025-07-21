@@ -28,7 +28,6 @@ class DatabaseSeeder extends Seeder
     private function callTestingSeeder()
     {
         $this->call([
-            CompanySeeder::class,
             RoleAndPermissionSeeder::class,
             SuperAdminSeeder::class,
         ]);
