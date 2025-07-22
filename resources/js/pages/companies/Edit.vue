@@ -58,14 +58,14 @@
                                         {{ formatDate(new Date(segment.updated_at), ' YYYY MMM DD h:mm a') }}
                                     </TableCell>
                                     <TableCell class="text-right">
-                                        <div class="-my-1 flex justify-end space-x-1">
+                                        <div class="-my-1 flex justify-end">
                                             <ModalLink
                                                 :href="route('companies.segments.edit', { company, segment })"
-                                                :class="buttonVariants({ variant: 'outline', size: 'icon' })"
+                                                :class="buttonVariants({ variant: 'ghost', size: 'icon' })"
                                             >
                                                 <EditIcon />
                                             </ModalLink>
-                                            <Button @click="deleteSegment(segment.id)" variant="outline" size="icon">
+                                            <Button @click="deleteSegment(segment.id)" variant="ghost" size="icon">
                                                 <TrashIcon class="text-destructive" />
                                             </Button>
                                         </div>

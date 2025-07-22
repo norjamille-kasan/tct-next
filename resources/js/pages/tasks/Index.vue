@@ -15,7 +15,7 @@
                         </SelectItem>
                     </SelectContent>
                 </Select>
-                <Select class="w-full sm:w-auto">
+                <Select v-model="query.computation_category" @update:model-value="search" class="w-full sm:w-auto">
                     <SelectTrigger>
                         <SelectValue placeholder="Select Computation Category" />
                     </SelectTrigger>
@@ -31,55 +31,47 @@
                 Create Task
             </Link>
         </div>
-        <Table>
-            <TableHeader>
-                <TableRow>
-                    <TableHead> Title </TableHead>
-                    <TableHead> Company </TableHead>
-                    <TableHead> Segment </TableHead>
-                    <TableHead> Computation Category </TableHead>
-                    <TableHead> Ref Key </TableHead>
-                    <TableHead class="text-right"> </TableHead>
-                </TableRow>
-            </TableHeader>
-            <TableBody>
-                <TableRow v-for="task in tasks.data" :key="task.id">
-                    <TableCell class="font-medium">
-                        {{ task.title }}
-                    </TableCell>
-                    <TableCell>
-                        {{ task.company.name }}
-                    </TableCell>
-                    <TableCell>
-                        {{ task.segment.name }}
-                    </TableCell>
-                    <TableCell>
-                        {{ task.computation_category }}
-                    </TableCell>
-                    <TableCell>
-                        {{ task.ref_key }}
-                    </TableCell>
-                    <TableCell class="text-right">
-                        <div class="-my-1 flex justify-end space-x-1">
-                            <Link :href="route('tasks.questions.index', { task })" :class="buttonVariants({ variant: 'outline', size: 'icon' })">
-                                <FileTextIcon />
-                            </Link>
-                            <Link
-                                v-if="userCan('edit:task')"
-                                :href="route('tasks.edit', { task })"
-                                :class="buttonVariants({ variant: 'outline', size: 'icon' })"
-                            >
-                                <EditIcon />
-                            </Link>
-                            <Button v-if="userCan('delete:task')" @click="deleteTask(task.id)" variant="outline" size="icon">
-                                <TrashIcon class="text-destructive" />
-                            </Button>
-                        </div>
-                    </TableCell>
-                </TableRow>
-                <TableEmpty :colspan="6" v-if="tasks.data.length === 0"> No tasks found. </TableEmpty>
-            </TableBody>
-        </Table>
+        <div class="w-full overflow-auto">
+            <Table>
+                <TableHeader>
+                    <TableRow>
+                        <TableHead> Title </TableHead>
+                        <TableHead> Computation Category </TableHead>
+                        <TableHead class="text-right"> </TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    <TableRow v-for="task in tasks.data" :key="task.id">
+                        <TableCell>
+                            <div class="max-w-lvh truncate">
+                                {{ task.title }}
+                            </div>
+                        </TableCell>
+                        <TableCell>
+                            {{ task.computation_category }}
+                        </TableCell>
+                        <TableCell class="text-right">
+                            <div class="-my-1 flex justify-end">
+                                <Link :href="route('tasks.questions.index', { task })" :class="buttonVariants({ variant: 'ghost', size: 'icon' })">
+                                    <FileTextIcon />
+                                </Link>
+                                <Link
+                                    v-if="userCan('edit:task')"
+                                    :href="route('tasks.edit', { task })"
+                                    :class="buttonVariants({ variant: 'ghost', size: 'icon' })"
+                                >
+                                    <EditIcon />
+                                </Link>
+                                <Button v-if="userCan('delete:task')" @click="deleteTask(task.id)" variant="ghost" size="icon">
+                                    <TrashIcon class="text-destructive" />
+                                </Button>
+                            </div>
+                        </TableCell>
+                    </TableRow>
+                    <TableEmpty :colspan="6" v-if="tasks.data.length === 0"> No tasks found. </TableEmpty>
+                </TableBody>
+            </Table>
+        </div>
         <Pagination :links="tasks.links" />
         <ConfirmDialog
             v-model="deleteTaskConfirmation.isRevealed.value"
@@ -129,6 +121,7 @@ interface Props {
     filter?: {
         searchable: string;
         company_id: number;
+        computation_category: string;
     } | null;
 }
 
@@ -137,6 +130,7 @@ const { tasks, filter } = defineProps<Props>();
 const query = ref({
     searchable: filter?.searchable || '',
     company_id: filter?.company_id || null,
+    computation_category: filter?.computation_category || null,
 });
 
 const search = () => {

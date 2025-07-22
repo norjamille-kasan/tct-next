@@ -16,16 +16,6 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class TaskController extends Controller
 {
-
-    public static function middleware(): array
-    {
-        return [
-            new Middleware('view:task', only: ['index']),
-            new Middleware('create:task', only: ['create', 'store']),
-            new Middleware('update:task', only: ['edit', 'update']),
-            new Middleware('delete:task', only: ['destroy']),
-        ];
-    }
     /**
      * Display a listing of the resource.
      */

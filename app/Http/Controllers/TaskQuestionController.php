@@ -14,12 +14,6 @@ use Inertia\Inertia;
 class TaskQuestionController extends Controller
 {
 
-    public static function middleware(): array
-    {
-        return [
-            'permission:update:task'
-        ];
-    }
     /**
      * Display a listing of the resource.
      */

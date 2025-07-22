@@ -6,6 +6,7 @@ use Gate;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use URL;
 
@@ -24,11 +25,17 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $this->configureDatabase();
         $this->configureModel();
         $this->configureUrlSchema();
         $this->configureSuperAdmin();
         $this->configureToaster();
         $this->configureApiResponse();
+    }
+
+    public function configureDatabase()
+    {
+        DB::prohibitDestructiveCommands(app()->isProduction());
     }
 
     public function configureModel()

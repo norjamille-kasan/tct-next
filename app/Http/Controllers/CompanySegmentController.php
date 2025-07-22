@@ -10,18 +10,17 @@ use Inertia\Inertia;
 
 class CompanySegmentController extends Controller
 {
-    public static function middleware(): array
+
+    public function store(Request $request, Company $company)
     {
-        return [
-            'update:company'
-        ];
-    }
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
+        $data = $request->validate([
+            'name' => ['required', 'max:255'],
+            'description' => ['nullable', 'max:1000'],
+        ]);
+
+        $segment = $company->segments()->create($data);
+
+        return back()->toast('success', 'Segment created successfully');
     }
 
     /**

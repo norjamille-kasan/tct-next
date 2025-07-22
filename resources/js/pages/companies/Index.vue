@@ -27,11 +27,11 @@
                         {{ formatDate(new Date(company.updated_at), ' YYYY MMM DD h:mm a') }}
                     </TableCell>
                     <TableCell class="text-right">
-                        <div class="-my-1 flex justify-end space-x-1">
-                            <Link :href="route('companies.edit', company.id)" :class="buttonVariants({ variant: 'outline', size: 'icon' })">
+                        <div class="-my-1 flex justify-end">
+                            <Link :href="route('companies.edit', company.id)" :class="buttonVariants({ variant: 'ghost', size: 'icon' })">
                                 <EditIcon />
                             </Link>
-                            <Button @click="deleteCompany(company.id)" variant="outline" size="icon">
+                            <Button @click="deleteCompany(company.id)" variant="ghost" size="icon">
                                 <TrashIcon class="text-destructive" />
                             </Button>
                         </div>

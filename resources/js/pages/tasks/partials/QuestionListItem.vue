@@ -11,12 +11,13 @@
             </div>
         </div>
         <div class="space-y-1">
-            <div class="grid">
+            <div class="grid gap-1">
+                <p class="text-xs text-muted-foreground">Field type: {{ question.field_type }}</p>
+                <p class="text-xs text-destructive">Required: {{ question.required ? 'Yes' : 'No' }}</p>
                 <p class="text-sm">{{ question.message }}</p>
-                <p class="text-sm text-muted-foreground">Field type: {{ question.field_type }}</p>
             </div>
-            <div class="flex gap-1">
-                <Badge v-for="option in question.options" :key="option">
+            <div class="flex flex-wrap gap-1">
+                <Badge variant="outline" class="bg-primary/10 text-primary" v-for="option in question.options" :key="option">
                     {{ option }}
                 </Badge>
             </div>
