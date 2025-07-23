@@ -64,7 +64,7 @@ export interface Question {
     message: string;
     field_type: string;
     position: number;
-    options: string;
+    options: string[] | null;
     valid_input: string;
     required: boolean;
 }

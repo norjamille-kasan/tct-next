@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Task\CreateTaskQuestion;
+use App\Actions\Task\UpdateTaskQuestion;
 use App\Enums\FieldType;
 use App\Http\Requests\Task\QuestionStoreRequest;
+use App\Http\Requests\Task\QuestionUpdateRequest;
+use App\Models\Question;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\Middleware;
@@ -55,17 +58,24 @@ class TaskQuestionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Task $task, Question $question)
     {
-        //
+        abort_unless($question->task()->is($task), 403);
+
+        return Inertia::render('tasks/partials/QuestionEditForm',[
+            'question' => $question,
+            'field_types' => FieldType::cases(),
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Task $task, Question $question,QuestionUpdateRequest $request,UpdateTaskQuestion $action)
     {
-        //
+        $question = $action->handle($request->validated(), $question);
+
+        return back()->toast('success', 'Question updated successfully');
     }
 
     /**

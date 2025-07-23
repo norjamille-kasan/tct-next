@@ -4,8 +4,11 @@
             <div>
                 <h1 class="text-sm font-semibold text-muted-foreground">Question #{{ number + 1 }}</h1>
             </div>
-            <div class="flex items-center gap-2">
-                <Button variant="outline" size="icon" class="text-destructive hover:text-destructive">
+            <div class="flex items-center">
+                <Button variant="ghost" size="icon">
+                    <EditIcon />
+                </Button>
+                <Button variant="ghost" size="icon" class="text-destructive hover:text-destructive">
                     <Trash2Icon />
                 </Button>
             </div>
@@ -29,7 +32,7 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Question } from '@/types/models';
-import { Trash2Icon } from 'lucide-vue-next';
+import { EditIcon, Trash2Icon } from 'lucide-vue-next';
 const props = defineProps<{
     question: Question;
     number: number;
