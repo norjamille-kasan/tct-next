@@ -11,15 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('segments', function (Blueprint $table) {
+        Schema::create('company_segment', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('company_id')->constrained('companies')->cascadeOnDelete();
+            $table->foreignId('segment_id')->constrained('segments')->cascadeOnDelete();
             $table->timestamps();
-
-            $table->userstamps();
-            $table->string('ref_key')->unique()->nullable();
-            $table->string('name');
-            $table->string('description')->nullable();
-            $table->string('color');
         });
     }
 
@@ -28,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('segments');
+        Schema::dropIfExists('company_segment');
     }
 };

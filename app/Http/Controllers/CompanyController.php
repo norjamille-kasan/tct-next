@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Company\DeleteCompany;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -66,7 +67,6 @@ class CompanyController extends Controller
     {
         return Inertia::render('companies/Edit', [
             'company' => $company,
-            'segments' => fn () => $company->segments()->get(),
         ]);
     }
 
@@ -87,9 +87,9 @@ class CompanyController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Company $company)
+    public function destroy(Company $company,DeleteCompany $action)
     {
-        $company->delete();
+        $action->handle($company);
         return back()->toast('success', 'Company deleted successfully');
     }
 }

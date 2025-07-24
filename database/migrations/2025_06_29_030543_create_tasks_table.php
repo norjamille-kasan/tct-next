@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->userstamps();
-            $table->foreignId('company_id')->constrained('companies')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('segment_id')->constrained('segments')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('company_id')->constrained('companies');
+            $table->foreignId('segment_id')->constrained('segments');
             $table->string('ref_key')->unique()->nullable();
             $table->text('title');
             $table->text('description')->nullable();
