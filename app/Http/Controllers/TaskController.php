@@ -25,7 +25,7 @@ class TaskController extends Controller
             'tasks' => fn () => QueryBuilder::for(Task::class)
                 ->with(['company', 'segment'])
                 ->allowedFilters(['company_id', 'segment_id', 'computation_category',
-                    AllowedFilter::custom('searchable', new SearchableColumn, 'title,ref_key'),
+                    AllowedFilter::custom('search', new SearchableColumn, 'title,ref_key'),
                 ])
                 ->allowedSorts(['created_at', 'title'])
                 ->orderBy('created_at', 'desc')

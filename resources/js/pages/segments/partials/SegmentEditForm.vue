@@ -32,15 +32,14 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Company, Segment } from '@/types/models';
+import { Segment } from '@/types/models';
 import { useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
 const modal = ref<any>(null);
 
-const { segment, company } = defineProps<{
+const { segment } = defineProps<{
     segment: Segment | null;
-    company: Company;
 }>();
 
 const form = useForm({
@@ -49,12 +48,11 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.put(route('companies.segments.update', { company, segment: segment?.id }), {
+    form.put(route('segments.update', { segment }), {
         onSuccess: () => {
             form.reset();
             modal.value.close();
         },
-        only: ['segments'],
     });
 };
 </script>

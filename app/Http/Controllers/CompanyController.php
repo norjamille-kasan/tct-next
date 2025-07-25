@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Company\DeleteCompany;
+use App\Filters\SearchableColumn;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Support\Str;
+use Spatie\QueryBuilder\AllowedFilter;
 
 class CompanyController extends Controller
 {
@@ -18,10 +20,14 @@ class CompanyController extends Controller
     {
         return Inertia::render('companies/Index', [
             'companies' => fn () => QueryBuilder::for(Company::class)
-                ->allowedFilters(['name', 'ref_key'])
+               ->allowedFilters([
+                    AllowedFilter::custom('search', new SearchableColumn, 'name,ref_key'),
+                ])
                 ->paginate(15)
                 ->appends($request->query()),
-            'filter' => $request->input('filter'),
+            'filter' => $request->input('filter',[
+                'search' => ''
+            ]),
         ]);
     }
 

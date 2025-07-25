@@ -10,6 +10,10 @@ class Segment extends Model
 {
     use Userstamps;
 
+    protected $attributes = [
+        'color' => '#5829f2',
+    ];
+
     public function companies()
     {
         return $this->belongsToMany(Company::class);

@@ -1,9 +1,62 @@
+<script setup lang="ts">
+import ConfirmDialog from '@/components/ConfirmDialog.vue';
+import Pagination from '@/components/Pagination.vue';
+import { Button, buttonVariants } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Table, TableBody, TableCell, TableEmpty, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import AppLayout from '@/layouts/AppLayout.vue';
+import { type BreadcrumbItem, Paginated } from '@/types';
+import { Company } from '@/types/models';
+import { Head, Link, router } from '@inertiajs/vue3';
+import { formatDate, useConfirmDialog } from '@vueuse/core';
+import { EditIcon, PlusIcon, TrashIcon } from 'lucide-vue-next';
+import { toRef } from 'vue';
+
+const breadcrumbs: BreadcrumbItem[] = [
+    {
+        title: 'Dashboard',
+        href: '/dashboard',
+    },
+    {
+        title: 'Companies',
+        href: '/dashboard/companies',
+    },
+];
+
+const props = defineProps<{
+    companies: Paginated<Company>;
+    filter: {
+        search: string;
+    };
+}>();
+
+const query = toRef(props.filter);
+
+const search = () => {
+    router.reload({
+        data: {
+            filter: query.value,
+        },
+        only: ['companies', 'filter'],
+        replace: true,
+    });
+};
+
+const deleteCompanyDialog = useConfirmDialog();
+
+const deleteCompany = async (id: number) => {
+    const { isCanceled } = await deleteCompanyDialog.reveal();
+    if (!isCanceled) {
+        router.delete(route('companies.destroy', { company: id }));
+    }
+};
+</script>
 <template>
     <Head title="Companies" />
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex items-center justify-between gap-2">
             <form @submit.prevent="search">
-                <Input placeholder="Search" type="search" class="sm:w-80" />
+                <Input v-model="query.search" placeholder="Search" type="search" class="sm:w-80" />
             </form>
             <Link :href="route('companies.create')" :class="buttonVariants()">
                 <PlusIcon />
@@ -19,7 +72,7 @@
                 </TableRow>
             </TableHeader>
             <TableBody>
-                <TableRow v-for="company in data.data" :key="company.id">
+                <TableRow v-for="company in props.companies.data" :key="company.id">
                     <TableCell class="font-medium">
                         {{ company.name }}
                     </TableCell>
@@ -40,74 +93,13 @@
                 <TableEmpty :colspan="3" v-if="companies.data.length === 0"> No companies found. </TableEmpty>
             </TableBody>
         </Table>
-        <Pagination :links="data.links" />
+        <Pagination :links="props.companies.links" />
         <ConfirmDialog
-            v-model="deleteCompanyConfirmation.isRevealed.value"
+            v-model="deleteCompanyDialog.isRevealed.value"
             title="Delete Company"
             description="Are you sure you want to delete this company?"
-            @cancel="deleteCompanyConfirmation.cancel"
-            @confirm="deleteCompanyConfirmation.confirm"
+            @cancel="deleteCompanyDialog.cancel"
+            @confirm="deleteCompanyDialog.confirm"
         />
     </AppLayout>
 </template>
-
-<script setup lang="ts">
-import ConfirmDialog from '@/components/ConfirmDialog.vue';
-import Pagination from '@/components/Pagination.vue';
-import { Button, buttonVariants } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Table, TableBody, TableCell, TableEmpty, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import AppLayout from '@/layouts/AppLayout.vue';
-import { type BreadcrumbItem, Paginated } from '@/types';
-import { Company } from '@/types/models';
-import { Head, Link, router } from '@inertiajs/vue3';
-import { formatDate, useConfirmDialog } from '@vueuse/core';
-import { EditIcon, PlusIcon, TrashIcon } from 'lucide-vue-next';
-import { reactive } from 'vue';
-
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Dashboard',
-        href: '/dashboard',
-    },
-    {
-        title: 'Companies',
-        href: '/dashboard/companies',
-    },
-];
-
-const { companies: data, filter } = defineProps<{
-    companies: Paginated<Company>;
-    filter: {
-        name?: string;
-        ref_key?: string;
-    } | null;
-}>();
-
-const query = reactive({
-    filter: {
-        name: filter?.name || '',
-        ref_key: filter?.ref_key || '',
-    },
-});
-
-const search = () => {
-    query.filter.ref_key = query.filter.name;
-    router.reload({
-        data: {
-            filter: query.filter,
-        },
-        only: ['companies', 'filter'],
-        replace: true,
-    });
-};
-
-const deleteCompanyConfirmation = useConfirmDialog();
-
-const deleteCompany = async (id: number) => {
-    const { isCanceled } = await deleteCompanyConfirmation.reveal();
-    if (!isCanceled) {
-        router.delete(route('companies.destroy', { company: id }));
-    }
-};
-</script>
