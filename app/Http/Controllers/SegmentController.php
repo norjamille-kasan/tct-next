@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Filters\SearchableColumn;
 use App\Http\Requests\Segment\SegmentStoreRequest;
 use App\Http\Requests\Segment\SegmentUpdateRequest;
+use App\Models\Company;
 use App\Models\Segment;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -20,13 +21,14 @@ class SegmentController extends Controller
     public function index(Request $request)
     {
         return Inertia::render('segments/Index',[
-            'segments'=> QueryBuilder::for(Segment::class)
+            'segments'=> fn() => QueryBuilder::for(Segment::class)
                 ->allowedFilters([
                     AllowedFilter::custom('search', new SearchableColumn, 'name,ref_key'),
                 ])
                 ->paginate(15)
                 ->appends($request->query()),
-            'filter'=> $request->input('filter',[
+            'companies' => fn () => Company::all(),
+            'filter'=> fn() => $request->input('filter',[
                 'search' => ''
             ]),
         ]);

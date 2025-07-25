@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableEmpty, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Paginated, type BreadcrumbItem } from '@/types';
-import { Segment } from '@/types/models';
+import { Company, Segment } from '@/types/models';
 import { Head, router } from '@inertiajs/vue3';
 import { formatDate, useConfirmDialog } from '@vueuse/core';
 import { EditIcon, TrashIcon } from 'lucide-vue-next';
@@ -29,6 +29,7 @@ const props = defineProps<{
     filter: {
         search: string;
     };
+    companies: Company[];
 }>();
 
 const query = toRef(props.filter);
