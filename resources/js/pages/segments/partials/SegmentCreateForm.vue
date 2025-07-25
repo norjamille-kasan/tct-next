@@ -13,6 +13,7 @@ const isOpen = ref(false);
 const form = useForm({
     name: '',
     description: '',
+    ref_key: null,
 });
 
 const submit = () => {

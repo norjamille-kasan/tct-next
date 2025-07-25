@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import ConfirmDialog from '@/components/ConfirmDialog.vue';
 import Pagination from '@/components/Pagination.vue';
+import { Badge } from '@/components/ui/badge';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableEmpty, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -9,8 +10,9 @@ import { Paginated, type BreadcrumbItem } from '@/types';
 import { Company, Segment } from '@/types/models';
 import { Head, router } from '@inertiajs/vue3';
 import { formatDate, useConfirmDialog } from '@vueuse/core';
-import { EditIcon, TrashIcon } from 'lucide-vue-next';
-import { toRef } from 'vue';
+import { EditIcon, TrashIcon, XIcon } from 'lucide-vue-next';
+import { provide, toRef } from 'vue';
+import AddToCompanyForm from './partials/AddToCompanyForm.vue';
 import SegmentCreateForm from './partials/SegmentCreateForm.vue';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -25,12 +27,14 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 const props = defineProps<{
-    segments: Paginated<Segment>;
+    segments: Paginated<Segment & { companies: Company[] }>;
     filter: {
         search: string;
     };
     companies: Company[];
 }>();
+
+provide('companies', props.companies);
 
 const query = toRef(props.filter);
 
@@ -53,6 +57,15 @@ const deleteSegment = async (segmentId: number) => {
         router.delete(route('segments.destroy', { segment: segmentId }));
     }
 };
+
+const detachCompanyDialog = useConfirmDialog();
+
+const detachCompany = async (segmentId: number, companyId: number) => {
+    const { isCanceled } = await detachCompanyDialog.reveal();
+    if (!isCanceled) {
+        router.delete(route('segments.detach-company', { segment: segmentId, company: companyId }));
+    }
+};
 </script>
 
 <template>
@@ -69,6 +82,7 @@ const deleteSegment = async (segmentId: number) => {
             <TableHeader>
                 <TableRow>
                     <TableHead>Name</TableHead>
+                    <TableHead>Used By</TableHead>
                     <TableHead>Last Modified</TableHead>
                     <TableHead class="text-right"> </TableHead>
                 </TableRow>
@@ -77,6 +91,17 @@ const deleteSegment = async (segmentId: number) => {
                 <TableRow v-for="segment in props.segments.data" :key="segment.id">
                     <TableCell class="font-medium">
                         {{ segment.name }}
+                    </TableCell>
+                    <TableCell>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <Badge v-for="company in segment.companies" :key="company.id" variant="secondary">
+                                {{ company.name }}
+                                <button type="button" @click="detachCompany(segment.id, company.id)">
+                                    <XIcon class="size-4 text-muted-foreground" />
+                                </button>
+                            </Badge>
+                            <AddToCompanyForm :addedCompanies="segment.companies" :segment-id="segment.id" />
+                        </div>
                     </TableCell>
                     <TableCell>
                         {{ formatDate(new Date(segment.updated_at), ' YYYY MMM DD h:mm a') }}
@@ -102,6 +127,13 @@ const deleteSegment = async (segmentId: number) => {
             description="Are you sure you want to delete this segment?"
             @cancel="deleteSegmentDialog.cancel"
             @confirm="deleteSegmentDialog.confirm"
+        />
+        <ConfirmDialog
+            v-model="detachCompanyDialog.isRevealed.value"
+            title="Remove Company"
+            description="Are you sure you want to remove this company from this segment?"
+            @cancel="detachCompanyDialog.cancel"
+            @confirm="detachCompanyDialog.confirm"
         />
     </AppLayout>
 </template>

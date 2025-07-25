@@ -1,3 +1,69 @@
+<script setup lang="ts">
+import FormControl from '@/components/FormControl.vue';
+import { Button, buttonVariants } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
+import AppLayout from '@/layouts/AppLayout.vue';
+import { Company, Segment } from '@/types/models';
+import { Head, Link, useForm } from '@inertiajs/vue3';
+import { ref, watch } from 'vue';
+
+const breadcrumbs = [
+    {
+        title: 'Dashboard',
+        href: '/dashboard',
+    },
+    {
+        title: 'Tasks',
+        href: '/dashboard/tasks',
+    },
+    {
+        title: 'Create',
+        href: '/dashboard/tasks/create',
+    },
+];
+
+interface Props {
+    companies: Array<Company & { segments: Segment[] }>;
+    computation_categories: string[];
+}
+
+const props = defineProps<Props>();
+
+type FormData = {
+    company_id: number | null;
+    segment_id: number | null;
+    ref_key: string | null;
+    title: string;
+    description: string;
+    computation_category: string;
+};
+
+const form = useForm<FormData>({
+    company_id: null,
+    segment_id: null,
+    ref_key: null,
+    title: '',
+    description: '',
+    computation_category: '',
+});
+
+const segments = ref<Segment[]>([]);
+
+watch(
+    () => form.company_id,
+    async (newValue) => {
+        segments.value = props.companies.find((company) => company.id === newValue)?.segments || [];
+    },
+);
+
+const submit = () => {
+    form.post(route('tasks.store'));
+};
+</script>
+
 <template>
     <Head title="Create Task" />
     <AppLayout :breadcrumbs="breadcrumbs">
@@ -64,77 +130,3 @@
         </div>
     </AppLayout>
 </template>
-
-<script setup lang="ts">
-import FormControl from '@/components/FormControl.vue';
-import { Button, buttonVariants } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
-import AppLayout from '@/layouts/AppLayout.vue';
-import { ApiResponse } from '@/types';
-import { Company, Segment } from '@/types/models';
-import { Head, Link, useForm } from '@inertiajs/vue3';
-import { ofetch } from 'ofetch';
-import { ref, watch } from 'vue';
-
-const breadcrumbs = [
-    {
-        title: 'Dashboard',
-        href: '/dashboard',
-    },
-    {
-        title: 'Tasks',
-        href: '/dashboard/tasks',
-    },
-    {
-        title: 'Create',
-        href: '/dashboard/tasks/create',
-    },
-];
-
-interface Props {
-    companies: Company[];
-    computation_categories: string[];
-}
-
-defineProps<Props>();
-
-type FormData = {
-    company_id: number | null;
-    segment_id: number | null;
-    ref_key: string | null;
-    title: string;
-    description: string;
-    computation_category: string;
-};
-
-const form = useForm<FormData>({
-    company_id: null,
-    segment_id: null,
-    ref_key: null,
-    title: '',
-    description: '',
-    computation_category: '',
-});
-
-const segments = ref<Segment[]>([]);
-
-watch(
-    () => form.company_id,
-    async (newValue) => {
-        try {
-            form.segment_id = null; // Reset segment_id when company changes
-            const res = await ofetch<ApiResponse<Segment[]>>(`/api/segments?filter[company_id]=${newValue}`);
-            segments.value = res.data;
-        } catch (error) {
-            console.error('Error fetching segments:', error);
-        }
-    },
-);
-
-const submit = () => {
-    form.post(route('tasks.store'));
-};
-</script>

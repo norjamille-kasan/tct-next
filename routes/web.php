@@ -31,6 +31,13 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
         ->middlewareFor(['create', 'store'], 'permission:create:segment')
         ->middlewareFor(['edit', 'update'], 'permission:update:segment')
         ->middlewareFor(['destroy'], 'permission:delete:segment');
+
+    Route::post('/segments/{segment}/attach-company', App\Http\Controllers\Segment\AssociateCompanyController::class)->name('segments.attach-company')
+        ->middleware('permission:update:segment');
+
+    Route::delete('/segments/{segment}/detach-company/{company}', App\Http\Controllers\Segment\DissociateCompanyController::class)->name('segments.detach-company')
+        ->middleware('permission:update:segment');
+
 });
 
 require __DIR__ . '/settings.php';

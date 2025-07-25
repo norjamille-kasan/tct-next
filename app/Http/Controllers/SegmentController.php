@@ -22,12 +22,13 @@ class SegmentController extends Controller
     {
         return Inertia::render('segments/Index',[
             'segments'=> fn() => QueryBuilder::for(Segment::class)
+                ->with(['companies'])
                 ->allowedFilters([
                     AllowedFilter::custom('search', new SearchableColumn, 'name,ref_key'),
                 ])
                 ->paginate(15)
                 ->appends($request->query()),
-            'companies' => fn () => Company::all(),
+            'companies'=> fn() => Company::all(),
             'filter'=> fn() => $request->input('filter',[
                 'search' => ''
             ]),

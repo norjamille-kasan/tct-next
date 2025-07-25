@@ -1,9 +1,77 @@
+<script setup lang="ts">
+import ConfirmDialog from '@/components/ConfirmDialog.vue';
+import Pagination from '@/components/Pagination.vue';
+import { Button, buttonVariants } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Table, TableBody, TableCell, TableEmpty, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { usePermissions } from '@/composables/usePermissions';
+import AppLayout from '@/layouts/AppLayout.vue';
+import { Paginated } from '@/types';
+import { Company, Segment, Task } from '@/types/models';
+import { Link, router } from '@inertiajs/vue3';
+import { useConfirmDialog } from '@vueuse/core';
+import { EditIcon, FileTextIcon, PlusIcon, TrashIcon } from 'lucide-vue-next';
+import { toRef } from 'vue';
+const breadcrumbs = [
+    {
+        title: 'Dashboard',
+        href: '/dashboard',
+    },
+    {
+        title: 'Tasks',
+        href: '/dashboard/tasks',
+    },
+];
+
+interface Props {
+    tasks: Paginated<
+        Task & {
+            company: Company;
+            segment: Segment;
+        }
+    >;
+    companies: Company[];
+    computation_categories: string[];
+    filter: {
+        search: string;
+        company_id: number;
+        computation_category: string;
+    };
+}
+
+const props = defineProps<Props>();
+
+const query = toRef(props.filter);
+
+const search = () => {
+    router.reload({
+        data: {
+            filter: query.value,
+        },
+        only: ['tasks', 'filter'],
+        replace: true,
+    });
+};
+
+const deleteTaskConfirmation = useConfirmDialog();
+
+const deleteTask = async (id: number) => {
+    const { isCanceled } = await deleteTaskConfirmation.reveal();
+    if (!isCanceled) {
+        router.delete(route('tasks.destroy', { task: id }));
+    }
+};
+
+const { userCan } = usePermissions();
+</script>
+
 <template>
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex flex-col items-center justify-between gap-2 sm:flex-row">
             <div class="flex flex-wrap items-center gap-2 sm:flex-nowrap">
                 <form @submit.prevent="search" class="w-full sm:w-auto">
-                    <Input placeholder="Search" v-model="query.searchable" type="search" class="sm:w-96" />
+                    <Input placeholder="Search" v-model="query.search" type="search" class="sm:w-96" />
                 </form>
                 <Select v-model="query.company_id" @update:model-value="search" class="w-full sm:w-auto">
                     <SelectTrigger>
@@ -41,7 +109,7 @@
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    <TableRow v-for="task in tasks.data" :key="task.id">
+                    <TableRow v-for="task in props.tasks.data" :key="task.id">
                         <TableCell>
                             <div class="max-w-lvh truncate">
                                 {{ task.title }}
@@ -72,7 +140,7 @@
                 </TableBody>
             </Table>
         </div>
-        <Pagination :links="tasks.links" />
+        <Pagination :links="props.tasks.links" />
         <ConfirmDialog
             v-model="deleteTaskConfirmation.isRevealed.value"
             title="Delete Task"
@@ -82,75 +150,3 @@
         />
     </AppLayout>
 </template>
-
-<script setup lang="ts">
-import ConfirmDialog from '@/components/ConfirmDialog.vue';
-import Pagination from '@/components/Pagination.vue';
-import { Button, buttonVariants } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Table, TableBody, TableCell, TableEmpty, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { usePermissions } from '@/composables/usePermissions';
-import AppLayout from '@/layouts/AppLayout.vue';
-import { Paginated } from '@/types';
-import { Company, Segment, Task } from '@/types/models';
-import { Link, router } from '@inertiajs/vue3';
-import { useConfirmDialog } from '@vueuse/core';
-import { EditIcon, FileTextIcon, PlusIcon, TrashIcon } from 'lucide-vue-next';
-import { ref } from 'vue';
-const breadcrumbs = [
-    {
-        title: 'Dashboard',
-        href: '/dashboard',
-    },
-    {
-        title: 'Tasks',
-        href: '/dashboard/tasks',
-    },
-];
-
-interface Props {
-    tasks: Paginated<
-        Task & {
-            company: Company;
-            segment: Segment;
-        }
-    >;
-    companies: Company[];
-    computation_categories: string[];
-    filter?: {
-        searchable: string;
-        company_id: number;
-        computation_category: string;
-    } | null;
-}
-
-const { tasks, filter } = defineProps<Props>();
-
-const query = ref({
-    searchable: filter?.searchable || '',
-    company_id: filter?.company_id || null,
-    computation_category: filter?.computation_category || null,
-});
-
-const search = () => {
-    router.reload({
-        data: {
-            filter: query.value,
-        },
-        only: ['tasks', 'filter'],
-        replace: true,
-    });
-};
-
-const deleteTaskConfirmation = useConfirmDialog();
-
-const deleteTask = async (id: number) => {
-    const { isCanceled } = await deleteTaskConfirmation.reveal();
-    if (!isCanceled) {
-        router.delete(route('tasks.destroy', { task: id }));
-    }
-};
-
-const { userCan } = usePermissions();
-</script>

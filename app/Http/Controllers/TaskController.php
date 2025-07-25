@@ -33,7 +33,11 @@ class TaskController extends Controller
                 ->withQueryString(),
             'companies' => fn () => Company::all(),
             'computation_categories' => ComputationCategory::cases(),
-            'filter' => $request->input('filter'),
+            'filter' => $request->input('filter',[
+                'search' => '',
+                'segment_id' => '',
+                'computation_category' => '',
+            ]),
         ]);
     }
 
@@ -43,7 +47,7 @@ class TaskController extends Controller
     public function create()
     {
         return Inertia::render('tasks/Create', [
-            'companies' => fn () => Company::all(),
+            'companies' => fn () => Company::with(['segments'])->get(),
             'computation_categories' => ComputationCategory::cases(),
         ]);
     }

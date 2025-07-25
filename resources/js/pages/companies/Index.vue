@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import ConfirmDialog from '@/components/ConfirmDialog.vue';
-import Pagination from '@/components/Pagination.vue';
 import { Button, buttonVariants } from '@/components/ui/button';
+import { Card, CardAction, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Table, TableBody, TableCell, TableEmpty, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/AppLayout.vue';
-import { type BreadcrumbItem, Paginated } from '@/types';
+import { type BreadcrumbItem } from '@/types';
 import { Company } from '@/types/models';
 import { Head, Link, router } from '@inertiajs/vue3';
 import { formatDate, useConfirmDialog } from '@vueuse/core';
@@ -24,7 +23,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 const props = defineProps<{
-    companies: Paginated<Company>;
+    companies: Company[];
     filter: {
         search: string;
     };
@@ -63,37 +62,26 @@ const deleteCompany = async (id: number) => {
                 Create Company
             </Link>
         </div>
-        <Table>
-            <TableHeader>
-                <TableRow>
-                    <TableHead>Name</TableHead>
-                    <TableHead>Last Modified</TableHead>
-                    <TableHead class="text-right"> </TableHead>
-                </TableRow>
-            </TableHeader>
-            <TableBody>
-                <TableRow v-for="company in props.companies.data" :key="company.id">
-                    <TableCell class="font-medium">
-                        {{ company.name }}
-                    </TableCell>
-                    <TableCell>
-                        {{ formatDate(new Date(company.updated_at), ' YYYY MMM DD h:mm a') }}
-                    </TableCell>
-                    <TableCell class="text-right">
-                        <div class="-my-1 flex justify-end">
+        <div class="grid gap-4 sm:grid-cols-3">
+            <template v-for="company in props.companies" :key="company.id">
+                <Card>
+                    <CardHeader>
+                        <CardTitle>
+                            {{ company.name }}
+                        </CardTitle>
+                        <CardDescription> Last modified: {{ formatDate(new Date(company.updated_at), ' YYYY MMM DD h:mm a') }} </CardDescription>
+                        <CardAction>
                             <Link :href="route('companies.edit', company.id)" :class="buttonVariants({ variant: 'ghost', size: 'icon' })">
                                 <EditIcon />
                             </Link>
                             <Button @click="deleteCompany(company.id)" variant="ghost" size="icon">
                                 <TrashIcon class="text-destructive" />
                             </Button>
-                        </div>
-                    </TableCell>
-                </TableRow>
-                <TableEmpty :colspan="3" v-if="companies.data.length === 0"> No companies found. </TableEmpty>
-            </TableBody>
-        </Table>
-        <Pagination :links="props.companies.links" />
+                        </CardAction>
+                    </CardHeader>
+                </Card>
+            </template>
+        </div>
         <ConfirmDialog
             v-model="deleteCompanyDialog.isRevealed.value"
             title="Delete Company"

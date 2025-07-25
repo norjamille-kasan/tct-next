@@ -23,8 +23,7 @@ class CompanyController extends Controller
                ->allowedFilters([
                     AllowedFilter::custom('search', new SearchableColumn, 'name,ref_key'),
                 ])
-                ->paginate(15)
-                ->appends($request->query()),
+                ->get(),
             'filter' => $request->input('filter',[
                 'search' => ''
             ]),
