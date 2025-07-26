@@ -21,7 +21,7 @@ class TaskController extends Controller
      */
     public function index(Request $request)
     {
-        return Inertia::render('tasks/Index', [
+        return Inertia::render('dashboard/tasks/Index', [
             'tasks' => fn () => QueryBuilder::for(Task::class)
                 ->with(['company', 'segment'])
                 ->allowedFilters(['company_id', 'segment_id', 'computation_category',
@@ -46,7 +46,7 @@ class TaskController extends Controller
      */
     public function create()
     {
-        return Inertia::render('tasks/Create', [
+        return Inertia::render('dashboard/tasks/Create', [
             'companies' => fn () => Company::with(['segments'])->get(),
             'computation_categories' => ComputationCategory::cases(),
         ]);
@@ -88,7 +88,7 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        return Inertia::render('tasks/Edit', [
+        return Inertia::render('dashboard/tasks/Edit', [
             'task' => $task->load(['company']),
             'task_changes' => fn () => Activity::with('causer')->whereHas('subject', function ($query) use ($task) {
                 $query->where('id', $task->id);

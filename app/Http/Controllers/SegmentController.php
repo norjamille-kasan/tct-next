@@ -20,7 +20,7 @@ class SegmentController extends Controller
      */
     public function index(Request $request)
     {
-        return Inertia::render('segments/Index',[
+        return Inertia::render('dashboard/segments/Index',[
             'segments'=> fn() => QueryBuilder::for(Segment::class)
                 ->with(['companies'])
                 ->allowedFilters([
@@ -72,7 +72,7 @@ class SegmentController extends Controller
      */
     public function edit(Segment $segment)
     {
-        return Inertia::render('segments/partials/SegmentEditForm',[
+        return Inertia::render('dashboard/segments/partials/SegmentEditForm',[
             'segment' => $segment
         ]);
     }

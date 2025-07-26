@@ -22,7 +22,7 @@ class TaskQuestionController extends Controller
      */
     public function index(Task $task)
     {
-        return Inertia::render('tasks/questions/Index', [
+        return Inertia::render('dashboard/tasks/questions/Index', [
             'task' => fn() => $task->load(['company', 'segment']),
             'field_types' => fn() => FieldType::cases(),
             'questions' => fn() => $task->questions()->orderBy('position')->get(),
@@ -62,7 +62,7 @@ class TaskQuestionController extends Controller
     {
         abort_unless($question->task()->is($task), 403);
 
-        return Inertia::render('tasks/partials/QuestionEditForm',[
+        return Inertia::render('dashboard/tasks/partials/QuestionEditForm',[
             'question' => $question,
             'field_types' => FieldType::cases(),
         ]);

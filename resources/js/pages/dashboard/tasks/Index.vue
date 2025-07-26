@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import ConfirmDialog from '@/components/ConfirmDialog.vue';
+import Heading from '@/components/Heading.vue';
 import Pagination from '@/components/Pagination.vue';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -68,6 +69,7 @@ const { userCan } = usePermissions();
 
 <template>
     <AppLayout :breadcrumbs="breadcrumbs">
+        <Heading title="Tasks" description="List of all tasks" />
         <div class="flex flex-col items-center justify-between gap-2 sm:flex-row">
             <div class="flex flex-wrap items-center gap-2 sm:flex-nowrap">
                 <form @submit.prevent="search" class="w-full sm:w-auto">
@@ -99,6 +101,7 @@ const { userCan } = usePermissions();
                 Create Task
             </Link>
         </div>
+
         <div class="w-full overflow-auto">
             <Table>
                 <TableHeader>

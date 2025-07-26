@@ -7,7 +7,7 @@ Route::redirect('/', '/dashboard', 301)->name('home');
 
 Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () {
     Route::get('/', function () {
-        return Inertia::render('Dashboard');
+        return Inertia::render('dashboard/Index');
     })->middleware(['permission:view:dashboard'])->name('dashboard');
 
     Route::resource('companies', \App\Http\Controllers\CompanyController::class)

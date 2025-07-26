@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import ConfirmDialog from '@/components/ConfirmDialog.vue';
+import Heading from '@/components/Heading.vue';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Card, CardAction, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -53,6 +54,7 @@ const deleteCompany = async (id: number) => {
 <template>
     <Head title="Companies" />
     <AppLayout :breadcrumbs="breadcrumbs">
+        <Heading title="Companies" description="List of all companies" />
         <div class="flex items-center justify-between gap-2">
             <form @submit.prevent="search">
                 <Input v-model="query.search" placeholder="Search" type="search" class="sm:w-80" />

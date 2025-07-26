@@ -19,7 +19,6 @@ const platformNavItem: NavItem[] = [
         href: '/dashboard/tasks',
         icon: ListTodo,
         absolute: false,
-        prefetch: true,
         permissions: ['view:tasks'],
     },
 ];

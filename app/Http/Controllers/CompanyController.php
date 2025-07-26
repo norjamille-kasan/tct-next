@@ -18,7 +18,7 @@ class CompanyController extends Controller
      */
     public function index(Request $request)
     {
-        return Inertia::render('companies/Index', [
+        return Inertia::render('dashboard/companies/Index', [
             'companies' => fn () => QueryBuilder::for(Company::class)
                ->allowedFilters([
                     AllowedFilter::custom('search', new SearchableColumn, 'name,ref_key'),
@@ -35,7 +35,7 @@ class CompanyController extends Controller
      */
     public function create()
     {
-        return Inertia::render('companies/Create');
+        return Inertia::render('dashboard/companies/Create');
     }
 
     /**
@@ -70,7 +70,7 @@ class CompanyController extends Controller
      */
     public function edit(Company $company)
     {
-        return Inertia::render('companies/Edit', [
+        return Inertia::render('dashboard/companies/Edit', [
             'company' => $company,
         ]);
     }

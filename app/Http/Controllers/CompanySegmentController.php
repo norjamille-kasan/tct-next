@@ -28,7 +28,7 @@ class CompanySegmentController extends Controller
      */
     public function edit(Company $company, Segment $segment)
     {
-        return Inertia::render('companies/partials/SegmentEditForm', [
+        return Inertia::render('dashboard/companies/partials/SegmentEditForm', [
             'segment' => $segment,
             'company' => $company,
         ]);
