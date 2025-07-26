@@ -1,16 +1,15 @@
 <script setup lang="ts">
-import ConfirmDialog from '@/components/ConfirmDialog.vue';
 import DashboardContent from '@/components/dashboard/DashboardContent.vue';
 import Heading from '@/components/Heading.vue';
-import { Button, buttonVariants } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
 import { Card, CardAction, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Company } from '@/types/models';
 import { Head, Link, router } from '@inertiajs/vue3';
-import { formatDate, useConfirmDialog } from '@vueuse/core';
-import { EditIcon, PlusIcon, TrashIcon } from 'lucide-vue-next';
+import { formatDate } from '@vueuse/core';
+import { EditIcon, PlusIcon } from 'lucide-vue-next';
 import { toRef } from 'vue';
 
 defineOptions({
@@ -46,15 +45,6 @@ const search = () => {
         replace: true,
     });
 };
-
-const deleteCompanyDialog = useConfirmDialog();
-
-const deleteCompany = async (id: number) => {
-    const { isCanceled } = await deleteCompanyDialog.reveal();
-    if (!isCanceled) {
-        router.delete(route('companies.destroy', { company: id }));
-    }
-};
 </script>
 <template>
     <Head title="Companies" />
@@ -81,20 +71,10 @@ const deleteCompany = async (id: number) => {
                             <Link :href="route('companies.edit', company.id)" :class="buttonVariants({ variant: 'ghost', size: 'icon' })">
                                 <EditIcon />
                             </Link>
-                            <Button @click="deleteCompany(company.id)" variant="ghost" size="icon">
-                                <TrashIcon class="text-destructive" />
-                            </Button>
                         </CardAction>
                     </CardHeader>
                 </Card>
             </template>
         </div>
     </DashboardContent>
-    <ConfirmDialog
-        v-model="deleteCompanyDialog.isRevealed.value"
-        title="Delete Company"
-        description="Are you sure you want to delete this company?"
-        @cancel="deleteCompanyDialog.cancel"
-        @confirm="deleteCompanyDialog.confirm"
-    />
 </template>

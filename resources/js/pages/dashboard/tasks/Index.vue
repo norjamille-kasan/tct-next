@@ -86,6 +86,7 @@ const { userCan } = usePermissions();
                         <SelectValue placeholder="Select Company" />
                     </SelectTrigger>
                     <SelectContent>
+                        <SelectItem :value="null">Show All</SelectItem>
                         <SelectItem v-for="company in companies" :key="company.id" :value="company.id">
                             {{ company.name }}
                         </SelectItem>
@@ -96,6 +97,7 @@ const { userCan } = usePermissions();
                         <SelectValue placeholder="Select Computation Category" />
                     </SelectTrigger>
                     <SelectContent>
+                        <SelectItem :value="null">Show All</SelectItem>
                         <SelectItem v-for="computation_category in computation_categories" :key="computation_category" :value="computation_category">
                             {{ computation_category }}
                         </SelectItem>
@@ -107,7 +109,6 @@ const { userCan } = usePermissions();
                 Create Task
             </Link>
         </div>
-
         <div class="w-full overflow-auto">
             <Table>
                 <TableHeader>

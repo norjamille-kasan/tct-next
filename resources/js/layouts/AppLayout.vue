@@ -3,6 +3,7 @@ import { Toaster } from '@/components/ui/sonner';
 import 'vue-sonner/style.css';
 
 import AlertSound from '@/assets/alert-sound.mp3';
+import ErrorSound from '@/assets/error-sound.mp3';
 import AppLayout from '@/layouts/app/AppSidebarLayout.vue';
 import { AppPageProps } from '@/types';
 import { router, usePage } from '@inertiajs/vue3';
@@ -15,7 +16,13 @@ const page = usePage<AppPageProps>();
 
 const mode = useColorMode();
 
-const alertSound = useSound(AlertSound);
+const alertSound = useSound(AlertSound, {
+    volume: 0.1,
+});
+
+const errorSound = useSound(ErrorSound, {
+    volume: 0.1,
+});
 
 router.on('before', () => {
     page.props.toast = null;
@@ -30,16 +37,19 @@ let removeFinshEventListener = router.on('finish', () => {
             });
         }
         if (page.props.toast.type === 'error') {
+            errorSound.play();
             toast.error(page.props.toast.title, {
                 description: page.props.toast.message,
             });
         }
         if (page.props.toast.type === 'warning') {
+            errorSound.play();
             toast.warning(page.props.toast.title, {
                 description: page.props.toast.message,
             });
         }
         if (page.props.toast.type === 'info') {
+            alertSound.play();
             toast.info(page.props.toast.title, {
                 description: page.props.toast.message,
             });

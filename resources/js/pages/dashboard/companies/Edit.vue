@@ -5,15 +5,19 @@ import { Button, buttonVariants } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 
 import { Input } from '@/components/ui/input';
+import { usePermissions } from '@/composables/usePermissions';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Company } from '@/types/models';
 import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import { useConfirmDialog } from '@vueuse/core';
+import DeleteCompany from './partials/DeleteCompany.vue';
 
 defineOptions({
     layout: AppLayout,
 });
+
+const { userCan } = usePermissions();
 
 interface Props {
     company: Company;
@@ -93,6 +97,7 @@ const deleteSegment = async (id: number) => {
                     </CardFooter>
                 </Card>
             </form>
+            <DeleteCompany v-if="userCan('delete:company')" :company="company" />
         </div>
     </DashboardContent>
 </template>

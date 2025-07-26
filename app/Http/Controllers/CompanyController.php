@@ -54,7 +54,7 @@ class CompanyController extends Controller
 
         $company = Company::create($data);
 
-        return to_route('companies.edit', ['company' => $company])->toast('success', 'Company created successfully');
+        return to_route('companies.index')->toast('success', 'Company created successfully');
     }
 
     /**
@@ -92,9 +92,17 @@ class CompanyController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Company $company,DeleteCompany $action)
+    public function destroy(Request $request,Company $company,DeleteCompany $action)
     {
+        $data = $request->validate([
+            'name' => ['required', 'max:255'],
+        ]);
+
+        if($company->name !== $data['name']){
+            return back()->toast('error', 'Name does not match');
+        }
+
         $action->handle($company);
-        return back()->toast('success', 'Company deleted successfully');
+        return to_route('companies.index')->toast('success', 'Company deleted successfully');
     }
 }
