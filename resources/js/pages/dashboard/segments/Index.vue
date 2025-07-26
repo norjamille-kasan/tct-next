@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import ConfirmDialog from '@/components/ConfirmDialog.vue';
+import DashboardContent from '@/components/dashboard/DashboardContent.vue';
 import Heading from '@/components/Heading.vue';
 import Pagination from '@/components/Pagination.vue';
 import { Badge } from '@/components/ui/badge';
@@ -15,6 +16,10 @@ import { EditIcon, TrashIcon, XIcon } from 'lucide-vue-next';
 import { provide, toRef } from 'vue';
 import AddToCompanyForm from './partials/AddToCompanyForm.vue';
 import SegmentCreateForm from './partials/SegmentCreateForm.vue';
+
+defineOptions({
+    layout: AppLayout,
+});
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -72,7 +77,7 @@ const detachCompany = async (segmentId: number, companyId: number) => {
 <template>
     <Head title="Segments" />
 
-    <AppLayout :breadcrumbs="breadcrumbs">
+    <DashboardContent :breadcrumbs="breadcrumbs">
         <Heading title="Segments" description="List of all segments" />
         <div class="flex items-center justify-between gap-2">
             <form @submit.prevent="search">
@@ -137,5 +142,5 @@ const detachCompany = async (segmentId: number, companyId: number) => {
             @cancel="detachCompanyDialog.cancel"
             @confirm="detachCompanyDialog.confirm"
         />
-    </AppLayout>
+    </DashboardContent>
 </template>

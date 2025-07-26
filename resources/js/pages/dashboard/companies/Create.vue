@@ -1,7 +1,7 @@
 <template>
     <Head title="Create Company" />
 
-    <AppLayout :breadcrumbs="breadcrumbs">
+    <DashboardContent :breadcrumbs="breadcrumbs">
         <div class="mx-auto max-w-7xl">
             <form @submit.prevent="submit">
                 <Card>
@@ -24,18 +24,17 @@
                         </div>
                     </CardContent>
                     <CardFooter class="gap-2">
-                        <Link :href="route('companies.index')" :class="buttonVariants({ variant: 'outline' })" :disabled="form.processing">
-                            Return
-                        </Link>
-                        <Button :loading="form.processing" type="submit"> Save Company </Button>
+                        <Link :href="route('companies.index')" :class="buttonVariants({ variant: 'outline' })"> Return </Link>
+                        <Button type="submit"> Save Company </Button>
                     </CardFooter>
                 </Card>
             </form>
         </div>
-    </AppLayout>
+    </DashboardContent>
 </template>
 
 <script setup lang="ts">
+import DashboardContent from '@/components/dashboard/DashboardContent.vue';
 import FormControl from '@/components/FormControl.vue';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -43,6 +42,10 @@ import { Input } from '@/components/ui/input';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, useForm } from '@inertiajs/vue3';
+
+defineOptions({
+    layout: AppLayout,
+});
 
 const breadcrumbs: BreadcrumbItem[] = [
     {

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import ConfirmDialog from '@/components/ConfirmDialog.vue';
+import DashboardContent from '@/components/dashboard/DashboardContent.vue';
 import Heading from '@/components/Heading.vue';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Card, CardAction, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -11,6 +12,10 @@ import { Head, Link, router } from '@inertiajs/vue3';
 import { formatDate, useConfirmDialog } from '@vueuse/core';
 import { EditIcon, PlusIcon, TrashIcon } from 'lucide-vue-next';
 import { toRef } from 'vue';
+
+defineOptions({
+    layout: AppLayout,
+});
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -53,7 +58,7 @@ const deleteCompany = async (id: number) => {
 </script>
 <template>
     <Head title="Companies" />
-    <AppLayout :breadcrumbs="breadcrumbs">
+    <DashboardContent :breadcrumbs="breadcrumbs">
         <Heading title="Companies" description="List of all companies" />
         <div class="flex items-center justify-between gap-2">
             <form @submit.prevent="search">
@@ -84,12 +89,12 @@ const deleteCompany = async (id: number) => {
                 </Card>
             </template>
         </div>
-        <ConfirmDialog
-            v-model="deleteCompanyDialog.isRevealed.value"
-            title="Delete Company"
-            description="Are you sure you want to delete this company?"
-            @cancel="deleteCompanyDialog.cancel"
-            @confirm="deleteCompanyDialog.confirm"
-        />
-    </AppLayout>
+    </DashboardContent>
+    <ConfirmDialog
+        v-model="deleteCompanyDialog.isRevealed.value"
+        title="Delete Company"
+        description="Are you sure you want to delete this company?"
+        @cancel="deleteCompanyDialog.cancel"
+        @confirm="deleteCompanyDialog.confirm"
+    />
 </template>

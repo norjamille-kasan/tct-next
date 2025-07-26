@@ -5,12 +5,16 @@ import SettingsLayout from '@/layouts/settings/Layout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
+import DashboardContent from '@/components/dashboard/DashboardContent.vue';
 import HeadingSmall from '@/components/HeadingSmall.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { type BreadcrumbItem } from '@/types';
 
+defineOptions({
+    layout: AppLayout,
+});
 const breadcrumbItems: BreadcrumbItem[] = [
     {
         title: 'Password settings',
@@ -51,7 +55,7 @@ const updatePassword = () => {
 </script>
 
 <template>
-    <AppLayout :breadcrumbs="breadcrumbItems">
+    <DashboardContent :breadcrumbs="breadcrumbItems">
         <Head title="Password settings" />
 
         <SettingsLayout>
@@ -101,7 +105,7 @@ const updatePassword = () => {
                     </div>
 
                     <div class="flex items-center gap-4">
-                        <Button :disabled="form.processing">Save password</Button>
+                        <Button>Save password</Button>
 
                         <Transition
                             enter-active-class="transition ease-in-out"
@@ -115,5 +119,5 @@ const updatePassword = () => {
                 </form>
             </div>
         </SettingsLayout>
-    </AppLayout>
+    </DashboardContent>
 </template>

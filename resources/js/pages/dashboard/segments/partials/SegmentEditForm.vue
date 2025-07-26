@@ -16,7 +16,7 @@
                 </form>
                 <DialogFooter>
                     <Button type="button" variant="outline" @click="setOpen(false)">Cancel</Button>
-                    <Button form="editSegmentForm" type="submit" :loading="form.processing" :disabled="form.processing"> Save Changes</Button>
+                    <Button form="editSegmentForm" type="submit"> Save Changes</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

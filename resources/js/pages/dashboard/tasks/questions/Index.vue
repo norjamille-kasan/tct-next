@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import DashboardContent from '@/components/dashboard/DashboardContent.vue';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/AppLayout.vue';
@@ -9,6 +10,10 @@ import { Head } from '@inertiajs/vue3';
 import { BuildingIcon } from 'lucide-vue-next';
 import QuestionCreateForm from '../partials/QuestionCreateForm.vue';
 import QuestionListItem from '../partials/QuestionListItem.vue';
+
+defineOptions({
+    layout: AppLayout,
+});
 interface Props {
     task: Task & { company: Company; segment: Segment };
     field_types: string[];
@@ -39,7 +44,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 <template>
     <Head title="Questions" />
-    <AppLayout :breadcrumbs="breadcrumbs">
+    <DashboardContent :breadcrumbs="breadcrumbs">
         <Card>
             <CardHeader>
                 <CardTitle> <span class="text-muted-foreground">Task/</span> {{ props.task.title }} </CardTitle>
@@ -63,5 +68,5 @@ const breadcrumbs: BreadcrumbItem[] = [
                 </div>
             </CardContent>
         </Card>
-    </AppLayout>
+    </DashboardContent>
 </template>

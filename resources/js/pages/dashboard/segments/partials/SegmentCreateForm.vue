@@ -49,7 +49,7 @@ const submit = () => {
             </form>
             <DialogFooter>
                 <Button type="button" variant="outline" @click="isOpen = false">Cancel</Button>
-                <Button form="createSegmentForm" type="submit" :loading="form.processing" :disabled="form.processing"> Save </Button>
+                <Button form="createSegmentForm" type="submit"> Save </Button>
             </DialogFooter>
         </DialogContent>
     </Dialog>

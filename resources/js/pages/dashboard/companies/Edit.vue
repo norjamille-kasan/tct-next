@@ -1,40 +1,5 @@
-<template>
-    <Head title="Edit Company" />
-    <AppLayout :breadcrumbs="breadcrumbs">
-        <div class="mx-auto max-w-7xl space-y-6">
-            <form @submit.prevent="submit">
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Edit Company</CardTitle>
-                        <CardDescription> Use this form to edit a company. Ensure you fill in all required fields. </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <div class="grid gap-6 md:grid-cols-2">
-                            <FormControl label="Company" :error="form.errors.name">
-                                <Input v-model="form.name" type="text" name="name" />
-                            </FormControl>
-                            <FormControl
-                                label="Reference Key"
-                                :error="form.errors.ref_key"
-                                help="Leave blank to generate a random key (it is used for internal/development reference)"
-                            >
-                                <Input v-model="form.ref_key" type="text" name="ref_key" />
-                            </FormControl>
-                        </div>
-                    </CardContent>
-                    <CardFooter class="gap-2">
-                        <Link :href="route('companies.index')" :class="buttonVariants({ variant: 'outline' })" :disabled="form.processing">
-                            Return
-                        </Link>
-                        <Button :loading="form.processing" type="submit"> Save Changes </Button>
-                    </CardFooter>
-                </Card>
-            </form>
-        </div>
-    </AppLayout>
-</template>
-
 <script setup lang="ts">
+import DashboardContent from '@/components/dashboard/DashboardContent.vue';
 import FormControl from '@/components/FormControl.vue';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -45,6 +10,10 @@ import { type BreadcrumbItem } from '@/types';
 import { Company } from '@/types/models';
 import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import { useConfirmDialog } from '@vueuse/core';
+
+defineOptions({
+    layout: AppLayout,
+});
 
 interface Props {
     company: Company;
@@ -93,3 +62,37 @@ const deleteSegment = async (id: number) => {
     }
 };
 </script>
+
+<template>
+    <Head title="Edit Company" />
+    <DashboardContent :breadcrumbs="breadcrumbs">
+        <div class="mx-auto max-w-7xl space-y-6">
+            <form @submit.prevent="submit">
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Edit Company</CardTitle>
+                        <CardDescription> Use this form to edit a company. Ensure you fill in all required fields. </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <div class="grid gap-6 md:grid-cols-2">
+                            <FormControl label="Company" :error="form.errors.name">
+                                <Input v-model="form.name" type="text" name="name" />
+                            </FormControl>
+                            <FormControl
+                                label="Reference Key"
+                                :error="form.errors.ref_key"
+                                help="Leave blank to generate a random key (it is used for internal/development reference)"
+                            >
+                                <Input v-model="form.ref_key" type="text" name="ref_key" />
+                            </FormControl>
+                        </div>
+                    </CardContent>
+                    <CardFooter class="gap-2">
+                        <Link :href="route('companies.index')" :class="buttonVariants({ variant: 'outline' })"> Return </Link>
+                        <Button type="submit"> Save Changes </Button>
+                    </CardFooter>
+                </Card>
+            </form>
+        </div>
+    </DashboardContent>
+</template>

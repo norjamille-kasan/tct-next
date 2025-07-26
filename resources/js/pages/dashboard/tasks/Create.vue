@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import DashboardContent from '@/components/dashboard/DashboardContent.vue';
 import FormControl from '@/components/FormControl.vue';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -10,6 +11,9 @@ import { Company, Segment } from '@/types/models';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { ref, watch } from 'vue';
 
+defineOptions({
+    layout: AppLayout,
+});
 const breadcrumbs = [
     {
         title: 'Dashboard',
@@ -66,7 +70,7 @@ const submit = () => {
 
 <template>
     <Head title="Create Task" />
-    <AppLayout :breadcrumbs="breadcrumbs">
+    <DashboardContent :breadcrumbs="breadcrumbs">
         <div class="mx-auto max-w-7xl">
             <form id="createTaskForm" @submit.prevent="submit">
                 <Card>
@@ -122,11 +126,11 @@ const submit = () => {
                         </div>
                     </CardContent>
                     <CardFooter class="gap-2">
-                        <Link :href="route('tasks.index')" :class="buttonVariants({ variant: 'outline' })" :disabled="form.processing"> Return </Link>
-                        <Button :loading="form.processing" type="submit" form="createTaskForm"> Save Task </Button>
+                        <Link :href="route('tasks.index')" :class="buttonVariants({ variant: 'outline' })"> Return </Link>
+                        <Button type="submit" form="createTaskForm"> Save Task </Button>
                     </CardFooter>
                 </Card>
             </form>
         </div>
-    </AppLayout>
+    </DashboardContent>
 </template>

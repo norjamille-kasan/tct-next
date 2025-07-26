@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import ConfirmDialog from '@/components/ConfirmDialog.vue';
+import DashboardContent from '@/components/dashboard/DashboardContent.vue';
 import Heading from '@/components/Heading.vue';
 import Pagination from '@/components/Pagination.vue';
 import { Button, buttonVariants } from '@/components/ui/button';
@@ -14,6 +15,11 @@ import { Link, router } from '@inertiajs/vue3';
 import { useConfirmDialog } from '@vueuse/core';
 import { EditIcon, FileTextIcon, PlusIcon, TrashIcon } from 'lucide-vue-next';
 import { toRef } from 'vue';
+
+defineOptions({
+    layout: AppLayout,
+});
+
 const breadcrumbs = [
     {
         title: 'Dashboard',
@@ -68,7 +74,7 @@ const { userCan } = usePermissions();
 </script>
 
 <template>
-    <AppLayout :breadcrumbs="breadcrumbs">
+    <DashboardContent :breadcrumbs="breadcrumbs">
         <Heading title="Tasks" description="List of all tasks" />
         <div class="flex flex-col items-center justify-between gap-2 sm:flex-row">
             <div class="flex flex-wrap items-center gap-2 sm:flex-nowrap">
@@ -151,5 +157,5 @@ const { userCan } = usePermissions();
             @cancel="deleteTaskConfirmation.cancel"
             @confirm="deleteTaskConfirmation.confirm"
         />
-    </AppLayout>
+    </DashboardContent>
 </template>
