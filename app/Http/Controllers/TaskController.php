@@ -89,7 +89,7 @@ class TaskController extends Controller
     public function edit(Task $task)
     {
         return Inertia::render('dashboard/tasks/Edit', [
-            'task' => $task->load(['company']),
+            'task' => $task->load(['company.segments']),
             'task_changes' => fn () => Activity::with('causer')->whereHas('subject', function ($query) use ($task) {
                 $query->where('id', $task->id);
             })->whereIn('event', ['updated', 'created', 'deleted'])->latest()->get(),

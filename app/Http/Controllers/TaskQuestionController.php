@@ -24,7 +24,7 @@ class TaskQuestionController extends Controller
     {
         return Inertia::render('dashboard/tasks/questions/Index', [
             'task' => fn() => $task->load(['company', 'segment']),
-            'field_types' => fn() => FieldType::cases(),
+            'fieldTypes' => fn() => FieldType::cases(),
             'questions' => fn() => $task->questions()->orderBy('position')->get(),
         ]);
     }
@@ -64,14 +64,14 @@ class TaskQuestionController extends Controller
 
         return Inertia::render('dashboard/tasks/partials/QuestionEditForm',[
             'question' => $question,
-            'field_types' => FieldType::cases(),
+            'fieldTypes' => FieldType::cases(),
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Task $task, Question $question,QuestionUpdateRequest $request,UpdateTaskQuestion $action)
+    public function update(QuestionUpdateRequest $request,UpdateTaskQuestion $action,Task $task, Question $question)
     {
         $question = $action->handle($request->validated(), $question);
 
@@ -81,8 +81,10 @@ class TaskQuestionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Task $task, Question $question)
     {
-        //
+        abort_unless($question->task()->is($task), 403);
+        $question->delete();
+        return back()->toast('success', 'Question deleted successfully');
     }
 }

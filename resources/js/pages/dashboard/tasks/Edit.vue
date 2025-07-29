@@ -11,7 +11,7 @@
                     <CardContent>
                         <div class="grid gap-6 sm:grid-cols-2">
                             <FormControl label="Company" :error="form.errors.company_id">
-                                <Input :default-value="task.company.name" type="text" readonly />
+                                <Input :default-value="task.company.name" type="text" readonly disabled />
                             </FormControl>
                             <FormControl label="Segment" :error="form.errors.segment_id">
                                 <Select v-model:model-value="form.segment_id">
@@ -19,8 +19,7 @@
                                         <SelectValue placeholder="Select Segment" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectLabel v-if="segments.length === 0"> No segments available </SelectLabel>
-                                        <SelectItem v-for="segment in segments" :value="segment.id">
+                                        <SelectItem v-for="segment in task.company.segments" :value="segment.id">
                                             {{ segment.name }}
                                         </SelectItem>
                                     </SelectContent>
@@ -62,20 +61,17 @@ import FormControl from '@/components/FormControl.vue';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/AppLayout.vue';
-import { ApiResponse } from '@/types';
 import { Company, Segment, Task } from '@/types/models';
 import { Head, Link, useForm } from '@inertiajs/vue3';
-import { ofetch } from 'ofetch';
-import { onMounted, ref } from 'vue';
 
 defineOptions({
     layout: AppLayout,
 });
 interface Props {
-    task: Task & { company: Company };
+    task: Task & { company: Company & { segments: Segment[] } };
     computation_categories: string[];
 }
 
@@ -118,22 +114,7 @@ const form = useForm<FormData>({
     computation_category: task.computation_category || '',
 });
 
-const segments = ref<Segment[]>([]);
-
 const submit = () => {
     form.put(route('tasks.update', { task }));
 };
-
-const getSegments = async () => {
-    try {
-        const res = await ofetch<ApiResponse<Segment[]>>(`/api/segments?filter[company_id]=${form.company_id}`);
-        segments.value = res.data;
-    } catch (error) {
-        console.error('Error fetching segments:', error);
-    }
-};
-
-onMounted(async () => {
-    await getSegments();
-});
 </script>

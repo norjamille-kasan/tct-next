@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Task;
 
+use App\Enums\FieldType;
 use Illuminate\Foundation\Http\FormRequest;
 
 class QuestionUpdateRequest extends FormRequest

@@ -94,6 +94,7 @@ class SegmentController extends Controller
      */
     public function destroy(Segment $segment)
     {
+
         $segment->delete();
 
         return back()->toast('success', 'Segment deleted successfully');

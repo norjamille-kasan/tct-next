@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import ConfirmDialog from '@/components/ConfirmDialog.vue';
 import DashboardContent from '@/components/dashboard/DashboardContent.vue';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -6,8 +7,9 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Company, Question, Segment, Task } from '@/types/models';
 import { vAutoAnimate } from '@formkit/auto-animate';
-import { Head } from '@inertiajs/vue3';
-import { BuildingIcon } from 'lucide-vue-next';
+import { Head, router } from '@inertiajs/vue3';
+import { useConfirmDialog } from '@vueuse/core';
+import { BuildingIcon, TagsIcon } from 'lucide-vue-next';
 import QuestionCreateForm from '../partials/QuestionCreateForm.vue';
 import QuestionListItem from '../partials/QuestionListItem.vue';
 
@@ -16,7 +18,7 @@ defineOptions({
 });
 interface Props {
     task: Task & { company: Company; segment: Segment };
-    field_types: string[];
+    fieldTypes: string[];
     questions: Question[];
 }
 
@@ -40,6 +42,15 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: `#`,
     },
 ];
+
+const deleteQuestionConfirmation = useConfirmDialog();
+
+const deleteQuestion = async (questionId: number) => {
+    const { isCanceled } = await deleteQuestionConfirmation.reveal();
+    if (!isCanceled) {
+        router.delete(route('tasks.questions.destroy', { task: props.task.id, question: questionId }));
+    }
+};
 </script>
 
 <template>
@@ -54,19 +65,32 @@ const breadcrumbs: BreadcrumbItem[] = [
                         {{ props.task.company.name }}
                     </Badge>
                     <Badge variant="secondary" class="ml-1">
-                        <BuildingIcon />
+                        <TagsIcon />
                         {{ props.task.segment.name }}
                     </Badge>
                 </CardDescription>
                 <CardAction>
-                    <QuestionCreateForm :field-types="props.field_types" :task-id="props.task.id" />
+                    <QuestionCreateForm :field-types="props.fieldTypes" :task-id="props.task.id" />
                 </CardAction>
             </CardHeader>
             <CardContent>
                 <div v-auto-animate class="space-y-2">
-                    <QuestionListItem v-for="(question, index) in props.questions" :key="question.id" :number="index" :question="question" />
+                    <QuestionListItem
+                        @delete="deleteQuestion($event)"
+                        v-for="(question, index) in props.questions"
+                        :key="question.id"
+                        :number="index"
+                        :question="question"
+                    />
                 </div>
             </CardContent>
         </Card>
+        <ConfirmDialog
+            v-model="deleteQuestionConfirmation.isRevealed.value"
+            title="Delete Question"
+            description="Are you sure you want to delete this question?"
+            @cancel="deleteQuestionConfirmation.cancel"
+            @confirm="deleteQuestionConfirmation.confirm"
+        />
     </DashboardContent>
 </template>

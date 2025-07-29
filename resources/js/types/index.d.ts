@@ -74,5 +74,4 @@ export interface Paginated<T> {
 export interface ApiResponse<T> {
     data: T;
     message?: string;
-    status: number;
 }

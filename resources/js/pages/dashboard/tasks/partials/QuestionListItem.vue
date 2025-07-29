@@ -5,10 +5,14 @@
                 <h1 class="text-sm font-semibold text-muted-foreground">Question #{{ number + 1 }}</h1>
             </div>
             <div class="flex items-center">
-                <Button variant="ghost" size="icon">
+                <ModalLink
+                    :href="route('tasks.questions.edit', { task: question.task_id, question })"
+                    :class="buttonVariants({ variant: 'ghost', size: 'icon' })"
+                >
                     <EditIcon />
-                </Button>
-                <Button variant="ghost" size="icon" class="text-destructive hover:text-destructive">
+                </ModalLink>
+
+                <Button @click="emit('delete', question.id)" variant="ghost" size="icon" class="text-destructive hover:text-destructive">
                     <Trash2Icon />
                 </Button>
             </div>
@@ -30,11 +34,13 @@
 
 <script setup lang="ts">
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Question } from '@/types/models';
 import { EditIcon, Trash2Icon } from 'lucide-vue-next';
 const props = defineProps<{
     question: Question;
     number: number;
 }>();
+
+const emit = defineEmits(['delete']);
 </script>

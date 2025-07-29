@@ -85,12 +85,11 @@ class AppServiceProvider extends ServiceProvider
     public function configureApiResponse()
     {
         JsonResource::withoutWrapping();
-        JsonResponse::macro('format', function ($data, $message = null, $status = 200) {
-            return response()->json([
-                'status' => $status,
+        JsonResponse::macro('format', function ($data, $message = null) {
+            return $this->json([
                 'message' => $message,
                 'data' => $data,
-            ], $status);
+            ]);
         });
     }
 }

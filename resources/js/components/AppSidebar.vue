@@ -15,8 +15,8 @@ const platformNavItem: NavItem[] = [
         absolute: true,
     },
     {
-        title: 'Tasks',
-        href: '/dashboard/tasks',
+        title: 'My Tasks',
+        href: '#',
         icon: ListTodo,
         absolute: false,
         permissions: ['view:tasks'],
@@ -24,6 +24,13 @@ const platformNavItem: NavItem[] = [
 ];
 
 const manageNavItem: NavItem[] = [
+    {
+        title: 'Tasks',
+        href: '/dashboard/tasks',
+        icon: ListTodo,
+        absolute: false,
+        permissions: ['view:tasks'],
+    },
     {
         title: 'Companies',
         href: '/dashboard/companies',
