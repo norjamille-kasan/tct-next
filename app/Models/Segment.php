@@ -10,13 +10,19 @@ class Segment extends Model
 {
     use Userstamps;
 
-    public function company(): BelongsTo
+    protected $attributes = [
+        'color' => '#5829f2',
+    ];
+
+    public function companies()
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsToMany(Company::class);
     }
 
     public function tasks()
     {
         return $this->hasMany(Task::class);
     }
+
+
 }

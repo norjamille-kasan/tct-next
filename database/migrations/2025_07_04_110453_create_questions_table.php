@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->userstamps();
-            $table->foreignId('task_id')->constrained('tasks')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('task_id')->constrained('tasks');
             $table->text('message');
             $table->string('field_type');
             $table->integer('position')->default(0);

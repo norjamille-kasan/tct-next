@@ -4,6 +4,8 @@ use App\Enums\ComputationCategory;
 use App\Enums\FieldType;
 use App\Models\Company;
 use App\Models\CompanySetting;
+use App\Models\Segment;
+use App\Models\Task;
 use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
@@ -15,17 +17,20 @@ return new class extends Migration
     {
         $company = Company::whereRefKey('NOIRE')->first();
 
-        // SEGMENT ---------------------------
-        $segment = $company->segments()->create([
+
+        $segment =  Segment::create([
             'created_by' => 1,
             'ref_key' => 'NOIRE_DEFAULT',
             'name' => 'Noire Default',
-            'company_id' => $company->id,
         ]);
 
+        $segment->companies()->attach($company->id);
+
+
         // TASK ------------------------------ 1
-        $task = $segment->tasks()->create([
+        $task = Task::create([
             'company_id' => $company->id,
+            'segment_id'=>$segment->id,
             'ref_key' => 'NEW-MERCHANT(NEW-ASSIGNMENT)',
             'computation_category' => ComputationCategory::NOT_APPLICABLE,
             'title' => 'New Merchant (New Assignment)',
@@ -77,8 +82,9 @@ return new class extends Migration
         // ------------------------------------------
 
         // TASK ------------------------------ 2
-        $task = $segment->tasks()->create([
+        $task = Task::create([
             'company_id' => $company->id,
+            'segment_id'=>$segment->id,
             'ref_key' => 'PRE-APPROVAL-STAGE-SUBMISSION',
             'computation_category' => ComputationCategory::PER_UNIT_OF_PERFORMED_TASK,
             'title' => 'Pre-Approval Stage Submission',
@@ -195,10 +201,11 @@ return new class extends Migration
         ]);
 
         // TASKS -----------------------  3
-        $task = $segment->tasks()->create([
+        $task = Task::create([
             'title'=>'Complete Merchant Document Set Review(First Review upon receiving all files / New Assignment)',
             'created_by' => 1,
             'company_id'=>$company->id,
+            'segment_id'=>$segment->id,
             'ref_key'=>'CMD-SET-REVIEW(NEW-ASSIGNMENT)',
             'computation_category' => ComputationCategory::NOT_APPLICABLE,
         ]);

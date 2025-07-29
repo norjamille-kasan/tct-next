@@ -10,9 +10,9 @@ class Company extends Model
 {
     use Userstamps;
 
-    public function segments(): HasMany
+    public function segments()
     {
-        return $this->hasMany(Segment::class);
+        return $this->belongsToMany(Segment::class);
     }
 
     public function tasks(): HasMany

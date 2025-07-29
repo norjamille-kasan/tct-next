@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Company\DeleteCompany;
+use App\Filters\SearchableColumn;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Support\Str;
+use Spatie\QueryBuilder\AllowedFilter;
 
 class CompanyController extends Controller
 {
@@ -15,12 +18,15 @@ class CompanyController extends Controller
      */
     public function index(Request $request)
     {
-        return Inertia::render('companies/Index', [
+        return Inertia::render('dashboard/companies/Index', [
             'companies' => fn () => QueryBuilder::for(Company::class)
-                ->allowedFilters(['name', 'ref_key'])
-                ->paginate(15)
-                ->appends($request->query()),
-            'filter' => $request->input('filter'),
+               ->allowedFilters([
+                    AllowedFilter::custom('search', new SearchableColumn, 'name,ref_key'),
+                ])
+                ->get(),
+            'filter' => $request->input('filter',[
+                'search' => ''
+            ]),
         ]);
     }
 
@@ -29,7 +35,7 @@ class CompanyController extends Controller
      */
     public function create()
     {
-        return Inertia::render('companies/Create');
+        return Inertia::render('dashboard/companies/Create');
     }
 
     /**
@@ -48,7 +54,7 @@ class CompanyController extends Controller
 
         $company = Company::create($data);
 
-        return to_route('companies.edit', ['company' => $company])->toast('success', 'Company created successfully');
+        return to_route('companies.index')->toast('success', 'Company created successfully');
     }
 
     /**
@@ -64,9 +70,8 @@ class CompanyController extends Controller
      */
     public function edit(Company $company)
     {
-        return Inertia::render('companies/Edit', [
+        return Inertia::render('dashboard/companies/Edit', [
             'company' => $company,
-            'segments' => fn () => $company->segments()->get(),
         ]);
     }
 
@@ -87,9 +92,17 @@ class CompanyController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Company $company)
+    public function destroy(Request $request,Company $company,DeleteCompany $action)
     {
-        $company->delete();
-        return back()->toast('success', 'Company deleted successfully');
+        $data = $request->validate([
+            'name' => ['required', 'max:255'],
+        ]);
+
+        if($company->name !== $data['name']){
+            return back()->toast('error', 'Name does not match');
+        }
+
+        $action->handle($company);
+        return to_route('companies.index')->toast('success', 'Company deleted successfully');
     }
 }

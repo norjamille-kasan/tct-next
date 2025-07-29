@@ -4,7 +4,7 @@ import NavUser from '@/components/NavUser.vue';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
-import { BanknoteIcon, Building2Icon, FileSlidersIcon, LayoutGrid, ListTodo, SquareActivity } from 'lucide-vue-next';
+import { BanknoteIcon, Building2Icon, FileSlidersIcon, LayoutGrid, ListTodo, SquareActivity, TagsIcon } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
 
 const platformNavItem: NavItem[] = [
@@ -19,7 +19,6 @@ const platformNavItem: NavItem[] = [
         href: '/dashboard/tasks',
         icon: ListTodo,
         absolute: false,
-        prefetch: true,
         permissions: ['view:tasks'],
     },
 ];
@@ -31,6 +30,12 @@ const manageNavItem: NavItem[] = [
         icon: Building2Icon,
         absolute: false,
         permissions: ['view:companies'],
+    },
+    {
+        title: 'Segments',
+        href: '/dashboard/segments',
+        icon: TagsIcon,
+        absolute: false,
     },
     {
         title: 'Billing',

@@ -63,7 +63,9 @@ const submit = () => {
                         <span>Remember me</span>
                     </Label>
                 </div>
-                <Button type="submit" class="mt-4 w-full" :tabindex="4" :loading="form.processing"> Log in </Button>
+                <Button type="submit" class="mt-4 w-full" :tabindex="4" :disabled="form.processing">
+                    {{ form.processing ? 'Logging in...' : 'Log in' }}
+                </Button>
             </div>
         </form>
     </AuthBase>
