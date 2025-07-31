@@ -1,0 +1,129 @@
+import { queryParams, type QueryParams } from './../../../../../wayfinder'
+/**
+* @see \App\Http\Controllers\Api\SegmentController::index
+ * @see app/Http/Controllers/Api/SegmentController.php:16
+ * @route '/api/segments'
+ */
+export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: index.url(options),
+    method: 'get',
+})
+
+index.definition = {
+    methods: ['get','head'],
+    url: '/api/segments',
+}
+
+/**
+* @see \App\Http\Controllers\Api\SegmentController::index
+ * @see app/Http/Controllers/Api/SegmentController.php:16
+ * @route '/api/segments'
+ */
+index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    return index.definition.url + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\Api\SegmentController::index
+ * @see app/Http/Controllers/Api/SegmentController.php:16
+ * @route '/api/segments'
+ */
+index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: index.url(options),
+    method: 'get',
+})
+/**
+* @see \App\Http\Controllers\Api\SegmentController::index
+ * @see app/Http/Controllers/Api/SegmentController.php:16
+ * @route '/api/segments'
+ */
+index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: index.url(options),
+    method: 'head',
+})
+
+/**
+* @see \App\Http\Controllers\Api\SegmentController::show
+ * @see app/Http/Controllers/Api/SegmentController.php:44
+ * @route '/api/segments/{segment}'
+ */
+export const show = (args: { segment: number | { id: number } } | [segment: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: show.url(args, options),
+    method: 'get',
+})
+
+show.definition = {
+    methods: ['get','head'],
+    url: '/api/segments/{segment}',
+}
+
+/**
+* @see \App\Http\Controllers\Api\SegmentController::show
+ * @see app/Http/Controllers/Api/SegmentController.php:44
+ * @route '/api/segments/{segment}'
+ */
+show.url = (args: { segment: number | { id: number } } | [segment: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { segment: args }
+    }
+
+            if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
+            args = { segment: args.id }
+        }
+    
+    if (Array.isArray(args)) {
+        args = {
+                    segment: args[0],
+                }
+    }
+
+    const parsedArgs = {
+                        segment: typeof args.segment === 'object'
+                ? args.segment.id
+                : args.segment,
+                }
+
+    return show.definition.url
+            .replace('{segment}', parsedArgs.segment.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\Api\SegmentController::show
+ * @see app/Http/Controllers/Api/SegmentController.php:44
+ * @route '/api/segments/{segment}'
+ */
+show.get = (args: { segment: number | { id: number } } | [segment: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'get',
+} => ({
+    url: show.url(args, options),
+    method: 'get',
+})
+/**
+* @see \App\Http\Controllers\Api\SegmentController::show
+ * @see app/Http/Controllers/Api/SegmentController.php:44
+ * @route '/api/segments/{segment}'
+ */
+show.head = (args: { segment: number | { id: number } } | [segment: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
+    url: string,
+    method: 'head',
+} => ({
+    url: show.url(args, options),
+    method: 'head',
+})
+const SegmentController = { index, show }
+
+export default SegmentController

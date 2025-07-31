@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import DashboardController from '@/actions/App/Http/Controllers/DashboardController';
 import AppLogo from '@/components/AppLogo.vue';
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
@@ -102,7 +103,7 @@ const rightNavItems: NavItem[] = [
                     </Sheet>
                 </div>
 
-                <Link :href="route('dashboard')" class="flex items-center gap-x-2">
+                <Link :href="DashboardController.url()" class="flex items-center gap-x-2">
                     <AppLogo />
                 </Link>
 

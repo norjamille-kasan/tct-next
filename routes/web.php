@@ -1,14 +1,13 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::redirect('/', '/dashboard', 301)->name('home');
 
-Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () {
-    Route::get('/', function () {
-        return Inertia::render('dashboard/Index');
-    })->middleware(['permission:view:dashboard'])->name('dashboard');
+Route::prefix('dashboard')->middleware(['auth', 'verified','online_status'])->group(function () {
+    Route::get('/', DashboardController::class)->middleware(['permission:view:dashboard'])->name('dashboard');
 
     Route::resource('companies', \App\Http\Controllers\CompanyController::class)
         ->except(['show'])

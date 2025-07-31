@@ -24,7 +24,7 @@
                         </div>
                     </CardContent>
                     <CardFooter class="gap-2">
-                        <Link :href="route('companies.index')" :class="buttonVariants({ variant: 'outline' })"> Return </Link>
+                        <Link :href="CompanyController.index()" :class="buttonVariants({ variant: 'outline' })"> Return </Link>
                         <Button type="submit"> Save Company </Button>
                     </CardFooter>
                 </Card>
@@ -34,6 +34,7 @@
 </template>
 
 <script setup lang="ts">
+import CompanyController from '@/actions/App/Http/Controllers/CompanyController';
 import DashboardContent from '@/components/dashboard/DashboardContent.vue';
 import FormControl from '@/components/FormControl.vue';
 import { Button, buttonVariants } from '@/components/ui/button';
@@ -68,6 +69,6 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.post(route('companies.store'));
+    form.submit(CompanyController.store());
 };
 </script>

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { store } from '@/actions/App/Http/Controllers/Auth/AuthenticatedSessionController';
+import PasswordResetLinkController from '@/actions/App/Http/Controllers/Auth/PasswordResetLinkController';
 import FormControl from '@/components/FormControl.vue';
 import TextLink from '@/components/TextLink.vue';
 import { Button } from '@/components/ui/button';
@@ -20,7 +22,7 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.post(route('login'), {
+    form.submit(store(), {
         onFinish: () => form.reset('password'),
     });
 };
@@ -43,7 +45,7 @@ const submit = () => {
                 <div class="grid gap-2">
                     <FormControl label="Password" :error="form.errors.password">
                         <template #actions>
-                            <TextLink v-if="canResetPassword" :href="route('password.request')" class="text-sm" :tabindex="5">
+                            <TextLink v-if="canResetPassword" :href="PasswordResetLinkController.create()" class="text-sm" :tabindex="5">
                                 Forgot password?
                             </TextLink>
                         </template>

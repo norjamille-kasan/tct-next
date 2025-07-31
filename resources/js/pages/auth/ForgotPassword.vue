@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import AuthenticatedSessionController from '@/actions/App/Http/Controllers/Auth/AuthenticatedSessionController';
+import PasswordResetLinkController from '@/actions/App/Http/Controllers/Auth/PasswordResetLinkController';
 import InputError from '@/components/InputError.vue';
 import TextLink from '@/components/TextLink.vue';
 import { Button } from '@/components/ui/button';
@@ -17,7 +19,7 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.post(route('password.email'));
+    form.submit(PasswordResetLinkController.store());
 };
 </script>
 
@@ -47,7 +49,7 @@ const submit = () => {
 
             <div class="space-x-1 text-center text-sm text-muted-foreground">
                 <span>Or, return to</span>
-                <TextLink :href="route('login')">log in</TextLink>
+                <TextLink :href="AuthenticatedSessionController.create()">log in</TextLink>
             </div>
         </div>
     </AuthLayout>

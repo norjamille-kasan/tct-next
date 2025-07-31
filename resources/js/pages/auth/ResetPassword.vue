@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import NewPasswordController from '@/actions/App/Http/Controllers/Auth/NewPasswordController';
 import InputError from '@/components/InputError.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -22,7 +23,7 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.post(route('password.store'), {
+    form.submit(NewPasswordController.store(), {
         onFinish: () => {
             form.reset('password', 'password_confirmation');
         },

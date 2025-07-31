@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import CompanyController from '@/actions/App/Http/Controllers/CompanyController';
+import DashboardController from '@/actions/App/Http/Controllers/DashboardController';
+import SegmentController from '@/actions/App/Http/Controllers/SegmentController';
+import TaskController from '@/actions/App/Http/Controllers/TaskController';
 import NavMain from '@/components/NavMain.vue';
 import NavUser from '@/components/NavUser.vue';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
@@ -10,7 +14,7 @@ import AppLogo from './AppLogo.vue';
 const platformNavItem: NavItem[] = [
     {
         title: 'Dashboard',
-        href: '/dashboard',
+        href: DashboardController.url(),
         icon: LayoutGrid,
         absolute: true,
     },
@@ -26,22 +30,23 @@ const platformNavItem: NavItem[] = [
 const manageNavItem: NavItem[] = [
     {
         title: 'Tasks',
-        href: '/dashboard/tasks',
+        href: TaskController.index().url,
         icon: ListTodo,
         absolute: false,
         permissions: ['view:tasks'],
     },
     {
         title: 'Companies',
-        href: '/dashboard/companies',
+        href: CompanyController.index().url,
         icon: Building2Icon,
         absolute: false,
         permissions: ['view:companies'],
     },
     {
         title: 'Segments',
-        href: '/dashboard/segments',
+        href: SegmentController.index().url,
         icon: TagsIcon,
+
         absolute: false,
     },
     {
@@ -74,7 +79,7 @@ const toolsNavItem: NavItem[] = [
             <SidebarMenu>
                 <SidebarMenuItem>
                     <SidebarMenuButton size="lg" as-child>
-                        <Link :href="route('dashboard')">
+                        <Link :href="DashboardController.url()">
                             <AppLogo />
                         </Link>
                     </SidebarMenuButton>

@@ -4,13 +4,13 @@ import FormControl from '@/components/FormControl.vue';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 
+import CompanyController from '@/actions/App/Http/Controllers/CompanyController';
 import { Input } from '@/components/ui/input';
 import { usePermissions } from '@/composables/usePermissions';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Company } from '@/types/models';
-import { Head, Link, router, useForm } from '@inertiajs/vue3';
-import { useConfirmDialog } from '@vueuse/core';
+import { Head, Link, useForm } from '@inertiajs/vue3';
 import DeleteCompany from './partials/DeleteCompany.vue';
 
 defineOptions({
@@ -50,20 +50,9 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.put(route('companies.update', { company }), {
+    form.submit(CompanyController.update({ company: company.id }), {
         only: ['company'],
     });
-};
-
-const deleteSegmentConfirmation = useConfirmDialog();
-
-const deleteSegment = async (id: number) => {
-    const { isCanceled } = await deleteSegmentConfirmation.reveal();
-    if (!isCanceled) {
-        router.delete(route('companies.segments.destroy', { company, segment: id }), {
-            only: ['segments'],
-        });
-    }
 };
 </script>
 
