@@ -31,8 +31,8 @@ class TaskController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->paginate(15)
                 ->withQueryString(),
-            'companies' => fn () => Company::all(),
-            'computation_categories' => ComputationCategory::cases(),
+            'companies' => fn () => Company::with('segments')->get(),
+            'computation_categories' => fn() => ComputationCategory::cases(),
             'filter' => $request->input('filter',[
                 'search' => '',
                 'segment_id' => '',

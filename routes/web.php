@@ -37,6 +37,7 @@ Route::prefix('dashboard')->middleware(['auth', 'verified','online_status'])->gr
     Route::delete('/segments/{segment}/detach-company/{company}', App\Http\Controllers\Segment\DissociateCompanyController::class)->name('segments.detach-company')
         ->middleware('permission:update:segment');
 
+    Route::get('/my-tasks',App\Http\Controllers\MyTaskController::class)->name('my-tasks');
 });
 
 require __DIR__ . '/settings.php';

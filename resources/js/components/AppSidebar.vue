@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import CompanyController from '@/actions/App/Http/Controllers/CompanyController';
 import DashboardController from '@/actions/App/Http/Controllers/DashboardController';
+import MyTaskController from '@/actions/App/Http/Controllers/MyTaskController';
 import SegmentController from '@/actions/App/Http/Controllers/SegmentController';
 import TaskController from '@/actions/App/Http/Controllers/TaskController';
 import NavMain from '@/components/NavMain.vue';
@@ -20,7 +21,7 @@ const platformNavItem: NavItem[] = [
     },
     {
         title: 'My Tasks',
-        href: '#',
+        href: MyTaskController.url(),
         icon: ListTodo,
         absolute: false,
         permissions: ['view:tasks'],
