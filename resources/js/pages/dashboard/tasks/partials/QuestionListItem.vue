@@ -6,7 +6,7 @@
             </div>
             <div class="flex items-center">
                 <ModalLink
-                    :href="route('tasks.questions.edit', { task: question.task_id, question })"
+                    :href="TaskQuestionController.edit({ task: question.task_id, question: question.id }).url"
                     :class="buttonVariants({ variant: 'ghost', size: 'icon' })"
                 >
                     <EditIcon />
@@ -33,6 +33,7 @@
 </template>
 
 <script setup lang="ts">
+import TaskQuestionController from '@/actions/App/Http/Controllers/TaskQuestionController';
 import { Badge } from '@/components/ui/badge';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Question } from '@/types/models';

@@ -27,6 +27,7 @@
 // @ts-ignore
 import { HeadlessModal } from '@inertiaui/modal-vue';
 
+import SegmentController from '@/actions/App/Http/Controllers/SegmentController';
 import FormControl from '@/components/FormControl.vue';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -48,7 +49,9 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.put(route('segments.update', { segment }), {
+    if (!segment) return;
+
+    form.submit(SegmentController.update(segment.id), {
         onSuccess: () => {
             form.reset();
             modal.value.close();

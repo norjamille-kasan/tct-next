@@ -5,6 +5,7 @@ import SettingsLayout from '@/layouts/settings/Layout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
+import PasswordController from '@/actions/App/Http/Controllers/Settings/PasswordController';
 import DashboardContent from '@/components/dashboard/DashboardContent.vue';
 import HeadingSmall from '@/components/HeadingSmall.vue';
 import { Button } from '@/components/ui/button';
@@ -32,7 +33,7 @@ const form = useForm({
 });
 
 const updatePassword = () => {
-    form.put(route('password.update'), {
+    form.submit(PasswordController.update(), {
         preserveScroll: true,
         onSuccess: () => form.reset(),
         onError: (errors: any) => {

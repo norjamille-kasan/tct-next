@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import TaskQuestionController from '@/actions/App/Http/Controllers/TaskQuestionController';
 import ConfirmDialog from '@/components/ConfirmDialog.vue';
 import DashboardContent from '@/components/dashboard/DashboardContent.vue';
 import { Badge } from '@/components/ui/badge';
@@ -48,7 +49,7 @@ const deleteQuestionConfirmation = useConfirmDialog();
 const deleteQuestion = async (questionId: number) => {
     const { isCanceled } = await deleteQuestionConfirmation.reveal();
     if (!isCanceled) {
-        router.delete(route('tasks.questions.destroy', { task: props.task.id, question: questionId }));
+        router.delete(TaskQuestionController.destroy({ task: props.task.id, question: questionId }).url);
     }
 };
 </script>

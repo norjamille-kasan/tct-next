@@ -2,6 +2,7 @@
 // @ts-ignore
 import { HeadlessModal } from '@inertiaui/modal-vue';
 
+import TaskQuestionController from '@/actions/App/Http/Controllers/TaskQuestionController';
 import FormControl from '@/components/FormControl.vue';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -39,7 +40,7 @@ const form = useForm<Form>({
 });
 
 const submit = () => {
-    form.put(route('tasks.questions.update', { task: props.question.task_id, question: props.question.id }), {
+    form.submit(TaskQuestionController.update({ task: props.question.task_id, question: props.question.id }), {
         only: ['questions'],
         onSuccess: () => {
             form.reset();

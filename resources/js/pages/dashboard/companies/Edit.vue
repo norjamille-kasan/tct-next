@@ -5,6 +5,7 @@ import { Button, buttonVariants } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 
 import CompanyController from '@/actions/App/Http/Controllers/CompanyController';
+import DashboardController from '@/actions/App/Http/Controllers/DashboardController';
 import { Input } from '@/components/ui/input';
 import { usePermissions } from '@/composables/usePermissions';
 import AppLayout from '@/layouts/AppLayout.vue';
@@ -28,11 +29,11 @@ const { company } = defineProps<Props>();
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Dashboard',
-        href: '/dashboard',
+        href: DashboardController.url(),
     },
     {
         title: 'Companies',
-        href: '/dashboard/companies',
+        href: CompanyController.index().url,
     },
     {
         title: company.name,
@@ -40,7 +41,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
     {
         title: 'Edit',
-        href: `/dashboard/companies/${company.id}/edit`,
+        href: CompanyController.edit({ company: company.id }).url,
     },
 ];
 
@@ -81,7 +82,7 @@ const submit = () => {
                         </div>
                     </CardContent>
                     <CardFooter class="gap-2">
-                        <Link :href="route('companies.index')" :class="buttonVariants({ variant: 'outline' })"> Return </Link>
+                        <Link :href="CompanyController.index()" :class="buttonVariants({ variant: 'outline' })"> Return </Link>
                         <Button type="submit"> Save Changes </Button>
                     </CardFooter>
                 </Card>

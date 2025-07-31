@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import CompanyController from '@/actions/App/Http/Controllers/CompanyController';
 import DashboardContent from '@/components/dashboard/DashboardContent.vue';
 import Heading from '@/components/Heading.vue';
 import { buttonVariants } from '@/components/ui/button';
@@ -54,7 +55,7 @@ const search = () => {
             <form @submit.prevent="search">
                 <Input v-model="query.search" placeholder="Search" type="search" class="sm:w-80" />
             </form>
-            <Link :href="route('companies.create')" :class="buttonVariants()">
+            <Link :href="CompanyController.create()" :class="buttonVariants()">
                 <PlusIcon />
                 Create Company
             </Link>
@@ -68,7 +69,7 @@ const search = () => {
                         </CardTitle>
                         <CardDescription> Last modified: {{ formatDate(new Date(company.updated_at), ' YYYY MMM DD h:mm a') }} </CardDescription>
                         <CardAction>
-                            <Link :href="route('companies.edit', company.id)" :class="buttonVariants({ variant: 'ghost', size: 'icon' })">
+                            <Link :href="CompanyController.edit(company.id)" :class="buttonVariants({ variant: 'ghost', size: 'icon' })">
                                 <EditIcon />
                             </Link>
                         </CardAction>

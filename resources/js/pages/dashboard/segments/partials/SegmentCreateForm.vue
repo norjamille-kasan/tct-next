@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import SegmentController from '@/actions/App/Http/Controllers/SegmentController';
 import FormControl from '@/components/FormControl.vue';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
@@ -17,7 +18,7 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.post(route('segments.store'), {
+    form.submit(SegmentController.store(), {
         onSuccess: () => {
             form.reset();
             isOpen.value = false;

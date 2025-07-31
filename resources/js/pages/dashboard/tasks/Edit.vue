@@ -46,7 +46,7 @@
                         </div>
                     </CardContent>
                     <CardFooter class="gap-2">
-                        <Link :href="route('tasks.index')" :class="buttonVariants({ variant: 'outline' })"> Return </Link>
+                        <Link :href="TaskController.index()" :class="buttonVariants({ variant: 'outline' })"> Return </Link>
                         <Button type="submit" form="createTaskForm"> Save Changes </Button>
                     </CardFooter>
                 </Card>
@@ -56,6 +56,7 @@
 </template>
 
 <script setup lang="ts">
+import TaskController from '@/actions/App/Http/Controllers/TaskController';
 import DashboardContent from '@/components/dashboard/DashboardContent.vue';
 import FormControl from '@/components/FormControl.vue';
 import { Button, buttonVariants } from '@/components/ui/button';
@@ -115,6 +116,6 @@ const form = useForm<FormData>({
 });
 
 const submit = () => {
-    form.put(route('tasks.update', { task }));
+    form.submit(TaskController.update({ task }));
 };
 </script>

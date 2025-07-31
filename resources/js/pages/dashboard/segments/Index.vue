@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import DashboardController from '@/actions/App/Http/Controllers/DashboardController';
+import DissociateCompanyController from '@/actions/App/Http/Controllers/Segment/DissociateCompanyController';
+import SegmentController from '@/actions/App/Http/Controllers/SegmentController';
 import ConfirmDialog from '@/components/ConfirmDialog.vue';
 import DashboardContent from '@/components/dashboard/DashboardContent.vue';
 import Heading from '@/components/Heading.vue';
@@ -24,11 +27,11 @@ defineOptions({
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Dashboard',
-        href: '/dashboard',
+        href: DashboardController.url(),
     },
     {
         title: 'Segments',
-        href: '/dashboard/segments',
+        href: SegmentController.index().url,
     },
 ];
 
@@ -60,7 +63,7 @@ const deleteSegment = async (segmentId: number) => {
     const { isCanceled } = await deleteSegmentDialog.reveal();
 
     if (!isCanceled) {
-        router.delete(route('segments.destroy', { segment: segmentId }));
+        router.delete(SegmentController.destroy({ segment: segmentId }).url);
     }
 };
 
@@ -69,7 +72,7 @@ const detachCompanyDialog = useConfirmDialog();
 const detachCompany = async (segmentId: number, companyId: number) => {
     const { isCanceled } = await detachCompanyDialog.reveal();
     if (!isCanceled) {
-        router.delete(route('segments.detach-company', { segment: segmentId, company: companyId }));
+        router.delete(DissociateCompanyController.url({ segment: segmentId, company: companyId }));
     }
 };
 </script>
@@ -115,7 +118,10 @@ const detachCompany = async (segmentId: number, companyId: number) => {
                     </TableCell>
                     <TableCell class="text-right">
                         <div class="-my-1 flex justify-end">
-                            <ModalLink :href="route('segments.edit', segment.id)" :class="buttonVariants({ variant: 'ghost', size: 'icon' })">
+                            <ModalLink
+                                :href="SegmentController.edit({ segment: segment.id }).url"
+                                :class="buttonVariants({ variant: 'ghost', size: 'icon' })"
+                            >
                                 <EditIcon />
                             </ModalLink>
                             <Button @click="deleteSegment(segment.id)" variant="ghost" size="icon">

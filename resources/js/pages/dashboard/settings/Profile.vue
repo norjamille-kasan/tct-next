@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
 
+import EmailVerificationNotificationController from '@/actions/App/Http/Controllers/Auth/EmailVerificationNotificationController';
+import ProfileController from '@/actions/App/Http/Controllers/Settings/ProfileController';
 import DashboardContent from '@/components/dashboard/DashboardContent.vue';
 import DeleteUser from '@/components/DeleteUser.vue';
 import HeadingSmall from '@/components/HeadingSmall.vue';
@@ -38,7 +40,7 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.patch(route('profile.update'), {
+    form.submit(ProfileController.update(), {
         preserveScroll: true,
     });
 };
@@ -76,7 +78,7 @@ const submit = () => {
                         <p class="-mt-4 text-sm text-muted-foreground">
                             Your email address is unverified.
                             <Link
-                                :href="route('verification.send')"
+                                :href="EmailVerificationNotificationController.store()"
                                 method="post"
                                 as="button"
                                 class="text-foreground underline decoration-neutral-300 underline-offset-4 transition-colors duration-300 ease-out hover:decoration-current! dark:decoration-neutral-500"

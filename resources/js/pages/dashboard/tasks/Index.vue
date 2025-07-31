@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import TaskController from '@/actions/App/Http/Controllers/TaskController';
+import TaskQuestionController from '@/actions/App/Http/Controllers/TaskQuestionController';
 import ConfirmDialog from '@/components/ConfirmDialog.vue';
 import DashboardContent from '@/components/dashboard/DashboardContent.vue';
 import Heading from '@/components/Heading.vue';
@@ -66,7 +68,7 @@ const deleteTaskConfirmation = useConfirmDialog();
 const deleteTask = async (id: number) => {
     const { isCanceled } = await deleteTaskConfirmation.reveal();
     if (!isCanceled) {
-        router.delete(route('tasks.destroy', { task: id }));
+        router.delete(TaskController.destroy(id).url);
     }
 };
 
@@ -104,7 +106,7 @@ const { userCan } = usePermissions();
                     </SelectContent>
                 </Select>
             </div>
-            <Link v-if="userCan('create:task')" :href="route('tasks.create')" :class="buttonVariants()">
+            <Link v-if="userCan('create:task')" :href="TaskController.create()" :class="buttonVariants()">
                 <PlusIcon />
                 Create Task
             </Link>
@@ -130,12 +132,12 @@ const { userCan } = usePermissions();
                         </TableCell>
                         <TableCell class="text-right">
                             <div class="-my-1 flex justify-end">
-                                <Link :href="route('tasks.questions.index', { task })" :class="buttonVariants({ variant: 'ghost', size: 'icon' })">
+                                <Link :href="TaskQuestionController.index({ task })" :class="buttonVariants({ variant: 'ghost', size: 'icon' })">
                                     <FileTextIcon />
                                 </Link>
                                 <Link
                                     v-if="userCan('edit:task')"
-                                    :href="route('tasks.edit', { task })"
+                                    :href="TaskController.edit({ task })"
                                     :class="buttonVariants({ variant: 'ghost', size: 'icon' })"
                                 >
                                     <EditIcon />

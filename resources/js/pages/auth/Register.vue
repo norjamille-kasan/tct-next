@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import AuthenticatedSessionController from '@/actions/App/Http/Controllers/Auth/AuthenticatedSessionController';
 import InputError from '@/components/InputError.vue';
 import TextLink from '@/components/TextLink.vue';
 import { Button } from '@/components/ui/button';
@@ -76,7 +77,7 @@ const submit = () => {
 
             <div class="text-center text-sm text-muted-foreground">
                 Already have an account?
-                <TextLink :href="route('login')" class="underline underline-offset-4" :tabindex="6">Log in</TextLink>
+                <TextLink :href="AuthenticatedSessionController.create()" class="underline underline-offset-4" :tabindex="6">Log in</TextLink>
             </div>
         </form>
     </AuthBase>

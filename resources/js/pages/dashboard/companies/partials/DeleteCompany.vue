@@ -2,6 +2,7 @@
 import { useForm } from '@inertiajs/vue3';
 
 // Components
+import CompanyController from '@/actions/App/Http/Controllers/CompanyController';
 import InputError from '@/components/InputError.vue';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -30,7 +31,7 @@ const form = useForm({
 const deleteUser = (e: Event) => {
     e.preventDefault();
 
-    form.delete(route('companies.destroy', { company }), {
+    form.submit(CompanyController.destroy(company), {
         preserveScroll: true,
         onSuccess: () => closeModal(),
         onFinish: () => form.reset(),
