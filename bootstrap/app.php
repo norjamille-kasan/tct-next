@@ -36,24 +36,26 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->respond(function (Response $response, Throwable $exception, Request $request) {
-            if (in_array($response->getStatusCode(), [500, 503, 404, 403])) {
-                 $errors = config('errors');
+            if (!config('app.env') === 'testing' && !config('app.env') === 'local') {
+                if (in_array($response->getStatusCode(), [500, 503, 404, 403])) {
+                    $errors = config('errors');
 
-                if ($request->header('X-Inertia')) {
-                    $message = empty($exception->getMessage()) ? $errors[$response->getStatusCode()]['description'] : $exception->getMessage();
-                    return back()->toast('error',  $message, $errors[$response->getStatusCode()]['title']);
-                } else {
-                     return Inertia::render('Error',[
-                         'message' => $exception->getMessage(),
-                         'status' => $response->getStatusCode(),
-                         'title' => $errors[$response->getStatusCode()]['title'],
-                         'description' => $errors[$response->getStatusCode()]['description'],
-                     ]);
+                    if ($request->header('X-Inertia')) {
+                        $message = empty($exception->getMessage()) ? $errors[$response->getStatusCode()]['description'] : $exception->getMessage();
+                        return back()->toast('error',  $message, $errors[$response->getStatusCode()]['title']);
+                    } else {
+                        return Inertia::render('Error', [
+                            'message' => $exception->getMessage(),
+                            'status' => $response->getStatusCode(),
+                            'title' => $errors[$response->getStatusCode()]['title'],
+                            'description' => $errors[$response->getStatusCode()]['description'],
+                        ]);
+                    }
+                } elseif ($response->getStatusCode() === 419) {
+                    return back()->with([
+                        'message' => 'The page expired, please try again.',
+                    ]);
                 }
-            } elseif ($response->getStatusCode() === 419) {
-                return back()->with([
-                    'message' => 'The page expired, please try again.',
-                ]);
             }
             return $response;
         });

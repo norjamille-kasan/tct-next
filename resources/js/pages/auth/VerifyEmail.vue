@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import AuthenticatedSessionController from '@/actions/App/Http/Controllers/Auth/AuthenticatedSessionController';
-import EmailVerificationNotificationController from '@/actions/App/Http/Controllers/Auth/EmailVerificationNotificationController';
+// import EmailVerificationNotificationController from '@/actions/App/Http/Controllers/Auth/EmailVerificationNotificationController';
 import TextLink from '@/components/TextLink.vue';
 import { Button } from '@/components/ui/button';
 import AuthLayout from '@/layouts/AuthLayout.vue';
@@ -14,7 +13,7 @@ defineProps<{
 const form = useForm({});
 
 const submit = () => {
-    form.submit(EmailVerificationNotificationController.store());
+    // form.submit(EmailVerificationNotificationController.store());
 };
 </script>
 
@@ -32,7 +31,7 @@ const submit = () => {
                 Resend verification email
             </Button>
 
-            <TextLink :href="AuthenticatedSessionController.destroy()" method="post" as="button" class="mx-auto block text-sm"> Log out </TextLink>
+            <TextLink :href="route('logout')" method="post" as="button" class="mx-auto block text-sm"> Log out </TextLink>
         </form>
     </AuthLayout>
 </template>

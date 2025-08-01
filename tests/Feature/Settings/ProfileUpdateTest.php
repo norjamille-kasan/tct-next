@@ -7,6 +7,8 @@ uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 test('profile page is displayed', function () {
     $user = User::factory()->create();
 
+    $user->assignRole('super_admin');
+
     $response = $this
         ->actingAs($user)
         ->get('/settings/profile');
