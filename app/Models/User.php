@@ -4,8 +4,9 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-use App\Traits\Models\UserCustomAttribute;
-use App\Traits\Models\UserFunction;
+use App\Traits\Models\UserCustomAttributes;
+use App\Traits\Models\UserFunctions;
+use App\Traits\Models\UserRelations;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -15,8 +16,9 @@ class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, HasRoles,Notifiable;
-    use UserFunction;
-    use UserCustomAttribute;
+    use UserFunctions;
+    use UserCustomAttributes;
+    use UserRelations;
 
     /**
      * The attributes that should be hidden for serialization.

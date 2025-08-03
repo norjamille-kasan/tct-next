@@ -2,13 +2,17 @@
 
 namespace App\Traits\Models;
 
-trait UserFunction {
-    public function need_to_update_login_timestamp() {
+use App\Enums\SubmissionStatus;
+
+trait UserFunctions {
+    public function needToUpdateLoginTimestamp() {
         return $this->last_online_at === null || $this->last_online_at->lt(now()->subMinutes(5));
     }
 
-    public function set_to_online() {
+    public function setToOnline() {
         $this->last_online_at = now();
         $this->save();
     }
+
+
 }

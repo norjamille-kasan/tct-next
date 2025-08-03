@@ -15,8 +15,8 @@ class OnlineStatus
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(auth()->check() && auth()->user()->need_to_update_login_timestamp()) {
-            auth()->user()->set_to_online();
+        if(auth()->check() && auth()->user()->needToUpdateLoginTimestamp()) {
+            auth()->user()->setToOnline();
         }
 
         return $next($request);

@@ -17,7 +17,7 @@ import { Paginated } from '@/types';
 import { Company, Segment, Task } from '@/types/models';
 import { Link, router } from '@inertiajs/vue3';
 import { useConfirmDialog } from '@vueuse/core';
-import { Building2Icon, CalculatorIcon, Edit2Icon, Ellipsis, FileTextIcon, PlusIcon, TagsIcon, TrashIcon } from 'lucide-vue-next';
+import { Building2Icon, CalculatorIcon, Edit2Icon, Ellipsis, FileTextIcon, PlayIcon, PlusIcon, TagsIcon, TrashIcon } from 'lucide-vue-next';
 import { computed, toRef } from 'vue';
 
 defineOptions({
@@ -166,7 +166,7 @@ const segments = computed(() => {
                             </div>
                         </TableCell>
                         <TableCell class="text-right">
-                            <div class="-my-1 mr-2 flex justify-end">
+                            <div class="-my-1 mr-2 flex justify-end gap-2">
                                 <DropdownMenu>
                                     <DropdownMenuTrigger as-child>
                                         <Button variant="ghost" size="icon">
@@ -188,6 +188,10 @@ const segments = computed(() => {
                                         </DropdownMenuItem>
                                     </DropdownMenuContent>
                                 </DropdownMenu>
+                                <Button variant="outline" size="sm">
+                                    <PlayIcon />
+                                    Start Task
+                                </Button>
                             </div>
                         </TableCell>
                     </TableRow>
