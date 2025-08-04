@@ -4,6 +4,7 @@ namespace App\Actions\Task;
 
 use App\Enums\FieldType;
 use App\Models\Question;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
 class UpdateTaskQuestion
@@ -18,7 +19,10 @@ class UpdateTaskQuestion
     {
         $data = $this->formatData($data);
 
-        return $question->update($data);
+        DB::transaction(function () use ($data, $question) {
+            $question->update($data);
+            $question->task()->increment('question_version');
+        });
     }
 
     private function formatData(array $data): array

@@ -29,6 +29,12 @@ router.on('before', () => {
 });
 
 let removeFinshEventListener = router.on('finish', () => {
+    if (page.props.errors.toast) {
+        errorSound.play();
+        toast.error('Failed', {
+            description: page.props.errors.toast,
+        });
+    }
     if (page.props.toast) {
         if (page.props.toast.type === 'success') {
             alertSound.play();

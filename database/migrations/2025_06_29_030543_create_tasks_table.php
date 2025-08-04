@@ -21,6 +21,7 @@ return new class extends Migration
             $table->text('title');
             $table->text('description')->nullable();
             $table->string('computation_category')->nullable();
+            $table->integer('question_version')->default(1);
         });
     }
 

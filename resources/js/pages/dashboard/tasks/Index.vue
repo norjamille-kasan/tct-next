@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import SubmissionController from '@/actions/App/Http/Controllers/Dashboard/Submissions/SubmissionController';
 import TaskController from '@/actions/App/Http/Controllers/Dashboard/Tasks/TaskController';
 import TaskQuestionController from '@/actions/App/Http/Controllers/Dashboard/Tasks/TaskQuestionController';
 import ConfirmDialog from '@/components/ConfirmDialog.vue';
@@ -14,7 +15,7 @@ import { Table, TableBody, TableCell, TableEmpty, TableHead, TableHeader, TableR
 import { usePermissions } from '@/composables/usePermissions';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Paginated } from '@/types';
-import { Company, Segment, Task } from '@/types/models';
+import { Company, Segment, Submission, Task } from '@/types/models';
 import { Link, router } from '@inertiajs/vue3';
 import { useConfirmDialog } from '@vueuse/core';
 import { Building2Icon, CalculatorIcon, Edit2Icon, Ellipsis, FileTextIcon, PlayIcon, PlusIcon, TagsIcon, TrashIcon } from 'lucide-vue-next';
@@ -40,6 +41,7 @@ interface Props {
         Task & {
             company: Company;
             segment: Segment;
+            submissions: Submission[];
         }
     >;
     companies: Array<Company & { segments: Segment[] }>;
@@ -83,6 +85,21 @@ const { userCan } = usePermissions();
 
 const segments = computed(() => {
     return props.companies.find((company) => company.id === Number(query.value.company_id))?.segments || [];
+});
+
+const startTaskConfirmation = useConfirmDialog();
+
+const startTask = async (id: number) => {
+    const { isCanceled } = await startTaskConfirmation.reveal();
+    if (!isCanceled) {
+        router.post(SubmissionController.store().url, {
+            task_id: id,
+        });
+    }
+};
+
+const hasSubmissions = computed(() => {
+    return props.tasks.data.some((task) => task.submissions.length > 0);
 });
 </script>
 
@@ -139,7 +156,7 @@ const segments = computed(() => {
                     <TableRow>
                         <TableHead> Title </TableHead>
                         <TableHead> </TableHead>
-                        <TableHead class="w-[100px] text-right"> </TableHead>
+                        <TableHead class="w-[200px] text-right"> </TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -167,6 +184,23 @@ const segments = computed(() => {
                         </TableCell>
                         <TableCell class="text-right">
                             <div class="-my-1 mr-2 flex justify-end gap-2">
+                                <Button
+                                    v-if="userCan('create:submission') && !hasSubmissions"
+                                    @click="startTask(task.id)"
+                                    variant="outline"
+                                    size="sm"
+                                >
+                                    <PlayIcon />
+                                    Start Task
+                                </Button>
+                                <Button
+                                    type="button"
+                                    class="text-primary"
+                                    v-if="userCan('start:task') && task.submissions.length > 0"
+                                    variant="outline"
+                                >
+                                    Open Task
+                                </Button>
                                 <DropdownMenu>
                                     <DropdownMenuTrigger as-child>
                                         <Button variant="ghost" size="icon">
@@ -188,10 +222,6 @@ const segments = computed(() => {
                                         </DropdownMenuItem>
                                     </DropdownMenuContent>
                                 </DropdownMenu>
-                                <Button variant="outline" size="sm">
-                                    <PlayIcon />
-                                    Start Task
-                                </Button>
                             </div>
                         </TableCell>
                     </TableRow>
@@ -206,6 +236,14 @@ const segments = computed(() => {
             description="Are you sure you want to delete this task?"
             @cancel="deleteTaskConfirmation.cancel"
             @confirm="deleteTaskConfirmation.confirm"
+        />
+
+        <ConfirmDialog
+            v-model="startTaskConfirmation.isRevealed.value"
+            title="Start Task"
+            description="Are you sure you want to start this task?"
+            @cancel="startTaskConfirmation.cancel"
+            @confirm="startTaskConfirmation.confirm"
         />
     </DashboardContent>
 </template>

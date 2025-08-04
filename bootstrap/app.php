@@ -36,12 +36,11 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->respond(function (Response $response, Throwable $exception, Request $request) {
-            if (in_array($response->getStatusCode(), [500, 503, 404, 403])) {
+            if (in_array($response->getStatusCode(), [500, 503, 400,404, 403])) {
                 $errors = config('errors');
 
                 if ($request->header('X-Inertia')) {
                     $message = empty($exception->getMessage()) ? $errors[$response->getStatusCode()]['description'] : $exception->getMessage();
-
                     return back()->toast('error', $message, $errors[$response->getStatusCode()]['title']);
                 } else {
                     return Inertia::render('Error', [

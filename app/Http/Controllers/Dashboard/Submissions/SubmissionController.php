@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers\Dashboard\Submissions;
 
+use App\Actions\Submission\StartTask;
 use App\Http\Controllers\Controller;
+use App\Models\Task;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use function Pest\Laravel\instance;
 
 class SubmissionController extends Controller
 {
@@ -13,7 +17,7 @@ class SubmissionController extends Controller
      */
     public function index()
     {
-        return Inertia::render('dashboard/my-tasks/Index');
+        return Inertia::render('dashboard/submissions/Index');
     }
 
     /**
@@ -27,9 +31,13 @@ class SubmissionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request,StartTask $action)
     {
-        //
+        $data = $request->validate([
+            'task_id' => ['required', 'exists:tasks,id'],
+        ]);
+       $action->handle(Task::findOrFail($data['task_id']), $request->user());
+        return back()->toast('success', 'Task started successfully');
     }
 
     /**

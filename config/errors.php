@@ -2,9 +2,14 @@
 
 return [
     '404' => [
-        'title' => '404: Not Found',
+        'title' => 'Failed Request',
         'description' => 'Page/Data not found',
         'code' => 404,
+    ],
+    '400' => [
+        'title' => 'Failed Request',
+        'description' => 'Bad request, please try again',
+        'code' => 400,
     ],
     '500' => [
         'title' => '500: Internal Server Error',
@@ -17,7 +22,7 @@ return [
         'code' => 503,
     ],
     '403' => [
-        'title' => '403: Unauthorized',
+        'title' => 'Unauthorized',
         'description' => 'Forbidden Action',
         'code' => 403,
     ],

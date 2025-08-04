@@ -17,7 +17,7 @@ return new class extends Migration
             $table->userstamps();
             $table->string('ref_id')->unique();
             $table->foreignId('task_id')->references('id')->on('tasks');
-            $table->integer('total_minutes_spent')->nullable();
+            $table->integer('total_minutes_spent')->default(0);
             $table->string('status');
             $table->json('task_original_value');
 
@@ -31,7 +31,8 @@ return new class extends Migration
             $table->timestamp('last_edited_at')->nullable();
 
             //
-            $table->boolean('is_locked');
+            $table->boolean('is_locked')->default(false);
+            $table->integer('question_version')->default(1);
         });
     }
 

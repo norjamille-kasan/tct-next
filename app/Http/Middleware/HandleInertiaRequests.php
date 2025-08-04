@@ -47,12 +47,7 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user()?->load(['roles' => fn ($q) => $q->select('id', 'name'), 'permissions' => fn ($q) => $q->select('id', 'name')]),
             ],
-            'ziggy' => [
-                ...(new Ziggy)->toArray(),
-                'location' => $request->url(),
-            ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
-
             // extend
             'toast' => Inertia::always(fn () => session('toast')),
         ];
