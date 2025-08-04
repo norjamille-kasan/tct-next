@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AssociateCompanyController from '@/actions/App/Http/Controllers/Segment/AssociateCompanyController';
+import AssociateCompanyController from '@/actions/App/Http/Controllers/Dashboard/Segments/AssociateCompanyController';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Company } from '@/types/models';

@@ -10,8 +10,9 @@ use Mattiverse\Userstamps\Traits\Userstamps;
 
 class Question extends Model
 {
-    use Userstamps;
     use QuestionRelations;
+    use Userstamps;
+
     const POSITION_GAP = 60000;
 
     const POSITION_MIN = 0.00002;
@@ -48,5 +49,4 @@ class Question extends Model
             'field_type' => FieldType::class,
         ];
     }
-
 }

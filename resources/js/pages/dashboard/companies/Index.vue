@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import CompanyController from '@/actions/App/Http/Controllers/CompanyController';
+import CompanyController from '@/actions/App/Http/Controllers/Dashboard/Companies/CompanyController';
 import DashboardContent from '@/components/dashboard/DashboardContent.vue';
 import Heading from '@/components/Heading.vue';
 import { buttonVariants } from '@/components/ui/button';

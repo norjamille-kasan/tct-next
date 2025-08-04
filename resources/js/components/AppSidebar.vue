@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import CompanyController from '@/actions/App/Http/Controllers/CompanyController';
+import CompanyController from '@/actions/App/Http/Controllers/Dashboard/Companies/CompanyController';
+import SegmentController from '@/actions/App/Http/Controllers/Dashboard/Segments/SegmentController';
+import SubmissionController from '@/actions/App/Http/Controllers/Dashboard/Submissions/SubmissionController';
+import TaskController from '@/actions/App/Http/Controllers/Dashboard/Tasks/TaskController';
 import DashboardController from '@/actions/App/Http/Controllers/DashboardController';
-import MyTaskController from '@/actions/App/Http/Controllers/MyTaskController';
-import SegmentController from '@/actions/App/Http/Controllers/SegmentController';
-import TaskController from '@/actions/App/Http/Controllers/TaskController';
 import NavMain from '@/components/NavMain.vue';
 import NavUser from '@/components/NavUser.vue';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
@@ -20,8 +20,8 @@ const platformNavItem: NavItem[] = [
         absolute: true,
     },
     {
-        title: 'My Tasks',
-        href: MyTaskController.url(),
+        title: 'Submissions',
+        href: SubmissionController.index().url,
         icon: ListTodo,
         absolute: false,
         permissions: ['view:tasks'],

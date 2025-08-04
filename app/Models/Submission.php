@@ -11,10 +11,10 @@ use Mattiverse\Userstamps\Traits\Userstamps;
 
 class Submission extends Model
 {
-    use Userstamps;
-    use SubmissionRelations;
     use SubmissionCustomAttributes;
+    use SubmissionRelations;
     use SubmissionScopes;
+    use Userstamps;
 
     protected function casts()
     {
@@ -27,7 +27,7 @@ class Submission extends Model
             'last_edited_at' => 'datetime',
             'task_original_value' => 'array',
             'is_locked' => 'boolean',
-            'status'=> SubmissionStatus::class
+            'status' => SubmissionStatus::class,
         ];
     }
 }

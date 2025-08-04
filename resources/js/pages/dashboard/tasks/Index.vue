@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import TaskController from '@/actions/App/Http/Controllers/TaskController';
-import TaskQuestionController from '@/actions/App/Http/Controllers/TaskQuestionController';
+import TaskController from '@/actions/App/Http/Controllers/Dashboard/Tasks/TaskController';
+import TaskQuestionController from '@/actions/App/Http/Controllers/Dashboard/Tasks/TaskQuestionController';
 import ConfirmDialog from '@/components/ConfirmDialog.vue';
 import DashboardContent from '@/components/dashboard/DashboardContent.vue';
 import Heading from '@/components/Heading.vue';

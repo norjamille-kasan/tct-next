@@ -11,11 +11,13 @@ class CreateTaskQuestion
     public $with_options = [
         FieldType::DROPDOWN_SELECT->value,
         FieldType::MULTI_SELECT->value,
-        FieldType::SINGLE_SELECT->value
+        FieldType::SINGLE_SELECT->value,
     ];
-    public function handle(array $data,Task $task)
+
+    public function handle(array $data, Task $task)
     {
         $data = $this->formatData($data);
+
         return $task->questions()->create($data);
     }
 
@@ -27,7 +29,7 @@ class CreateTaskQuestion
             ]);
         }
 
-        if(!in_array($data['field_type'], $this->with_options) && !empty($data['options'])) {
+        if (! in_array($data['field_type'], $this->with_options) && ! empty($data['options'])) {
             $data['options'] = null;
         }
 

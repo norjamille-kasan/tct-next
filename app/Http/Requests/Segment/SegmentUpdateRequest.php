@@ -22,7 +22,7 @@ class SegmentUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'max:255','unique:segments,name,'.$this->segment->id],
+            'name' => ['required', 'max:255', 'unique:segments,name,'.$this->segment->id],
             'color' => ['nullable', 'max:255'],
             'ref_key' => ['nullable', 'max:255', 'unique:segments'],
             'description' => ['nullable', 'max:1000'],

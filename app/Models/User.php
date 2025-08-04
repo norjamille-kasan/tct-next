@@ -16,8 +16,9 @@ class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, HasRoles,Notifiable;
-    use UserFunctions;
+
     use UserCustomAttributes;
+    use UserFunctions;
     use UserRelations;
 
     /**
@@ -33,6 +34,7 @@ class User extends Authenticatable
     public $appends = [
         'is_online',
     ];
+
     /**
      * Get the attributes that should be cast.
      *

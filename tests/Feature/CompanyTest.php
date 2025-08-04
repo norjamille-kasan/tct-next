@@ -1,16 +1,13 @@
 <?php
 
-use App\Models\Company;
 use App\Models\User;
 
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
-
 
 test('guests are redirected to the login page', function () {
     $response = $this->get('/dashboard/companies');
     $response->assertRedirect('/login');
 });
-
 
 test('unauthorized users cannot visit the company page', function () {
     $user = User::factory()->create();
@@ -30,8 +27,6 @@ test('authorized users can visit the company page', function () {
     $response = $this->get('/dashboard/companies');
     $response->assertStatus(200);
 });
-
-
 
 test('unauthorized users cannot visit the company create page', function () {
     $user = User::factory()->create();
@@ -153,8 +148,3 @@ test('authorized users can delete a company', function () {
         'id' => 1,
     ]);
 });
-
-
-
-
-

@@ -4,12 +4,10 @@ use App\Models\User;
 
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
-
 test('guests are redirected to the login page', function () {
     $response = $this->get('/dashboard/segments');
     $response->assertRedirect('/login');
 });
-
 
 test('unauthorized users cannot visit the segment page', function () {
     $user = User::factory()->create();
@@ -58,6 +56,3 @@ it('can create a segment', function () {
         'ref_key' => 'TEST-SEGMENT',
     ]);
 });
-
-
-

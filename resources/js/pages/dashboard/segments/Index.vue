@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import DissociateCompanyController from '@/actions/App/Http/Controllers/Dashboard/Segments/DissociateCompanyController';
+import SegmentController from '@/actions/App/Http/Controllers/Dashboard/Segments/SegmentController';
 import DashboardController from '@/actions/App/Http/Controllers/DashboardController';
-import DissociateCompanyController from '@/actions/App/Http/Controllers/Segment/DissociateCompanyController';
-import SegmentController from '@/actions/App/Http/Controllers/SegmentController';
 import ConfirmDialog from '@/components/ConfirmDialog.vue';
 import DashboardContent from '@/components/dashboard/DashboardContent.vue';
 import Heading from '@/components/Heading.vue';

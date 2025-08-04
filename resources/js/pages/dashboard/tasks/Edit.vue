@@ -56,7 +56,7 @@
 </template>
 
 <script setup lang="ts">
-import TaskController from '@/actions/App/Http/Controllers/TaskController';
+import TaskController from '@/actions/App/Http/Controllers/Dashboard/Tasks/TaskController';
 import DashboardContent from '@/components/dashboard/DashboardContent.vue';
 import FormControl from '@/components/FormControl.vue';
 import { Button, buttonVariants } from '@/components/ui/button';

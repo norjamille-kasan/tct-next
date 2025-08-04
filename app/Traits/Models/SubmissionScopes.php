@@ -6,27 +6,38 @@ use App\Enums\SubmissionStatus;
 
 trait SubmissionScopes
 {
-    public function scopeOngoing($query) {
+
+    public function scopeActive()
+    {
+        return $this->whereIn('status', [SubmissionStatus::ONGOING, SubmissionStatus::PAUSED, SubmissionStatus::RESUMED, SubmissionStatus::EDITING]);
+    }
+    public function scopeOngoing($query)
+    {
         return $query->whereStatus(SubmissionStatus::ONGOING);
     }
 
-    public function scopePaused($query) {
+    public function scopePaused($query)
+    {
         return $query->whereStatus(SubmissionStatus::PAUSED);
     }
 
-    public function scopeResumed($query) {
+    public function scopeResumed($query)
+    {
         return $query->whereStatus(SubmissionStatus::RESUMED);
     }
 
-    public function scopeSubmitted($query) {
+    public function scopeSubmitted($query)
+    {
         return $query->whereStatus(SubmissionStatus::SUBMITTED);
     }
 
-    public function scopeEditing($query) {
+    public function scopeEditing($query)
+    {
         return $query->whereStatus(SubmissionStatus::EDITING);
     }
 
-    public function scopeCanceled($query) {
+    public function scopeCanceled($query)
+    {
         return $query->whereStatus(SubmissionStatus::CANCELED);
     }
 }

@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('status');
             $table->json('task_original_value');
 
-
             $table->timestamp('started_at')->nullable();
             $table->timestamp('initial_submission_at')->nullable();
             $table->timestamp('final_submission_at')->nullable();

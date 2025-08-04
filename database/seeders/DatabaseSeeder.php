@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
         // The reason we only do this in testing environment is because we don't
         // want the seeder to run in production, and we don't want to write to
         // the database file in local environment.
-        if(app()->environment('testing') && config('database.default')==='sqlite') {
+        if (app()->environment('testing') && config('database.default') === 'sqlite') {
             $this->callTestingSeeder();
         }
     }

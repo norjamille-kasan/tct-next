@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Company;
-use App\Models\CompanySetting;
 use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
@@ -36,13 +35,13 @@ return new class extends Migration
             'created_by' => 1,
             'updated_by' => 1,
         ]);
-         $company = Company::create([
-            'ref_key'=>'COMO',
+        $company = Company::create([
+            'ref_key' => 'COMO',
             'name' => 'Como',
             'created_by' => 1,
             'updated_by' => 1,
         ]);
-         $company = Company::create([
+        $company = Company::create([
             'ref_key' => 'NOIRE',
             'name' => 'Noire',
             'created_by' => 1,

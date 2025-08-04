@@ -6,9 +6,6 @@ import path from 'path';
 import { defineConfig } from 'vite';
 export default defineConfig({
     plugins: [
-        wayfinder({
-            routes: false,
-        }),
         laravel({
             input: ['resources/js/app.ts'],
             ssr: 'resources/js/ssr.ts',
@@ -22,6 +19,9 @@ export default defineConfig({
                     includeAbsolute: false,
                 },
             },
+        }),
+        wayfinder({
+            routes: false,
         }),
     ],
     resolve: {

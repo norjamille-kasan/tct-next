@@ -4,7 +4,7 @@ import FormControl from '@/components/FormControl.vue';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 
-import CompanyController from '@/actions/App/Http/Controllers/CompanyController';
+import CompanyController from '@/actions/App/Http/Controllers/Dashboard/Companies/CompanyController';
 import DashboardController from '@/actions/App/Http/Controllers/DashboardController';
 import { Input } from '@/components/ui/input';
 import { usePermissions } from '@/composables/usePermissions';

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import MyTaskController from '@/actions/App/Http/Controllers/MyTaskController';
+import SubmissionController from '@/actions/App/Http/Controllers/Dashboard/Submissions/SubmissionController';
 import DashboardContent from '@/components/dashboard/DashboardContent.vue';
 import Heading from '@/components/Heading.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
@@ -11,8 +11,8 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/dashboard',
     },
     {
-        title: 'My Tasks',
-        href: MyTaskController.url(),
+        title: 'Submissions',
+        href: SubmissionController.index().url,
     },
 ];
 
@@ -22,8 +22,8 @@ defineOptions({
 </script>
 
 <template>
-    <Head title="My Tasks" />
+    <Head title="Submissions" />
     <DashboardContent :breadcrumbs="breadcrumbs">
-        <Heading title="My Tasks" description="List of all my tasks" />
+        <Heading title="Submissions" description="List of all submissions" />
     </DashboardContent>
 </template>

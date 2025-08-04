@@ -27,7 +27,7 @@
 // @ts-ignore
 import { HeadlessModal } from '@inertiaui/modal-vue';
 
-import SegmentController from '@/actions/App/Http/Controllers/SegmentController';
+import SegmentController from '@/actions/App/Http/Controllers/Dashboard/Segments/SegmentController';
 import FormControl from '@/components/FormControl.vue';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';

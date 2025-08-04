@@ -7,7 +7,6 @@ use App\Models\Task;
 
 trait SegmentRelations
 {
-
     public function companies()
     {
         return $this->belongsToMany(Company::class);
@@ -17,5 +16,4 @@ trait SegmentRelations
     {
         return $this->hasMany(Task::class);
     }
-
 }

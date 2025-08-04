@@ -9,7 +9,6 @@ use App\Models\Submission;
 
 trait TaskRelations
 {
-
     public function company()
     {
         return $this->belongsTo(Company::class);

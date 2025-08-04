@@ -8,7 +8,6 @@
 //     $response->assertStatus(200);
 // });
 
-
 // application has no registration feature
 // test('new users can register', function () {
 //     $response = $this->post('/register', [

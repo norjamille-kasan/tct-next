@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Traits\Models;
 
 use App\Models\Task;
