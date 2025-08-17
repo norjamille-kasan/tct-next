@@ -2,7 +2,7 @@
 import { useForm } from '@inertiajs/vue3';
 
 // Components
-import CompanyController from '@/actions/App/Http/Controllers/CompanyController';
+import CompanyController from '@/actions/App/Http/Controllers/Dashboard/Companies/CompanyController';
 import InputError from '@/components/InputError.vue';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import TaskQuestionController from '@/actions/App/Http/Controllers/TaskQuestionController';
+import TaskQuestionController from '@/actions/App/Http/Controllers/Dashboard/Tasks/TaskQuestionController';
 import ConfirmDialog from '@/components/ConfirmDialog.vue';
 import DashboardContent from '@/components/dashboard/DashboardContent.vue';
 import { Badge } from '@/components/ui/badge';
@@ -57,7 +57,7 @@ const deleteQuestion = async (questionId: number) => {
 <template>
     <Head title="Questions" />
     <DashboardContent :breadcrumbs="breadcrumbs">
-        <Card>
+        <Card class="ring-4 ring-muted/60">
             <CardHeader>
                 <CardTitle> <span class="text-muted-foreground">Task/</span> {{ props.task.title }} </CardTitle>
                 <CardDescription>

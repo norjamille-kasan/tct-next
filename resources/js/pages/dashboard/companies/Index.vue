@@ -62,7 +62,7 @@ const search = () => {
         </div>
         <div class="grid gap-4 sm:grid-cols-3">
             <template v-for="company in props.companies" :key="company.id">
-                <Card>
+                <Card class="ring-4 ring-muted/60">
                     <CardHeader>
                         <CardTitle>
                             {{ company.name }}

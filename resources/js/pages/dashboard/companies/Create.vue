@@ -4,7 +4,7 @@
     <DashboardContent :breadcrumbs="breadcrumbs">
         <div class="mx-auto max-w-7xl">
             <form @submit.prevent="submit">
-                <Card>
+                <Card class="ring-4 ring-muted/60">
                     <CardHeader>
                         <CardTitle>Create Company</CardTitle>
                         <CardDescription> Create a new company to manage your tasks </CardDescription>

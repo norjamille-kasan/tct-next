@@ -33,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import TaskQuestionController from '@/actions/App/Http/Controllers/TaskQuestionController';
+import TaskQuestionController from '@/actions/App/Http/Controllers/Dashboard/Tasks/TaskQuestionController';
 import { Badge } from '@/components/ui/badge';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Question } from '@/types/models';

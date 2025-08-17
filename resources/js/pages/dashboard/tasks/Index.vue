@@ -6,9 +6,10 @@ import ConfirmDialog from '@/components/ConfirmDialog.vue';
 import DashboardContent from '@/components/dashboard/DashboardContent.vue';
 import Heading from '@/components/Heading.vue';
 import Pagination from '@/components/Pagination.vue';
+import TableContainer from '@/components/TableContainer.vue';
 import { Badge } from '@/components/ui/badge';
 import { Button, buttonVariants } from '@/components/ui/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableEmpty, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -18,7 +19,7 @@ import { Paginated } from '@/types';
 import { Company, Segment, Submission, Task } from '@/types/models';
 import { Link, router } from '@inertiajs/vue3';
 import { useConfirmDialog } from '@vueuse/core';
-import { Building2Icon, CalculatorIcon, Edit2Icon, Ellipsis, FileTextIcon, PlayIcon, PlusIcon, TagsIcon, TrashIcon } from 'lucide-vue-next';
+import { Building2Icon, CalculatorIcon, Edit2Icon, Ellipsis, FilePlus, FileTextIcon, PlusIcon, TagsIcon, TrashIcon } from 'lucide-vue-next';
 import { computed, toRef } from 'vue';
 
 defineOptions({
@@ -150,17 +151,17 @@ const hasSubmissions = computed(() => {
                 Create Task
             </Link>
         </div>
-        <div class="w-full overflow-auto">
+        <TableContainer>
             <Table>
                 <TableHeader>
                     <TableRow>
                         <TableHead> Title </TableHead>
                         <TableHead> </TableHead>
-                        <TableHead class="w-[200px] text-right"> </TableHead>
+                        <TableHead class="w-[50px] text-right"> </TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    <TableRow v-for="task in props.tasks.data" :key="task.id">
+                    <TableRow v-for="task in props.tasks.data" :key="task.id" class="divide-x">
                         <TableCell>
                             <div class="max-w-lvh truncate">
                                 {{ task.title }}
@@ -183,24 +184,7 @@ const hasSubmissions = computed(() => {
                             </div>
                         </TableCell>
                         <TableCell class="text-right">
-                            <div class="-my-1 mr-2 flex justify-end gap-2">
-                                <Button
-                                    v-if="userCan('create:submission') && !hasSubmissions"
-                                    @click="startTask(task.id)"
-                                    variant="outline"
-                                    size="sm"
-                                >
-                                    <PlayIcon />
-                                    Start Task
-                                </Button>
-                                <Button
-                                    type="button"
-                                    class="text-primary"
-                                    v-if="userCan('start:task') && task.submissions.length > 0"
-                                    variant="outline"
-                                >
-                                    Open Task
-                                </Button>
+                            <div class="-my-1 flex justify-end gap-2">
                                 <DropdownMenu>
                                     <DropdownMenuTrigger as-child>
                                         <Button variant="ghost" size="icon">
@@ -210,15 +194,24 @@ const hasSubmissions = computed(() => {
                                     <DropdownMenuContent class="mr-5">
                                         <DropdownMenuItem @click="router.visit(TaskQuestionController.index({ task }).url)">
                                             <FileTextIcon />
-                                            Questions
+                                            View Questions
                                         </DropdownMenuItem>
+                                        <DropdownMenuItem v-if="userCan('create:submission') && !hasSubmissions" @click="startTask(task.id)">
+                                            <FilePlus />
+                                            Create Submission
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem @click="startTask(task.id)" v-if="userCan('start:task') && task.submissions.length > 0">
+                                            <FilePlus />
+                                            View Submission
+                                        </DropdownMenuItem>
+                                        <DropdownMenuSeparator />
                                         <DropdownMenuItem v-if="userCan('edit:task')" @click="router.visit(TaskController.edit({ task }).url)">
                                             <Edit2Icon />
-                                            Edit
+                                            Edit Task
                                         </DropdownMenuItem>
                                         <DropdownMenuItem v-if="userCan('delete:task')" @click="deleteTask(task.id)">
                                             <TrashIcon class="text-destructive" />
-                                            Delete
+                                            Delete Task
                                         </DropdownMenuItem>
                                     </DropdownMenuContent>
                                 </DropdownMenu>
@@ -228,7 +221,7 @@ const hasSubmissions = computed(() => {
                     <TableEmpty :colspan="6" v-if="tasks.data.length === 0"> No tasks found. </TableEmpty>
                 </TableBody>
             </Table>
-        </div>
+        </TableContainer>
         <Pagination :links="props.tasks.links" />
         <ConfirmDialog
             v-model="deleteTaskConfirmation.isRevealed.value"

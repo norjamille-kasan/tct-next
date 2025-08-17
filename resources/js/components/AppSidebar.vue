@@ -19,6 +19,9 @@ const platformNavItem: NavItem[] = [
         icon: LayoutGrid,
         absolute: true,
     },
+];
+
+const manageNavItem: NavItem[] = [
     {
         title: 'Submissions',
         href: SubmissionController.index().url,
@@ -26,9 +29,6 @@ const platformNavItem: NavItem[] = [
         absolute: false,
         permissions: ['view:tasks'],
     },
-];
-
-const manageNavItem: NavItem[] = [
     {
         title: 'Tasks',
         href: TaskController.index().url,

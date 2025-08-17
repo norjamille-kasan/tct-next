@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import TaskQuestionController from '@/actions/App/Http/Controllers/TaskQuestionController';
+import TaskQuestionController from '@/actions/App/Http/Controllers/Dashboard/Tasks/TaskQuestionController';
 import FormControl from '@/components/FormControl.vue';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';

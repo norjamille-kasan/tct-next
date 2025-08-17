@@ -6,6 +6,7 @@ import ConfirmDialog from '@/components/ConfirmDialog.vue';
 import DashboardContent from '@/components/dashboard/DashboardContent.vue';
 import Heading from '@/components/Heading.vue';
 import Pagination from '@/components/Pagination.vue';
+import TableContainer from '@/components/TableContainer.vue';
 import { Badge } from '@/components/ui/badge';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -88,51 +89,53 @@ const detachCompany = async (segmentId: number, companyId: number) => {
             </form>
             <SegmentCreateForm />
         </div>
-        <Table>
-            <TableHeader>
-                <TableRow>
-                    <TableHead>Name</TableHead>
-                    <TableHead>Used By</TableHead>
-                    <TableHead>Last Modified</TableHead>
-                    <TableHead class="text-right"> </TableHead>
-                </TableRow>
-            </TableHeader>
-            <TableBody>
-                <TableRow v-for="segment in props.segments.data" :key="segment.id">
-                    <TableCell class="font-medium">
-                        {{ segment.name }}
-                    </TableCell>
-                    <TableCell>
-                        <div class="flex flex-wrap items-center gap-2">
-                            <Badge v-for="company in segment.companies" :key="company.id" variant="secondary">
-                                {{ company.name }}
-                                <button type="button" @click="detachCompany(segment.id, company.id)">
-                                    <XIcon class="size-4 text-muted-foreground" />
-                                </button>
-                            </Badge>
-                            <AddToCompanyForm :addedCompanies="segment.companies" :segment-id="segment.id" />
-                        </div>
-                    </TableCell>
-                    <TableCell>
-                        {{ formatDate(new Date(segment.updated_at), ' YYYY MMM DD h:mm a') }}
-                    </TableCell>
-                    <TableCell class="text-right">
-                        <div class="-my-1 flex justify-end">
-                            <ModalLink
-                                :href="SegmentController.edit({ segment: segment.id }).url"
-                                :class="buttonVariants({ variant: 'ghost', size: 'icon' })"
-                            >
-                                <EditIcon />
-                            </ModalLink>
-                            <Button @click="deleteSegment(segment.id)" variant="ghost" size="icon">
-                                <TrashIcon class="text-destructive" />
-                            </Button>
-                        </div>
-                    </TableCell>
-                </TableRow>
-                <TableEmpty :colspan="3" v-if="props.segments.data.length === 0"> No segments found. </TableEmpty>
-            </TableBody>
-        </Table>
+        <TableContainer>
+            <Table>
+                <TableHeader>
+                    <TableRow>
+                        <TableHead>Name</TableHead>
+                        <TableHead>Used By</TableHead>
+                        <TableHead>Last Modified</TableHead>
+                        <TableHead class="text-right"> </TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    <TableRow v-for="segment in props.segments.data" :key="segment.id">
+                        <TableCell class="font-medium">
+                            {{ segment.name }}
+                        </TableCell>
+                        <TableCell>
+                            <div class="flex flex-wrap items-center gap-2">
+                                <Badge v-for="company in segment.companies" :key="company.id" variant="secondary">
+                                    {{ company.name }}
+                                    <button type="button" @click="detachCompany(segment.id, company.id)">
+                                        <XIcon class="size-4 text-muted-foreground" />
+                                    </button>
+                                </Badge>
+                                <AddToCompanyForm :addedCompanies="segment.companies" :segment-id="segment.id" />
+                            </div>
+                        </TableCell>
+                        <TableCell>
+                            {{ formatDate(new Date(segment.updated_at), ' YYYY MMM DD h:mm a') }}
+                        </TableCell>
+                        <TableCell class="text-right">
+                            <div class="-my-1 flex justify-end">
+                                <ModalLink
+                                    :href="SegmentController.edit({ segment: segment.id }).url"
+                                    :class="buttonVariants({ variant: 'ghost', size: 'icon' })"
+                                >
+                                    <EditIcon />
+                                </ModalLink>
+                                <Button @click="deleteSegment(segment.id)" variant="ghost" size="icon">
+                                    <TrashIcon class="text-destructive" />
+                                </Button>
+                            </div>
+                        </TableCell>
+                    </TableRow>
+                    <TableEmpty :colspan="3" v-if="props.segments.data.length === 0"> No segments found. </TableEmpty>
+                </TableBody>
+            </Table>
+        </TableContainer>
         <Pagination :links="props.segments.links" />
         <ConfirmDialog
             v-model="deleteSegmentDialog.isRevealed.value"

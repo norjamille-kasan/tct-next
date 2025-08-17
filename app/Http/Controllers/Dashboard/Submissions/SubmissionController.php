@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard\Submissions;
 
 use App\Actions\Submission\StartTask;
 use App\Http\Controllers\Controller;
+use App\Models\Submission;
 use App\Models\Task;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -51,9 +52,11 @@ class SubmissionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Submission $submission)
     {
-        //
+        return Inertia::render('dashboard/submissions/Edit', [
+            'submission' => $submission,
+        ]);
     }
 
     /**
