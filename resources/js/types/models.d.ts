@@ -1,3 +1,5 @@
+import { SubmissionStatus } from '@/lib/constants';
+
 export interface Role {
     id: number;
     name: string;
@@ -79,7 +81,7 @@ export interface Submission {
     ref_id: string;
     task_id: number;
     total_minutes_spent: number;
-    status: string;
+    status: SubmissionStatus;
     task_original_value: Task;
     started_at: string | null;
     initial_submission_at: string | null;

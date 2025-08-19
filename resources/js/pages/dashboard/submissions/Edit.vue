@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import SubmissionController from '@/actions/App/Http/Controllers/Dashboard/Submissions/SubmissionController';
 import DashboardContent from '@/components/dashboard/DashboardContent.vue';
+import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
-import { Submission } from '@/types/models';
+import { Company, Segment, Submission, Task } from '@/types/models';
 import { Head } from '@inertiajs/vue3';
 
 const props = defineProps<{
-    submission: Submission;
+    submission: Submission & { task: Task & { segment: Segment; company: Company } };
 }>();
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -37,9 +38,15 @@ defineOptions({
 <template>
     <Head title="Edit Submission" />
     <DashboardContent :breadcrumbs="breadcrumbs">
-        <div>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora distinctio sit repudiandae magnam, esse porro dolorem ab rem voluptatem
-            eos aliquid totam ullam, quaerat error ratione nihil id atque ipsam?
-        </div>
+        <Card class="ring-4 ring-muted/60">
+            <CardHeader>
+                <CardTitle>
+                    {{ props.submission.task.title }}
+                </CardTitle>
+                <CardDescription>
+                    {{ props.submission.ref_id }}
+                </CardDescription>
+            </CardHeader>
+        </Card>
     </DashboardContent>
 </template>

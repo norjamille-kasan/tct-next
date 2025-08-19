@@ -1,6 +1,6 @@
 <template>
     <AlertDialog v-model:open="model">
-        <AlertDialogContent>
+        <AlertDialogContent class="rounded-xl ring-4 ring-muted/60">
             <AlertDialogHeader>
                 <AlertDialogTitle>
                     {{ props.title || 'Are you sure you want to proceed with this action?' }}

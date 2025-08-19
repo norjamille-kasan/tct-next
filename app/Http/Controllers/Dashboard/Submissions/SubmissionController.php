@@ -9,6 +9,8 @@ use App\Models\Task;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Spatie\QueryBuilder\QueryBuilder;
+
 use function Pest\Laravel\instance;
 
 class SubmissionController extends Controller
@@ -18,7 +20,11 @@ class SubmissionController extends Controller
      */
     public function index()
     {
-        return Inertia::render('dashboard/submissions/Index');
+        return Inertia::render('dashboard/submissions/Index',[
+            'submissions' => fn () => QueryBuilder::for(Submission::class)
+            ->with(['task.segment','task.company'])
+            ->paginate(20)
+        ]);
     }
 
     /**
@@ -56,6 +62,7 @@ class SubmissionController extends Controller
     {
         return Inertia::render('dashboard/submissions/Edit', [
             'submission' => $submission,
+            'submission.task' => fn() => $submission->task->load(['segment', 'company']),
         ]);
     }
 
