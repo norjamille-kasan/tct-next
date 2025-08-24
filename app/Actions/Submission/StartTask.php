@@ -3,6 +3,7 @@
 namespace App\Actions\Submission;
 
 use App\Enums\SubmissionStatus;
+use App\Models\Question;
 use App\Models\Submission;
 use App\Models\Task;
 use App\Models\User;
@@ -19,16 +20,28 @@ class StartTask
     {
         abort_if($user->ongoingTasks()->exists(), 400, 'You do not have an ongoing task');
 
-        DB::beginTransaction();
-        $submission = Submission::create([
-            'ref_id'=> "TASK-".now()->timestamp."-".Str::ulid(),
-            'task_id' => $task->id,
-            'status' => SubmissionStatus::ONGOING,
-            'started_at' => now(),
-            'is_locked' => false,
-            'task_original_value' => $task,
-            'question_version' => $task->question_version,
-        ]);
-        DB::commit();
+        DB::transaction(function () use ($task) {
+            $submission = Submission::create([
+                'ref_id' => "TASK-" . now()->timestamp . "-" . Str::ulid(),
+                'task_id' => $task->id,
+                'status' => SubmissionStatus::ONGOING,
+                'started_at' => now(),
+                'is_locked' => false,
+                'task_original_value' => $task,
+                'question_version' => $task->question_version,
+            ]);
+
+            $questions = $task->questions()->get();
+            $submissionAnswers = [];
+            foreach ($questions as $question) {
+                $submissionAnswers[] = [
+                    'submission_id' => $submission->id,
+                    'question_id' => $question->id,
+                    'original_question' => $question->toJson(),
+                    'value' => "",
+                ];
+            }
+            DB::table('submission_answers')->insert($submissionAnswers);
+        });
     }
 }

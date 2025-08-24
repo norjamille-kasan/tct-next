@@ -1,28 +1,25 @@
-import { queryParams, type QueryParams } from './../../../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefaults } from './../../../../../wayfinder'
 /**
 * @see \Laravel\Telescope\Http\Controllers\NotificationsController::index
  * @see vendor/laravel/telescope/src/Http/Controllers/NotificationsController.php:33
  * @route '/telescope/telescope-api/notifications'
  */
-export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'post',
-} => ({
+export const index = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: index.url(options),
     method: 'post',
 })
 
 index.definition = {
-    methods: ['post'],
+    methods: ["post"],
     url: '/telescope/telescope-api/notifications',
-}
+} satisfies RouteDefinition<["post"]>
 
 /**
 * @see \Laravel\Telescope\Http\Controllers\NotificationsController::index
  * @see vendor/laravel/telescope/src/Http/Controllers/NotificationsController.php:33
  * @route '/telescope/telescope-api/notifications'
  */
-index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+index.url = (options?: RouteQueryOptions) => {
     return index.definition.url + queryParams(options)
 }
 
@@ -31,10 +28,7 @@ index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
  * @see vendor/laravel/telescope/src/Http/Controllers/NotificationsController.php:33
  * @route '/telescope/telescope-api/notifications'
  */
-index.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'post',
-} => ({
+index.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: index.url(options),
     method: 'post',
 })
@@ -44,25 +38,22 @@ index.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
  * @see vendor/laravel/telescope/src/Http/Controllers/NotificationsController.php:51
  * @route '/telescope/telescope-api/notifications/{telescopeEntryId}'
  */
-export const show = (args: { telescopeEntryId: string | number } | [telescopeEntryId: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+export const show = (args: { telescopeEntryId: string | number } | [telescopeEntryId: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: show.url(args, options),
     method: 'get',
 })
 
 show.definition = {
-    methods: ['get','head'],
+    methods: ["get","head"],
     url: '/telescope/telescope-api/notifications/{telescopeEntryId}',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \Laravel\Telescope\Http\Controllers\NotificationsController::show
  * @see vendor/laravel/telescope/src/Http/Controllers/NotificationsController.php:51
  * @route '/telescope/telescope-api/notifications/{telescopeEntryId}'
  */
-show.url = (args: { telescopeEntryId: string | number } | [telescopeEntryId: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+show.url = (args: { telescopeEntryId: string | number } | [telescopeEntryId: string | number ] | string | number, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { telescopeEntryId: args }
     }
@@ -73,6 +64,8 @@ show.url = (args: { telescopeEntryId: string | number } | [telescopeEntryId: str
                     telescopeEntryId: args[0],
                 }
     }
+
+    args = applyUrlDefaults(args)
 
     const parsedArgs = {
                         telescopeEntryId: args.telescopeEntryId,
@@ -88,10 +81,7 @@ show.url = (args: { telescopeEntryId: string | number } | [telescopeEntryId: str
  * @see vendor/laravel/telescope/src/Http/Controllers/NotificationsController.php:51
  * @route '/telescope/telescope-api/notifications/{telescopeEntryId}'
  */
-show.get = (args: { telescopeEntryId: string | number } | [telescopeEntryId: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+show.get = (args: { telescopeEntryId: string | number } | [telescopeEntryId: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: show.url(args, options),
     method: 'get',
 })
@@ -100,10 +90,7 @@ show.get = (args: { telescopeEntryId: string | number } | [telescopeEntryId: str
  * @see vendor/laravel/telescope/src/Http/Controllers/NotificationsController.php:51
  * @route '/telescope/telescope-api/notifications/{telescopeEntryId}'
  */
-show.head = (args: { telescopeEntryId: string | number } | [telescopeEntryId: string | number ] | string | number, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
+show.head = (args: { telescopeEntryId: string | number } | [telescopeEntryId: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: show.url(args, options),
     method: 'head',
 })

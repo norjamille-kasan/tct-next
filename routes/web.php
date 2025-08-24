@@ -37,6 +37,11 @@ Route::prefix('dashboard')->middleware(['auth', 'verified', 'online_status'])->g
         ->middleware('permission:update:segment');
 
     Route::resource('submissions', App\Http\Controllers\Dashboard\Submissions\SubmissionController::class);
+
+    Route::resource("submissions.submission-answers", App\Http\Controllers\Dashboard\Submissions\SubmissionAnswerController::class)
+            ->parameters(['submission-answers' => 'submissionAnswer'])
+            ->only(['update']);
+     Route::put('/submissions/{submission}/status', App\Http\Controllers\Dashboard\Submissions\SubmissionStatusController::class)->name('submissions.status');
 });
 
 require __DIR__.'/settings.php';

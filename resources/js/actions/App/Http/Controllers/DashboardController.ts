@@ -1,28 +1,25 @@
-import { queryParams, type QueryParams } from './../../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\DashboardController::__invoke
  * @see app/Http/Controllers/DashboardController.php:13
  * @route '/dashboard'
  */
-const DashboardController = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+const DashboardController = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: DashboardController.url(options),
     method: 'get',
 })
 
 DashboardController.definition = {
-    methods: ['get','head'],
+    methods: ["get","head"],
     url: '/dashboard',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\DashboardController::__invoke
  * @see app/Http/Controllers/DashboardController.php:13
  * @route '/dashboard'
  */
-DashboardController.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+DashboardController.url = (options?: RouteQueryOptions) => {
     return DashboardController.definition.url + queryParams(options)
 }
 
@@ -31,10 +28,7 @@ DashboardController.url = (options?: { query?: QueryParams, mergeQuery?: QueryPa
  * @see app/Http/Controllers/DashboardController.php:13
  * @route '/dashboard'
  */
-DashboardController.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+DashboardController.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: DashboardController.url(options),
     method: 'get',
 })
@@ -43,10 +37,7 @@ DashboardController.get = (options?: { query?: QueryParams, mergeQuery?: QueryPa
  * @see app/Http/Controllers/DashboardController.php:13
  * @route '/dashboard'
  */
-DashboardController.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
+DashboardController.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: DashboardController.url(options),
     method: 'head',
 })

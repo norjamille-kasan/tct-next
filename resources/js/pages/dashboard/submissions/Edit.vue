@@ -1,14 +1,21 @@
 <script setup lang="ts">
 import SubmissionController from '@/actions/App/Http/Controllers/Dashboard/Submissions/SubmissionController';
 import DashboardContent from '@/components/dashboard/DashboardContent.vue';
-import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import CounterUp from '@/components/dashboard/submissions/CounterUp.vue';
+import PauseButton from '@/components/dashboard/submissions/PauseButton.vue';
+import QuestionInputItem from '@/components/dashboard/submissions/QuestionInputItem.vue';
+import ResumeButton from '@/components/dashboard/submissions/ResumeButton.vue';
+import Heading from '@/components/Heading.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
+import { SubmissionStatus } from '@/lib/constants';
 import { type BreadcrumbItem } from '@/types';
-import { Company, Segment, Submission, Task } from '@/types/models';
+import { Company, Segment, Submission, SubmissionAnswer, Task } from '@/types/models';
 import { Head } from '@inertiajs/vue3';
 
 const props = defineProps<{
     submission: Submission & { task: Task & { segment: Segment; company: Company } };
+    submissionAnswers: SubmissionAnswer[];
+    totalSecondsSpent: number;
 }>();
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -38,15 +45,26 @@ defineOptions({
 <template>
     <Head title="Edit Submission" />
     <DashboardContent :breadcrumbs="breadcrumbs">
-        <Card class="ring-4 ring-muted/60">
-            <CardHeader>
-                <CardTitle>
-                    {{ props.submission.task.title }}
-                </CardTitle>
-                <CardDescription>
-                    {{ props.submission.ref_id }}
-                </CardDescription>
-            </CardHeader>
-        </Card>
+        <div class="mx-auto max-w-7xl space-y-6">
+            <Heading :title="props.submission.task.title" :description="props.submission.ref_id" />
+            <div class="flex items-center justify-between rounded-lg border bg-muted/60 p-1">
+                <div class="flex items-center gap-2">
+                    <CounterUp :total-seconds-spent="props.totalSecondsSpent" :status="props.submission.status" />
+                </div>
+                <div>
+                    <template v-if="props.submission.status === SubmissionStatus.ONGOING">
+                        <PauseButton :submission-id="props.submission.id" />
+                    </template>
+                    <template v-else-if="props.submission.status === SubmissionStatus.PAUSED">
+                        <ResumeButton :submission-id="props.submission.id" />
+                    </template>
+                </div>
+            </div>
+            <div class="grid gap-4">
+                <template v-for="submissionAnswer in props.submissionAnswers" :key="submissionAnswer.id">
+                    <QuestionInputItem :submission-answer="submissionAnswer" />
+                </template>
+            </div>
+        </div>
     </DashboardContent>
 </template>

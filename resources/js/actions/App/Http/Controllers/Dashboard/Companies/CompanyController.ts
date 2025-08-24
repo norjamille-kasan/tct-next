@@ -1,28 +1,25 @@
-import { queryParams, type QueryParams } from './../../../../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefaults } from './../../../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\Dashboard\Companies\CompanyController::index
  * @see app/Http/Controllers/Dashboard/Companies/CompanyController.php:20
  * @route '/dashboard/companies'
  */
-export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+export const index = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: index.url(options),
     method: 'get',
 })
 
 index.definition = {
-    methods: ['get','head'],
+    methods: ["get","head"],
     url: '/dashboard/companies',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\Dashboard\Companies\CompanyController::index
  * @see app/Http/Controllers/Dashboard/Companies/CompanyController.php:20
  * @route '/dashboard/companies'
  */
-index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+index.url = (options?: RouteQueryOptions) => {
     return index.definition.url + queryParams(options)
 }
 
@@ -31,10 +28,7 @@ index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
  * @see app/Http/Controllers/Dashboard/Companies/CompanyController.php:20
  * @route '/dashboard/companies'
  */
-index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+index.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: index.url(options),
     method: 'get',
 })
@@ -43,10 +37,7 @@ index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
  * @see app/Http/Controllers/Dashboard/Companies/CompanyController.php:20
  * @route '/dashboard/companies'
  */
-index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
+index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: index.url(options),
     method: 'head',
 })
@@ -56,25 +47,22 @@ index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
  * @see app/Http/Controllers/Dashboard/Companies/CompanyController.php:37
  * @route '/dashboard/companies/create'
  */
-export const create = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+export const create = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: create.url(options),
     method: 'get',
 })
 
 create.definition = {
-    methods: ['get','head'],
+    methods: ["get","head"],
     url: '/dashboard/companies/create',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\Dashboard\Companies\CompanyController::create
  * @see app/Http/Controllers/Dashboard/Companies/CompanyController.php:37
  * @route '/dashboard/companies/create'
  */
-create.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+create.url = (options?: RouteQueryOptions) => {
     return create.definition.url + queryParams(options)
 }
 
@@ -83,10 +71,7 @@ create.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
  * @see app/Http/Controllers/Dashboard/Companies/CompanyController.php:37
  * @route '/dashboard/companies/create'
  */
-create.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+create.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: create.url(options),
     method: 'get',
 })
@@ -95,10 +80,7 @@ create.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
  * @see app/Http/Controllers/Dashboard/Companies/CompanyController.php:37
  * @route '/dashboard/companies/create'
  */
-create.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
+create.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: create.url(options),
     method: 'head',
 })
@@ -108,25 +90,22 @@ create.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
  * @see app/Http/Controllers/Dashboard/Companies/CompanyController.php:45
  * @route '/dashboard/companies'
  */
-export const store = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'post',
-} => ({
+export const store = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: store.url(options),
     method: 'post',
 })
 
 store.definition = {
-    methods: ['post'],
+    methods: ["post"],
     url: '/dashboard/companies',
-}
+} satisfies RouteDefinition<["post"]>
 
 /**
 * @see \App\Http\Controllers\Dashboard\Companies\CompanyController::store
  * @see app/Http/Controllers/Dashboard/Companies/CompanyController.php:45
  * @route '/dashboard/companies'
  */
-store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+store.url = (options?: RouteQueryOptions) => {
     return store.definition.url + queryParams(options)
 }
 
@@ -135,10 +114,7 @@ store.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
  * @see app/Http/Controllers/Dashboard/Companies/CompanyController.php:45
  * @route '/dashboard/companies'
  */
-store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'post',
-} => ({
+store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: store.url(options),
     method: 'post',
 })
@@ -148,25 +124,22 @@ store.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
  * @see app/Http/Controllers/Dashboard/Companies/CompanyController.php:72
  * @route '/dashboard/companies/{company}/edit'
  */
-export const edit = (args: { company: number | { id: number } } | [company: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+export const edit = (args: { company: number | { id: number } } | [company: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: edit.url(args, options),
     method: 'get',
 })
 
 edit.definition = {
-    methods: ['get','head'],
+    methods: ["get","head"],
     url: '/dashboard/companies/{company}/edit',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\Dashboard\Companies\CompanyController::edit
  * @see app/Http/Controllers/Dashboard/Companies/CompanyController.php:72
  * @route '/dashboard/companies/{company}/edit'
  */
-edit.url = (args: { company: number | { id: number } } | [company: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+edit.url = (args: { company: number | { id: number } } | [company: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { company: args }
     }
@@ -180,6 +153,8 @@ edit.url = (args: { company: number | { id: number } } | [company: number | { id
                     company: args[0],
                 }
     }
+
+    args = applyUrlDefaults(args)
 
     const parsedArgs = {
                         company: typeof args.company === 'object'
@@ -197,10 +172,7 @@ edit.url = (args: { company: number | { id: number } } | [company: number | { id
  * @see app/Http/Controllers/Dashboard/Companies/CompanyController.php:72
  * @route '/dashboard/companies/{company}/edit'
  */
-edit.get = (args: { company: number | { id: number } } | [company: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+edit.get = (args: { company: number | { id: number } } | [company: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: edit.url(args, options),
     method: 'get',
 })
@@ -209,10 +181,7 @@ edit.get = (args: { company: number | { id: number } } | [company: number | { id
  * @see app/Http/Controllers/Dashboard/Companies/CompanyController.php:72
  * @route '/dashboard/companies/{company}/edit'
  */
-edit.head = (args: { company: number | { id: number } } | [company: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
+edit.head = (args: { company: number | { id: number } } | [company: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: edit.url(args, options),
     method: 'head',
 })
@@ -222,25 +191,22 @@ edit.head = (args: { company: number | { id: number } } | [company: number | { i
  * @see app/Http/Controllers/Dashboard/Companies/CompanyController.php:82
  * @route '/dashboard/companies/{company}'
  */
-export const update = (args: { company: number | { id: number } } | [company: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'put',
-} => ({
+export const update = (args: { company: number | { id: number } } | [company: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
     url: update.url(args, options),
     method: 'put',
 })
 
 update.definition = {
-    methods: ['put','patch'],
+    methods: ["put","patch"],
     url: '/dashboard/companies/{company}',
-}
+} satisfies RouteDefinition<["put","patch"]>
 
 /**
 * @see \App\Http\Controllers\Dashboard\Companies\CompanyController::update
  * @see app/Http/Controllers/Dashboard/Companies/CompanyController.php:82
  * @route '/dashboard/companies/{company}'
  */
-update.url = (args: { company: number | { id: number } } | [company: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+update.url = (args: { company: number | { id: number } } | [company: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { company: args }
     }
@@ -254,6 +220,8 @@ update.url = (args: { company: number | { id: number } } | [company: number | { 
                     company: args[0],
                 }
     }
+
+    args = applyUrlDefaults(args)
 
     const parsedArgs = {
                         company: typeof args.company === 'object'
@@ -271,10 +239,7 @@ update.url = (args: { company: number | { id: number } } | [company: number | { 
  * @see app/Http/Controllers/Dashboard/Companies/CompanyController.php:82
  * @route '/dashboard/companies/{company}'
  */
-update.put = (args: { company: number | { id: number } } | [company: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'put',
-} => ({
+update.put = (args: { company: number | { id: number } } | [company: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
     url: update.url(args, options),
     method: 'put',
 })
@@ -283,10 +248,7 @@ update.put = (args: { company: number | { id: number } } | [company: number | { 
  * @see app/Http/Controllers/Dashboard/Companies/CompanyController.php:82
  * @route '/dashboard/companies/{company}'
  */
-update.patch = (args: { company: number | { id: number } } | [company: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'patch',
-} => ({
+update.patch = (args: { company: number | { id: number } } | [company: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
     url: update.url(args, options),
     method: 'patch',
 })
@@ -296,25 +258,22 @@ update.patch = (args: { company: number | { id: number } } | [company: number | 
  * @see app/Http/Controllers/Dashboard/Companies/CompanyController.php:96
  * @route '/dashboard/companies/{company}'
  */
-export const destroy = (args: { company: number | { id: number } } | [company: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'delete',
-} => ({
+export const destroy = (args: { company: number | { id: number } } | [company: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
     url: destroy.url(args, options),
     method: 'delete',
 })
 
 destroy.definition = {
-    methods: ['delete'],
+    methods: ["delete"],
     url: '/dashboard/companies/{company}',
-}
+} satisfies RouteDefinition<["delete"]>
 
 /**
 * @see \App\Http\Controllers\Dashboard\Companies\CompanyController::destroy
  * @see app/Http/Controllers/Dashboard/Companies/CompanyController.php:96
  * @route '/dashboard/companies/{company}'
  */
-destroy.url = (args: { company: number | { id: number } } | [company: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+destroy.url = (args: { company: number | { id: number } } | [company: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { company: args }
     }
@@ -328,6 +287,8 @@ destroy.url = (args: { company: number | { id: number } } | [company: number | {
                     company: args[0],
                 }
     }
+
+    args = applyUrlDefaults(args)
 
     const parsedArgs = {
                         company: typeof args.company === 'object'
@@ -345,10 +306,7 @@ destroy.url = (args: { company: number | { id: number } } | [company: number | {
  * @see app/Http/Controllers/Dashboard/Companies/CompanyController.php:96
  * @route '/dashboard/companies/{company}'
  */
-destroy.delete = (args: { company: number | { id: number } } | [company: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'delete',
-} => ({
+destroy.delete = (args: { company: number | { id: number } } | [company: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
     url: destroy.url(args, options),
     method: 'delete',
 })

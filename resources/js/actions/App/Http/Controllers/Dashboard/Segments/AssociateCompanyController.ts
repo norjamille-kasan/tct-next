@@ -1,28 +1,25 @@
-import { queryParams, type QueryParams } from './../../../../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefaults } from './../../../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\Dashboard\Segments\AssociateCompanyController::__invoke
  * @see app/Http/Controllers/Dashboard/Segments/AssociateCompanyController.php:14
  * @route '/dashboard/segments/{segment}/attach-company'
  */
-const AssociateCompanyController = (args: { segment: number | { id: number } } | [segment: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'post',
-} => ({
+const AssociateCompanyController = (args: { segment: number | { id: number } } | [segment: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: AssociateCompanyController.url(args, options),
     method: 'post',
 })
 
 AssociateCompanyController.definition = {
-    methods: ['post'],
+    methods: ["post"],
     url: '/dashboard/segments/{segment}/attach-company',
-}
+} satisfies RouteDefinition<["post"]>
 
 /**
 * @see \App\Http\Controllers\Dashboard\Segments\AssociateCompanyController::__invoke
  * @see app/Http/Controllers/Dashboard/Segments/AssociateCompanyController.php:14
  * @route '/dashboard/segments/{segment}/attach-company'
  */
-AssociateCompanyController.url = (args: { segment: number | { id: number } } | [segment: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+AssociateCompanyController.url = (args: { segment: number | { id: number } } | [segment: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { segment: args }
     }
@@ -36,6 +33,8 @@ AssociateCompanyController.url = (args: { segment: number | { id: number } } | [
                     segment: args[0],
                 }
     }
+
+    args = applyUrlDefaults(args)
 
     const parsedArgs = {
                         segment: typeof args.segment === 'object'
@@ -53,10 +52,7 @@ AssociateCompanyController.url = (args: { segment: number | { id: number } } | [
  * @see app/Http/Controllers/Dashboard/Segments/AssociateCompanyController.php:14
  * @route '/dashboard/segments/{segment}/attach-company'
  */
-AssociateCompanyController.post = (args: { segment: number | { id: number } } | [segment: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'post',
-} => ({
+AssociateCompanyController.post = (args: { segment: number | { id: number } } | [segment: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: AssociateCompanyController.url(args, options),
     method: 'post',
 })

@@ -182,7 +182,7 @@ return new class extends Migration
         $task->questions()->create([
             'message' => 'Next Tasks / Steps:',
             'created_by' => 1,
-            'field_type' => FieldType::MULTI_SELECT,
+            'field_type' => FieldType::SINGLE_SELECT,
             'options' => [
                 'Continue Review (of Tasks)',
                 'Escalate to Client',
@@ -426,7 +426,7 @@ return new class extends Migration
 
         $task->questions()->create([
             'message' => 'Next Tasks / Steps:',
-            'field_type' => FieldType::MULTI_SELECT,
+            'field_type' => FieldType::SINGLE_SELECT,
             'created_by' => 1,
             'options' => [
                 'Continue Review (of Tasks)',

@@ -1,34 +1,33 @@
-import { queryParams, type QueryParams } from './../../../../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefaults } from './../../../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\Dashboard\Segments\DissociateCompanyController::__invoke
  * @see app/Http/Controllers/Dashboard/Segments/DissociateCompanyController.php:15
  * @route '/dashboard/segments/{segment}/detach-company/{company}'
  */
-const DissociateCompanyController = (args: { segment: number | { id: number }, company: number | { id: number } } | [segment: number | { id: number }, company: number | { id: number } ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'delete',
-} => ({
+const DissociateCompanyController = (args: { segment: number | { id: number }, company: number | { id: number } } | [segment: number | { id: number }, company: number | { id: number } ], options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
     url: DissociateCompanyController.url(args, options),
     method: 'delete',
 })
 
 DissociateCompanyController.definition = {
-    methods: ['delete'],
+    methods: ["delete"],
     url: '/dashboard/segments/{segment}/detach-company/{company}',
-}
+} satisfies RouteDefinition<["delete"]>
 
 /**
 * @see \App\Http\Controllers\Dashboard\Segments\DissociateCompanyController::__invoke
  * @see app/Http/Controllers/Dashboard/Segments/DissociateCompanyController.php:15
  * @route '/dashboard/segments/{segment}/detach-company/{company}'
  */
-DissociateCompanyController.url = (args: { segment: number | { id: number }, company: number | { id: number } } | [segment: number | { id: number }, company: number | { id: number } ], options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+DissociateCompanyController.url = (args: { segment: number | { id: number }, company: number | { id: number } } | [segment: number | { id: number }, company: number | { id: number } ], options?: RouteQueryOptions) => {
     if (Array.isArray(args)) {
         args = {
                     segment: args[0],
                     company: args[1],
                 }
     }
+
+    args = applyUrlDefaults(args)
 
     const parsedArgs = {
                         segment: typeof args.segment === 'object'
@@ -50,10 +49,7 @@ DissociateCompanyController.url = (args: { segment: number | { id: number }, com
  * @see app/Http/Controllers/Dashboard/Segments/DissociateCompanyController.php:15
  * @route '/dashboard/segments/{segment}/detach-company/{company}'
  */
-DissociateCompanyController.delete = (args: { segment: number | { id: number }, company: number | { id: number } } | [segment: number | { id: number }, company: number | { id: number } ], options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'delete',
-} => ({
+DissociateCompanyController.delete = (args: { segment: number | { id: number }, company: number | { id: number } } | [segment: number | { id: number }, company: number | { id: number } ], options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
     url: DissociateCompanyController.url(args, options),
     method: 'delete',
 })

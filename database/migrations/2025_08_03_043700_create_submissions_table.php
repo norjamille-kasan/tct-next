@@ -17,7 +17,7 @@ return new class extends Migration
             $table->userstamps();
             $table->string('ref_id')->unique();
             $table->foreignId('task_id')->references('id')->on('tasks');
-            $table->integer('total_minutes_spent')->default(0);
+            $table->integer('total_seconds_spent')->default(0);
             $table->string('status');
             $table->json('task_original_value');
 

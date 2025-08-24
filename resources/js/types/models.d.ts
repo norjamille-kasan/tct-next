@@ -55,6 +55,7 @@ export interface Task {
     description: string | null;
     computation_category: string | null;
     question_version: number;
+    is_published: boolean;
 }
 
 export interface Question {
@@ -80,7 +81,7 @@ export interface Submission {
     updated_by: number;
     ref_id: string;
     task_id: number;
-    total_minutes_spent: number;
+    total_seconds_spent: number;
     status: SubmissionStatus;
     task_original_value: Task;
     started_at: string | null;
@@ -91,4 +92,16 @@ export interface Submission {
     last_edited_at: string | null;
     is_locked: boolean;
     question_version: number;
+}
+
+export interface SubmissionAnswer {
+    id: number;
+    created_at: string;
+    updated_at: string;
+    created_by: number;
+    updated_by: number;
+    submission_id: number;
+    question_id: number;
+    value: string;
+    original_question: Question;
 }

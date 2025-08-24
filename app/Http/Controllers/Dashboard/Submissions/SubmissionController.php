@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard\Submissions;
 
 use App\Actions\Submission\StartTask;
+use App\Enums\SubmissionStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Submission;
 use App\Models\Task;
@@ -61,8 +62,18 @@ class SubmissionController extends Controller
     public function edit(Submission $submission)
     {
         return Inertia::render('dashboard/submissions/Edit', [
-            'submission' => $submission,
-            'submission.task' => fn() => $submission->task->load(['segment', 'company']),
+            'submission' => fn() => $submission->load(['task'=> ['segment', 'company']]),
+            'totalSecondsSpent' => function () use ($submission) {
+                if($submission->status === SubmissionStatus::ONGOING) {
+                  if(is_null($submission->last_resumed_at)){
+                    return $submission->started_at->diffInSeconds(now());
+                  }else{
+                    return $submission->total_seconds_spent + ($submission->last_resumed_at->diffInSeconds(now()));
+                  }
+                }
+                return $submission->total_seconds_spent;
+            },
+            'submissionAnswers' => fn() => $submission->submissionAnswers()->get()
         ]);
     }
 

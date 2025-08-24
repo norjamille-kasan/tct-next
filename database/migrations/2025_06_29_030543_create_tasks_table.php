@@ -22,6 +22,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('computation_category')->nullable();
             $table->integer('question_version')->default(1);
+            $table->boolean('is_published')->default(false);
         });
     }
 

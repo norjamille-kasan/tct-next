@@ -1,28 +1,25 @@
-import { queryParams, type QueryParams } from './../../../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefaults } from './../../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\Api\SegmentController::index
  * @see app/Http/Controllers/Api/SegmentController.php:16
  * @route '/api/segments'
  */
-export const index = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+export const index = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: index.url(options),
     method: 'get',
 })
 
 index.definition = {
-    methods: ['get','head'],
+    methods: ["get","head"],
     url: '/api/segments',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\Api\SegmentController::index
  * @see app/Http/Controllers/Api/SegmentController.php:16
  * @route '/api/segments'
  */
-index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+index.url = (options?: RouteQueryOptions) => {
     return index.definition.url + queryParams(options)
 }
 
@@ -31,10 +28,7 @@ index.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
  * @see app/Http/Controllers/Api/SegmentController.php:16
  * @route '/api/segments'
  */
-index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+index.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: index.url(options),
     method: 'get',
 })
@@ -43,10 +37,7 @@ index.get = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
  * @see app/Http/Controllers/Api/SegmentController.php:16
  * @route '/api/segments'
  */
-index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
+index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: index.url(options),
     method: 'head',
 })
@@ -56,25 +47,22 @@ index.head = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
  * @see app/Http/Controllers/Api/SegmentController.php:44
  * @route '/api/segments/{segment}'
  */
-export const show = (args: { segment: number | { id: number } } | [segment: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+export const show = (args: { segment: number | { id: number } } | [segment: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: show.url(args, options),
     method: 'get',
 })
 
 show.definition = {
-    methods: ['get','head'],
+    methods: ["get","head"],
     url: '/api/segments/{segment}',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\Api\SegmentController::show
  * @see app/Http/Controllers/Api/SegmentController.php:44
  * @route '/api/segments/{segment}'
  */
-show.url = (args: { segment: number | { id: number } } | [segment: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+show.url = (args: { segment: number | { id: number } } | [segment: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { segment: args }
     }
@@ -88,6 +76,8 @@ show.url = (args: { segment: number | { id: number } } | [segment: number | { id
                     segment: args[0],
                 }
     }
+
+    args = applyUrlDefaults(args)
 
     const parsedArgs = {
                         segment: typeof args.segment === 'object'
@@ -105,10 +95,7 @@ show.url = (args: { segment: number | { id: number } } | [segment: number | { id
  * @see app/Http/Controllers/Api/SegmentController.php:44
  * @route '/api/segments/{segment}'
  */
-show.get = (args: { segment: number | { id: number } } | [segment: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+show.get = (args: { segment: number | { id: number } } | [segment: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: show.url(args, options),
     method: 'get',
 })
@@ -117,10 +104,7 @@ show.get = (args: { segment: number | { id: number } } | [segment: number | { id
  * @see app/Http/Controllers/Api/SegmentController.php:44
  * @route '/api/segments/{segment}'
  */
-show.head = (args: { segment: number | { id: number } } | [segment: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
+show.head = (args: { segment: number | { id: number } } | [segment: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: show.url(args, options),
     method: 'head',
 })

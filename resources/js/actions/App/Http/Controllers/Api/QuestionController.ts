@@ -1,28 +1,25 @@
-import { queryParams, type QueryParams } from './../../../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefaults } from './../../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\Api\QuestionController::show
  * @see app/Http/Controllers/Api/QuestionController.php:38
  * @route '/api/questions/{question}'
  */
-export const show = (args: { question: number | { id: number } } | [question: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+export const show = (args: { question: number | { id: number } } | [question: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: show.url(args, options),
     method: 'get',
 })
 
 show.definition = {
-    methods: ['get','head'],
+    methods: ["get","head"],
     url: '/api/questions/{question}',
-}
+} satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\Api\QuestionController::show
  * @see app/Http/Controllers/Api/QuestionController.php:38
  * @route '/api/questions/{question}'
  */
-show.url = (args: { question: number | { id: number } } | [question: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+show.url = (args: { question: number | { id: number } } | [question: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { question: args }
     }
@@ -36,6 +33,8 @@ show.url = (args: { question: number | { id: number } } | [question: number | { 
                     question: args[0],
                 }
     }
+
+    args = applyUrlDefaults(args)
 
     const parsedArgs = {
                         question: typeof args.question === 'object'
@@ -53,10 +52,7 @@ show.url = (args: { question: number | { id: number } } | [question: number | { 
  * @see app/Http/Controllers/Api/QuestionController.php:38
  * @route '/api/questions/{question}'
  */
-show.get = (args: { question: number | { id: number } } | [question: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'get',
-} => ({
+show.get = (args: { question: number | { id: number } } | [question: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: show.url(args, options),
     method: 'get',
 })
@@ -65,10 +61,7 @@ show.get = (args: { question: number | { id: number } } | [question: number | { 
  * @see app/Http/Controllers/Api/QuestionController.php:38
  * @route '/api/questions/{question}'
  */
-show.head = (args: { question: number | { id: number } } | [question: number | { id: number } ] | number | { id: number }, options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'head',
-} => ({
+show.head = (args: { question: number | { id: number } } | [question: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: show.url(args, options),
     method: 'head',
 })

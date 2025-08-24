@@ -1,28 +1,25 @@
-import { queryParams, type QueryParams } from './../../../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition } from './../../../../../wayfinder'
 /**
 * @see \Laravel\Telescope\Http\Controllers\RecordingController::toggle
  * @see vendor/laravel/telescope/src/Http/Controllers/RecordingController.php:33
  * @route '/telescope/telescope-api/toggle-recording'
  */
-export const toggle = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'post',
-} => ({
+export const toggle = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: toggle.url(options),
     method: 'post',
 })
 
 toggle.definition = {
-    methods: ['post'],
+    methods: ["post"],
     url: '/telescope/telescope-api/toggle-recording',
-}
+} satisfies RouteDefinition<["post"]>
 
 /**
 * @see \Laravel\Telescope\Http\Controllers\RecordingController::toggle
  * @see vendor/laravel/telescope/src/Http/Controllers/RecordingController.php:33
  * @route '/telescope/telescope-api/toggle-recording'
  */
-toggle.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
+toggle.url = (options?: RouteQueryOptions) => {
     return toggle.definition.url + queryParams(options)
 }
 
@@ -31,10 +28,7 @@ toggle.url = (options?: { query?: QueryParams, mergeQuery?: QueryParams }) => {
  * @see vendor/laravel/telescope/src/Http/Controllers/RecordingController.php:33
  * @route '/telescope/telescope-api/toggle-recording'
  */
-toggle.post = (options?: { query?: QueryParams, mergeQuery?: QueryParams }): {
-    url: string,
-    method: 'post',
-} => ({
+toggle.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: toggle.url(options),
     method: 'post',
 })

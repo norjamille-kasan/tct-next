@@ -16,6 +16,7 @@ return new class extends Migration
             $table->timestamps();
             $table->foreignId('submission_id')->references('id')->on('submissions');
             $table->foreignId('question_id')->references('id')->on('questions');
+            $table->json('original_question')->nullable();
             $table->text('value');
         });
     }
