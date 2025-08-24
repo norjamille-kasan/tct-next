@@ -5,6 +5,7 @@ import CounterUp from '@/components/dashboard/submissions/CounterUp.vue';
 import PauseButton from '@/components/dashboard/submissions/PauseButton.vue';
 import QuestionInputItem from '@/components/dashboard/submissions/QuestionInputItem.vue';
 import ResumeButton from '@/components/dashboard/submissions/ResumeButton.vue';
+import SubmitButton from '@/components/dashboard/submissions/SubmitButton.vue';
 import Heading from '@/components/Heading.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { SubmissionStatus } from '@/lib/constants';
@@ -51,18 +52,19 @@ defineOptions({
                 <div class="flex items-center gap-2">
                     <CounterUp :total-seconds-spent="props.totalSecondsSpent" :status="props.submission.status" />
                 </div>
-                <div>
+                <div class="flex items-center gap-2">
                     <template v-if="props.submission.status === SubmissionStatus.ONGOING">
                         <PauseButton :submission-id="props.submission.id" />
                     </template>
                     <template v-else-if="props.submission.status === SubmissionStatus.PAUSED">
                         <ResumeButton :submission-id="props.submission.id" />
                     </template>
+                    <SubmitButton :submission-id="props.submission.id" />
                 </div>
             </div>
             <div class="grid gap-4">
                 <template v-for="submissionAnswer in props.submissionAnswers" :key="submissionAnswer.id">
-                    <QuestionInputItem :submission-answer="submissionAnswer" />
+                    <QuestionInputItem :status="props.submission.status" :submission-answer="submissionAnswer" />
                 </template>
             </div>
         </div>

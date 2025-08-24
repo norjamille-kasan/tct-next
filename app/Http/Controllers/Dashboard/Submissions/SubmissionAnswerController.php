@@ -58,7 +58,7 @@ class SubmissionAnswerController extends Controller
         abort_unless($submissionAnswer->submission->status === SubmissionStatus::ONGOING,400,"Task already submitted, if you want to make changes please request to edit or create a new submission");
 
         $data = $request->validate([
-            "answer" => ["required"]
+            "answer" => ["nullable"],
         ]);
 
         $submissionAnswer->update([

@@ -1,12 +1,12 @@
 <template>
     <AlertDialog v-model:open="isOpen">
         <AlertDialogTrigger as-child>
-            <Button variant="outline">Resume</Button>
+            <Button>Submit</Button>
         </AlertDialogTrigger>
         <AlertDialogContent class="rounded-xl ring-4 ring-muted/60">
             <AlertDialogHeader>
                 <AlertDialogTitle> Are you sure you want to continue? </AlertDialogTitle>
-                <AlertDialogDescription> You're about to resume this submission. </AlertDialogDescription>
+                <AlertDialogDescription> You're about to submit this task. </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import SubmissionStatusController from '@/actions/App/Http/Controllers/Dashboard/Submissions/SubmissionStatusController';
+import SubmitSubmissionController from '@/actions/App/Http/Controllers/Dashboard/Submissions/SubmitSubmissionController';
 import {
     AlertDialog,
     AlertDialogCancel,
@@ -29,7 +29,6 @@ import {
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
-import { SubmissionStatus } from '@/lib/constants';
 import { router } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
@@ -41,8 +40,8 @@ const isOpen = ref(false);
 
 const submit = () => {
     router.put(
-        SubmissionStatusController.url(props.submissionId),
-        { status: SubmissionStatus.ONGOING },
+        SubmitSubmissionController.url(props.submissionId),
+        {},
         {
             onSuccess: () => (isOpen.value = false),
             preserveScroll: true,

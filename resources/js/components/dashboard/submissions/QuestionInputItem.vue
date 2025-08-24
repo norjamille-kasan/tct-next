@@ -1,22 +1,29 @@
 <template>
     <FormControl :label="submissionAnswer.original_question.message">
-        <Textarea v-model="answer" v-if="submissionAnswer.original_question.field_type === FieldType.LONG_TEXT" />
-        <Input v-model="answer" v-else-if="submissionAnswer.original_question.field_type === FieldType.TEXT" />
-        <Select v-model="answer" v-else-if="submissionAnswer.original_question.field_type === FieldType.SINGLE_SELECT">
-            <SelectTrigger class="w-full">
-                <SelectValue placeholder="Select" />
-            </SelectTrigger>
-            <SelectContent>
-                <SelectItem
-                    v-if="submissionAnswer.original_question.options"
-                    v-for="option in submissionAnswer.original_question.options"
-                    :key="option"
-                    :value="option"
-                >
-                    {{ option }}
-                </SelectItem>
-            </SelectContent>
-        </Select>
+        <template v-if="status === SubmissionStatus.ONGOING">
+            <Textarea v-model="answer" v-if="submissionAnswer.original_question.field_type === FieldType.LONG_TEXT" />
+            <Input v-model="answer" v-else-if="submissionAnswer.original_question.field_type === FieldType.TEXT" />
+            <Select v-model="answer" v-else-if="submissionAnswer.original_question.field_type === FieldType.SINGLE_SELECT">
+                <SelectTrigger class="w-full">
+                    <SelectValue placeholder="Select" />
+                </SelectTrigger>
+                <SelectContent>
+                    <SelectItem
+                        v-if="submissionAnswer.original_question.options"
+                        v-for="option in submissionAnswer.original_question.options"
+                        :key="option"
+                        :value="option"
+                    >
+                        {{ option }}
+                    </SelectItem>
+                </SelectContent>
+            </Select>
+        </template>
+        <template v-else>
+            <div>
+                <span class="text-primary">{{ submissionAnswer.value }}</span>
+            </div>
+        </template>
     </FormControl>
 </template>
 
@@ -26,7 +33,7 @@ import FormControl from '@/components/FormControl.vue';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { FieldType } from '@/lib/constants';
+import { FieldType, SubmissionStatus } from '@/lib/constants';
 import { SubmissionAnswer } from '@/types/models';
 import { router } from '@inertiajs/vue3';
 import { watchDebounced } from '@vueuse/core';
@@ -34,6 +41,7 @@ import { ref } from 'vue';
 
 const props = defineProps<{
     submissionAnswer: SubmissionAnswer;
+    status: string;
 }>();
 
 const answer = ref(props.submissionAnswer.value);

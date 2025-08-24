@@ -22,7 +22,6 @@
 </template>
 
 <script setup lang="ts">
-import WarningSound from '@/assets/warning-sound.mp3';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -33,7 +32,6 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import { useSound } from '@vueuse/sound';
 import { watch } from 'vue';
 
 interface Props {
@@ -49,13 +47,8 @@ const emit = defineEmits(['cancel', 'confirm']);
 
 const model = defineModel<boolean>();
 
-const sound = useSound(WarningSound, {
-    volume: 0.1,
-});
-
 watch(model, (value) => {
     if (model.value === true) {
-        sound.play();
         console.log('xded');
     }
 });
