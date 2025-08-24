@@ -44,7 +44,7 @@ const submit = () => {
         SubmissionStatusController.url(props.submissionId),
         { status: SubmissionStatus.ONGOING },
         {
-            only: ['submission', 'totalMillisecondsSpent'],
+            only: ['submission', 'totalSecondsSpent'],
             onSuccess: () => (isOpen.value = false),
             preserveScroll: true,
         },
