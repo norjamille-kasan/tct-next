@@ -200,10 +200,6 @@ const hasSubmissions = computed(() => {
                                             <FilePlus />
                                             Create Submission
                                         </DropdownMenuItem>
-                                        <DropdownMenuItem @click="startTask(task.id)" v-if="userCan('start:task') && task.submissions.length > 0">
-                                            <FilePlus />
-                                            View Submission
-                                        </DropdownMenuItem>
                                         <DropdownMenuSeparator />
                                         <DropdownMenuItem v-if="userCan('edit:task')" @click="router.visit(TaskController.edit({ task }).url)">
                                             <Edit2Icon />

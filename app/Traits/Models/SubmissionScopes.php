@@ -7,9 +7,9 @@ use App\Enums\SubmissionStatus;
 trait SubmissionScopes
 {
 
-    public function scopeActive()
+    public function scopeActive($query)
     {
-        return $this->whereIn('status', [SubmissionStatus::ONGOING, SubmissionStatus::PAUSED, SubmissionStatus::EDITING]);
+        $query->whereIn('status', [SubmissionStatus::ONGOING, SubmissionStatus::PAUSED, SubmissionStatus::EDITING]);
     }
     public function scopeOngoing($query)
     {

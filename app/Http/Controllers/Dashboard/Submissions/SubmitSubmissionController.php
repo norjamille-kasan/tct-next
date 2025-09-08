@@ -20,13 +20,22 @@ class SubmitSubmissionController extends Controller
         $errors = [];
 
         foreach($submission->submissionAnswers as $submissionAnswer){
-            if($submissionAnswer->original_question->required && empty($submissionAnswer->value)){
+            if($submissionAnswer->original_question['required'] && empty($submissionAnswer->value)){
                 $errors[$submissionAnswer->id] = "This field is required";
             }
         }
+
         if(count($errors) > 0){
             throw ValidationException::withMessages($errors);
         }
-        return back();
+
+        $submission->update([
+            "status" => SubmissionStatus::SUBMITTED,
+            'initial_submission_at' => now(),
+            'final_submission_at' => now(),
+            'is_locked' => true,
+        ]);
+
+        return back()->toast('success', 'Task submitted successfully');
     }
 }

@@ -74,7 +74,7 @@ const submit = () => {
     <DashboardContent :breadcrumbs="breadcrumbs">
         <div class="mx-auto max-w-7xl">
             <form id="createTaskForm" @submit.prevent="submit">
-                <Card class="ring-4 ring-muted/60">
+                <Card class="ring-4 ring-muted/80">
                     <CardHeader>
                         <CardTitle>Create Task</CardTitle>
                         <CardDescription>Fill in the details to create a new task.</CardDescription>

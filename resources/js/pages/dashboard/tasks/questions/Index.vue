@@ -57,7 +57,7 @@ const deleteQuestion = async (questionId: number) => {
 <template>
     <Head title="Questions" />
     <DashboardContent :breadcrumbs="breadcrumbs">
-        <Card class="ring-4 ring-muted/60">
+        <Card class="ring-4 ring-muted/80">
             <CardHeader>
                 <CardTitle> <span class="text-muted-foreground">Task/</span> {{ props.task.title }} </CardTitle>
                 <CardDescription>

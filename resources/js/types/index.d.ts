@@ -6,11 +6,6 @@ export interface Auth {
     user: User;
 }
 
-export interface BreadcrumbItem {
-    title: string;
-    href: string;
-}
-
 export interface NavItem {
     title: string;
     href: string;
@@ -47,6 +42,11 @@ export interface User {
     last_online_at: string | null;
     roles: Role[];
     permissions: Permission[];
+}
+
+export interface BreadcrumbItem {
+    title: string;
+    href: string;
 }
 
 export type BreadcrumbItemType = BreadcrumbItem;

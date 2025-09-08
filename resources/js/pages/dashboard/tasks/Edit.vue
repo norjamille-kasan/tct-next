@@ -3,7 +3,7 @@
     <DashboardContent :breadcrumbs="breadcrumbs">
         <div class="mx-auto max-w-7xl">
             <form id="createTaskForm" @submit.prevent="submit">
-                <Card class="ring-4 ring-muted/60">
+                <Card class="ring-4 ring-muted/80">
                     <CardHeader>
                         <CardTitle>Edit Task</CardTitle>
                         <CardDescription> Use this form to edit a task. Ensure you fill in all required fields. </CardDescription>

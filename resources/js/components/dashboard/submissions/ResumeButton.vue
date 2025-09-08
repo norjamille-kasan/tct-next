@@ -3,7 +3,7 @@
         <AlertDialogTrigger as-child>
             <Button variant="outline">Resume</Button>
         </AlertDialogTrigger>
-        <AlertDialogContent class="rounded-xl ring-4 ring-muted/60">
+        <AlertDialogContent class="rounded-xl ring-4 ring-muted/80">
             <AlertDialogHeader>
                 <AlertDialogTitle> Are you sure you want to continue? </AlertDialogTitle>
                 <AlertDialogDescription> You're about to resume this submission. </AlertDialogDescription>

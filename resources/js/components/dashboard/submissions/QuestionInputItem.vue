@@ -1,30 +1,36 @@
 <template>
-    <FormControl :label="submissionAnswer.original_question.message">
-        <template v-if="status === SubmissionStatus.ONGOING">
-            <Textarea v-model="answer" v-if="submissionAnswer.original_question.field_type === FieldType.LONG_TEXT" />
-            <Input v-model="answer" v-else-if="submissionAnswer.original_question.field_type === FieldType.TEXT" />
-            <Select v-model="answer" v-else-if="submissionAnswer.original_question.field_type === FieldType.SINGLE_SELECT">
-                <SelectTrigger class="w-full">
-                    <SelectValue placeholder="Select" />
-                </SelectTrigger>
-                <SelectContent>
-                    <SelectItem
-                        v-if="submissionAnswer.original_question.options"
-                        v-for="option in submissionAnswer.original_question.options"
-                        :key="option"
-                        :value="option"
-                    >
-                        {{ option }}
-                    </SelectItem>
-                </SelectContent>
-            </Select>
-        </template>
-        <template v-else>
-            <div>
-                <span class="text-primary">{{ submissionAnswer.value }}</span>
-            </div>
-        </template>
-    </FormControl>
+    <div class="rounded-lg border border-dashed bg-muted/40 p-4">
+        <FormControl :label="submissionAnswer.original_question.message">
+            <template v-if="status === SubmissionStatus.ONGOING">
+                <Textarea v-model="answer" v-if="submissionAnswer.original_question.field_type === FieldType.LONG_TEXT" />
+                <Input v-model="answer" v-else-if="submissionAnswer.original_question.field_type === FieldType.TEXT" />
+                <Input type="number" v-model="answer" v-else-if="submissionAnswer.original_question.field_type === FieldType.NUMBER" />
+                <Select v-model="answer" v-else-if="submissionAnswer.original_question.field_type === FieldType.SINGLE_SELECT">
+                    <SelectTrigger class="w-full">
+                        <SelectValue placeholder="Select" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem
+                            v-if="submissionAnswer.original_question.options"
+                            v-for="option in submissionAnswer.original_question.options"
+                            :key="option"
+                            :value="option"
+                        >
+                            {{ option }}
+                        </SelectItem>
+                    </SelectContent>
+                </Select>
+            </template>
+            <template v-else>
+                <div>
+                    <span class="text-primary">{{ submissionAnswer.value }}</span>
+                </div>
+            </template>
+            <span class="text-sm text-destructive" v-if="page.props.errors[submissionAnswer.id]">
+                {{ page.props.errors[submissionAnswer.id] }}
+            </span>
+        </FormControl>
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -35,9 +41,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { FieldType, SubmissionStatus } from '@/lib/constants';
 import { SubmissionAnswer } from '@/types/models';
-import { router } from '@inertiajs/vue3';
+import { router, usePage } from '@inertiajs/vue3';
 import { watchDebounced } from '@vueuse/core';
 import { ref } from 'vue';
+
+const page = usePage();
 
 const props = defineProps<{
     submissionAnswer: SubmissionAnswer;

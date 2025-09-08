@@ -62,7 +62,7 @@ const submit = () => {
     <DashboardContent :breadcrumbs="breadcrumbs">
         <div class="mx-auto max-w-7xl space-y-6">
             <form @submit.prevent="submit">
-                <Card class="ring-4 ring-muted/60">
+                <Card class="ring-4 ring-muted/80">
                     <CardHeader>
                         <CardTitle>Edit Company</CardTitle>
                         <CardDescription> Use this form to edit a company. Ensure you fill in all required fields. </CardDescription>

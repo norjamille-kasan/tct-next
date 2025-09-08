@@ -3,24 +3,30 @@
         <AlertDialogTrigger as-child>
             <Button :disabled="submitting">
                 <Loader v-if="submitting" class="animate-spin" />
-                Submit
+                <EditIcon v-else />
+                Request to edit
             </Button>
         </AlertDialogTrigger>
         <AlertDialogContent class="rounded-xl ring-4 ring-muted/80">
             <AlertDialogHeader>
                 <AlertDialogTitle> Are you sure you want to continue? </AlertDialogTitle>
-                <AlertDialogDescription> You're about to submit this task. </AlertDialogDescription>
+                <AlertDialogDescription> Edit request needs approval. </AlertDialogDescription>
             </AlertDialogHeader>
+            <form action="">
+                <FormControl label="Reason" required :error="form.errors.reason">
+                    <Textarea rows="4" v-model="form.reason" />
+                </FormControl>
+            </form>
             <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <Button variant="destructive" @click="submit"> Continue </Button>
+                <Button @click="submit"> Submit Request </Button>
             </AlertDialogFooter>
         </AlertDialogContent>
     </AlertDialog>
 </template>
 
 <script setup lang="ts">
-import SubmitSubmissionController from '@/actions/App/Http/Controllers/Dashboard/Submissions/SubmitSubmissionController';
+import FormControl from '@/components/FormControl.vue';
 import {
     AlertDialog,
     AlertDialogCancel,
@@ -32,8 +38,9 @@ import {
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
-import { router } from '@inertiajs/vue3';
-import { Loader } from 'lucide-vue-next';
+import { Textarea } from '@/components/ui/textarea';
+import { useForm } from '@inertiajs/vue3';
+import { EditIcon, Loader } from 'lucide-vue-next';
 import { ref } from 'vue';
 
 const props = defineProps<{
@@ -43,16 +50,9 @@ const props = defineProps<{
 const isOpen = ref(false);
 const submitting = ref(false);
 
-const submit = () => {
-    isOpen.value = false;
-    router.put(
-        SubmitSubmissionController.url(props.submissionId),
-        {},
-        {
-            onBefore: () => (submitting.value = true),
-            onFinish: () => (submitting.value = false),
-            preserveScroll: true,
-        },
-    );
-};
+const form = useForm({
+    reason: '',
+});
+
+const submit = () => {};
 </script>
