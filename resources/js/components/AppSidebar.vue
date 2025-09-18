@@ -27,27 +27,26 @@ const manageNavItem: NavItem[] = [
         href: SubmissionController.index().url,
         icon: ListTodo,
         absolute: false,
-        permissions: ['view:tasks'],
+        permissions: ['read_submission'],
     },
     {
         title: 'Tasks',
         href: TaskController.index().url,
         icon: ListTodo,
         absolute: false,
-        permissions: ['view:tasks'],
+        permissions: ['read_tasks'],
     },
     {
         title: 'Companies',
         href: CompanyController.index().url,
         icon: Building2Icon,
         absolute: false,
-        permissions: ['view:companies'],
+        permissions: ['read_companies'],
     },
     {
         title: 'Segments',
         href: SegmentController.index().url,
         icon: TagsIcon,
-
         absolute: false,
     },
     {

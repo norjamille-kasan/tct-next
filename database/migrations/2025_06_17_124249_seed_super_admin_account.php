@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        $super_admin_user = User::create([
+        User::create([
             'name' => 'Super Admin',
             'email' => 'super@admin.com',
             'password' => Hash::make('password'),
             'email_verified_at' => now(),
+            'is_super_admin' => true
         ]);
-
-        $super_admin_user->assignRole('super_admin');
     }
 
     /**

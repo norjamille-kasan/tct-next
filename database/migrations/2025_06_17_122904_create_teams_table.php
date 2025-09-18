@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('submission_edits', function (Blueprint $table) {
+        Schema::create('teams', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('submission_id')->constrained('submissions')->references('id')->onDelete('cascade');
-            $table->text('request_reason');
-            $table->text('response_reason')->nullable();
-            $table->string('status');
             $table->timestamps();
+            $table->string('name');
         });
     }
 
@@ -26,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('submission_edits');
+        Schema::dropIfExists('teams');
     }
 };

@@ -6,7 +6,6 @@ export enum SubmissionStatus {
     ONGOING = 'ONGOING',
     PAUSED = 'PAUSED',
     SUBMITTED = 'SUBMITTED',
-    EDITING = 'EDITING',
     CANCELED = 'CANCELED',
 }
 
@@ -14,7 +13,6 @@ export const getSubmissionStatusColor = {
     [SubmissionStatus.ONGOING]: 'bg-yellow-500',
     [SubmissionStatus.PAUSED]: 'bg-gray-500',
     [SubmissionStatus.SUBMITTED]: 'bg-green-500',
-    [SubmissionStatus.EDITING]: 'bg-blue-500',
     [SubmissionStatus.CANCELED]: 'bg-red-500',
 };
 

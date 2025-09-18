@@ -3,6 +3,7 @@
 namespace App\Traits\Models;
 
 use App\Models\Submission;
+use App\Models\Team;
 
 trait UserRelations
 {
@@ -15,4 +16,10 @@ trait UserRelations
     {
         return $this->submissions()->ongoing();
     }
+
+    public function teams()
+    {
+        return $this->belongsToMany(Team::class);
+    }
+
 }

@@ -1,7 +1,7 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefaults } from './../../../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\Dashboard\Submissions\SubmissionStatusController::__invoke
- * @see app/Http/Controllers/Dashboard/Submissions/SubmissionStatusController.php:15
+ * @see app/Http/Controllers/Dashboard/Submissions/SubmissionStatusController.php:16
  * @route '/dashboard/submissions/{submission}/status'
  */
 const SubmissionStatusController = (args: { submission: number | { id: number } } | [submission: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -16,7 +16,7 @@ SubmissionStatusController.definition = {
 
 /**
 * @see \App\Http\Controllers\Dashboard\Submissions\SubmissionStatusController::__invoke
- * @see app/Http/Controllers/Dashboard/Submissions/SubmissionStatusController.php:15
+ * @see app/Http/Controllers/Dashboard/Submissions/SubmissionStatusController.php:16
  * @route '/dashboard/submissions/{submission}/status'
  */
 SubmissionStatusController.url = (args: { submission: number | { id: number } } | [submission: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -49,7 +49,7 @@ SubmissionStatusController.url = (args: { submission: number | { id: number } } 
 
 /**
 * @see \App\Http\Controllers\Dashboard\Submissions\SubmissionStatusController::__invoke
- * @see app/Http/Controllers/Dashboard/Submissions/SubmissionStatusController.php:15
+ * @see app/Http/Controllers/Dashboard/Submissions/SubmissionStatusController.php:16
  * @route '/dashboard/submissions/{submission}/status'
  */
 SubmissionStatusController.put = (args: { submission: number | { id: number } } | [submission: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({

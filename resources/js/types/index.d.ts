@@ -40,6 +40,7 @@ export interface User {
     created_at: string;
     updated_at: string;
     last_online_at: string | null;
+    is_super_admin: boolean;
     roles: Role[];
     permissions: Permission[];
 }

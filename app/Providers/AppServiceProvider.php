@@ -52,7 +52,7 @@ class AppServiceProvider extends ServiceProvider
     public function configureSuperAdmin()
     {
         Gate::before(function ($user, $ability) {
-            return $user->hasRole('super_admin') ? true : null;
+            return $user->is_super_admin ? true : null;
         });
     }
 

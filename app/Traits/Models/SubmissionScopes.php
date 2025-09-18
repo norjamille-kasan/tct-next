@@ -9,7 +9,7 @@ trait SubmissionScopes
 
     public function scopeActive($query)
     {
-        $query->whereIn('status', [SubmissionStatus::ONGOING, SubmissionStatus::PAUSED, SubmissionStatus::EDITING]);
+        $query->whereIn('status', [SubmissionStatus::ONGOING, SubmissionStatus::PAUSED]);
     }
     public function scopeOngoing($query)
     {
@@ -26,10 +26,6 @@ trait SubmissionScopes
         return $query->whereStatus(SubmissionStatus::SUBMITTED);
     }
 
-    public function scopeEditing($query)
-    {
-        return $query->whereStatus(SubmissionStatus::EDITING);
-    }
 
     public function scopeCanceled($query)
     {

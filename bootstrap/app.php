@@ -32,6 +32,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
             'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
             'online_status' => \App\Http\Middleware\OnlineStatus::class,
+            'resolve_team_permissions' => \App\Http\Middleware\ResolveTeamPermissions::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

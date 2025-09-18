@@ -2,6 +2,8 @@
 
 namespace App\Traits\Models;
 
+use App\Models\Team;
+
 trait UserFunctions
 {
     public function needToUpdateLoginTimestamp()
@@ -13,5 +15,13 @@ trait UserFunctions
     {
         $this->last_online_at = now();
         $this->save();
+    }
+
+    public function getTeams()
+    {
+        if($this->is_super_admin) {
+            return Team::all();
+        }
+        return $this->teams()->get();
     }
 }

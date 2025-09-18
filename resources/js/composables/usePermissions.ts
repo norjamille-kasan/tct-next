@@ -4,7 +4,7 @@ import { usePage } from '@inertiajs/vue3';
 export const usePermissions = () => {
     const { auth } = usePage<AppPageProps>().props;
 
-    const isSuperAdmin = () => auth?.user.roles?.some((role) => role.name === 'super_admin');
+    const isSuperAdmin = () => auth?.user.is_super_admin;
 
     const userCan = (permission: string): boolean =>
         !!auth?.user.permissions && (isSuperAdmin() || auth.user.permissions.some((p) => p.name === permission));

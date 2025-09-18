@@ -21,6 +21,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->timestamp('last_online_at')->nullable();
+            $table->boolean('is_super_admin')->default(false);
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
